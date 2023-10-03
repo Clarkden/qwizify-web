@@ -1,0 +1,33 @@
+<script lang="ts">
+  import { Button } from "$lib/components/ui/button";
+  import { answerState } from "$lib/stores/flashcardanswer";
+
+  export let data: any;
+  $: ({ question, answers } = data);
+</script>
+
+<div class="border border-secondary rounded-md p-5 bg-background">
+  <h2 class="font-bold">{question}</h2>
+  {#if $answerState}
+    <div>
+      <p class="text-muted-primary mt-4">
+        {answers.find((answer) => {
+          return answer.correctAnswer === true;
+        }).answer}
+      </p>
+    </div>
+  {/if}
+</div>
+<Button
+  on:click={() => {
+    answerState.set(!$answerState);
+  }}
+  variant="default"
+  class="mt-4"
+>
+  {#if $answerState}
+    Hide Answer
+  {:else}
+    Show Answer
+  {/if}
+</Button>
