@@ -24,7 +24,6 @@
   let processing = false;
   let error: any;
   let purchasingPlan: "monthly" | "yearly" | null = null;
-  
 
   const createPayment = async () => {
     if (!purchasingPlan) return;
@@ -138,6 +137,7 @@
               <Card.Root class="border-green-400 flex-1">
                 <Card.Header>
                   <Card.Title>Monthly</Card.Title>
+                  <p class="text-sm text-neutral-300">Unlimited Docs</p>
                 </Card.Header>
                 <Card.Content>
                   <p class="text-2xl font-bold">$2.99</p>
@@ -162,6 +162,7 @@
               <Card.Root class="border-green-400 flex-1">
                 <Card.Header>
                   <Card.Title>Yearly</Card.Title>
+                  <p class="text-sm text-neutral-300">Unlimited Docs</p>
                 </Card.Header>
                 <Card.Content>
                   <p class="text-2xl font-bold">$29.99</p>
