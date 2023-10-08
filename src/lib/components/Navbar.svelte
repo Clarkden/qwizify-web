@@ -9,10 +9,10 @@
     class="flex flex-row items-center justify-between mx-auto w-full sm:w-2/3 md:w-3/5"
   >
     <div>
-      <a href="/" class="font-bold text-lg"
-        >Qwizify
-        <span class="text-xs text-green-400"> Beta </span>
-      </a>
+      <a href="/" class="font-bold text-2xl"
+      >Qwizify
+      <span class="text-sm text-green-400 font-normal"> Beta </span>
+    </a>
     </div>
     <div>
       <ul class="flex flex-row items-center gap-3">

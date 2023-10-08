@@ -1,6 +1,7 @@
 <script lang="ts">
   import { Button } from "$lib/components/ui/button";
   import { answerState } from "$lib/stores/flashcardanswer";
+  import { slide } from "svelte/transition";
 
   export let data: any;
   $: ({ question, answers } = data);
@@ -9,8 +10,8 @@
 <div class="border border-secondary rounded-md p-5 bg-background">
   <h2 class="font-bold">{question}</h2>
   {#if $answerState}
-    <div>
-      <p class="text-muted-primary mt-4">
+    <div transition:slide class="pt-4">
+      <p class="text-muted-primary">
         {answers.find((answer) => {
           return answer.correctAnswer === true;
         }).answer}

@@ -5,6 +5,7 @@
   import { Label } from "$lib/components/ui/label";
   import Button from "./ui/button/button.svelte";
   import { IterationCw } from "lucide-svelte";
+  import { fade } from "svelte/transition";
 
   export let data: any;
   $: card = data;
@@ -66,18 +67,22 @@
     </RadioGroup.Root>
 
     {#if chosenAnswer && !answerSubmitted}
-      <Button variant="default" class="mt-5" on:click={submitAnswer}>
-        Submit
-      </Button>
+      <div in:fade>
+        <Button variant="default" class="mt-5" on:click={submitAnswer}>
+          Submit
+        </Button>
+      </div>
     {:else if chosenAnswer && answerSubmitted && !correct}
-      <Button
-        variant="outline"
-        class="mt-5 flex flex-row gap-2"
-        on:click={reset}
-      >
-        <IterationCw class="w-4 h-4" />
-        Retry
-      </Button>
+      <div in:fade>
+        <Button
+          variant="outline"
+          class="mt-5 flex flex-row gap-2"
+          on:click={reset}
+        >
+          <IterationCw class="w-4 h-4" />
+          Retry
+        </Button>
+      </div>
     {/if}
 
     <!-- <div class="flex flex-row items-center gap-3">
