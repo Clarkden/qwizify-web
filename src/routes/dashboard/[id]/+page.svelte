@@ -4,6 +4,7 @@
   import { Textarea } from "$lib/components/ui/textarea";
   import { ArrowLeft, Loader2 } from "lucide-svelte";
   import { onDestroy } from "svelte";
+  import {PUBLIC_SERVER_URL} from "$env/static/public";
 
   export let data: any;
   $: ({ doc, session } = data);
@@ -13,7 +14,7 @@
 
   const saveDoc = async () => {
     try {
-      const response = await fetch("http://localhost:3000/document/" + doc.id, {
+      const response = await fetch(`${PUBLIC_SERVER_URL}/document/` + doc.id, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -33,7 +34,7 @@
     loading = "loading";
     try {
       const response = await fetch(
-        "http://localhost:3000/document/flash-cards",
+        `${PUBLIC_SERVER_URL}/document/flash-cards`,
         {
           method: "POST",
           headers: {

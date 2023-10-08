@@ -3,42 +3,13 @@
   import * as Card from "$lib/components/ui/card";
   import { Input } from "$lib/components/ui/input";
   import { Label } from "$lib/components/ui/label";
+  import { Loader2 } from "lucide-svelte";
 
-  let email: string;
-  let password: string;
-  let confirmPassword: string;
   let error: string;
-
-  //   const signIn = async () => {
-  //     error = "";
-
-  //     if (!email || !password) {
-  //       error = "Please fill out all fields";
-  //       return;
-  //     }
-
-  //     try {
-  //       const response = await fetch("http://127.0.0.1:3000/auth/sign-up", {
-  //         method: "POST",
-  //         body: JSON.stringify({
-  //           email,
-  //           password,
-  //         }),
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //         },
-  //         credentials: "include",
-  //       });
-  //       const data = await response.json();
-
-  //       window.location.replace("/dashboard");
-  //     } catch (error: any) {
-  //       console.log(error.message);
-  //       error = error.message;
-  //     }
-  //   };
+  let loading: "idle" | "error" | "loading" = "idle";
 
   const googleSignIn = async () => {
+    loading = "loading";
     try {
       const response = await fetch("http://127.0.0.1:3000/oauth/google", {
         method: "GET",
@@ -49,10 +20,12 @@
       window.location.href = data.url;
     } catch (error: any) {
       console.log(error.message);
+      loading = "error";
     }
   };
 
   const appleSignIn = async () => {
+    loading = "loading";
     try {
       const response = await fetch("http://127.0.0.1:3000/oauth/apple", {
         method: "GET",
@@ -64,21 +37,29 @@
       window.location.href = data.url;
     } catch (error: any) {
       console.log(error.message);
+      loading = "error";
     }
   };
 </script>
 
-<section class="flex flex-row items-center justify-center h-screen w-screen">
+<section class="flex flex-row items-center justify-center flex-1">
   <Card.Root class="w-11/12 md:w-[500px] md:min-w-[500px] h-fit border-accent">
     <Card.Header>
-      <Card.Title>Sign Up</Card.Title>
-      <Card.Description>Sign up with Studify</Card.Description>
+      <Card.Title>Start Studying with Qwizify</Card.Title>
+      <Card.Description
+        >Sign in with one of the providers below</Card.Description
+      >
     </Card.Header>
     <Card.Content>
-      <Button on:click={googleSignIn} class="w-full mb-4">Google</Button>
-      <Button on:click={appleSignIn} class="w-full mb-4">Apple</Button>
-      {#if error}
-        <p class="text-red-500">{error}</p>
+      {#if loading === "error"}
+        <p class="text-red-500">Something went wrong</p>
+      {:else if loading === "idle"}
+        <Button on:click={googleSignIn} class="w-full mb-4">Google</Button>
+        <Button on:click={appleSignIn} class="w-full mb-4">Apple</Button>
+      {:else if loading === "loading"}
+        <Button variant="outline" class="w-full mb-4">
+          <Loader2 class="animate-spin" />
+        </Button>
       {/if}
     </Card.Content>
   </Card.Root>

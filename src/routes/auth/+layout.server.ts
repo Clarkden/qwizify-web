@@ -1,7 +1,30 @@
-export const load = async ({cookies}) => {
-    const sessionId = cookies.get("session");
+import { redirect } from "@sveltejs/kit";
 
-    return {
-        session: sessionId
+export const load = async ({ cookies, url }) => {
+  const sessionFromUrl = url.searchParams.get("session");
+
+  if (sessionFromUrl) {
+    cookies.set("session", sessionFromUrl);
+  }
+
+  try {
+    const session = cookies.get("session");
+
+
+    const response = await fetch("http://localhost:3000/auth/validate", {
+      headers: {
+        Authorization: `Bearer ${session}`,
+      },
+    });
+
+    if (!response.ok) {
+      return
     }
-}
+
+    // return response.json();
+  } catch (error) {
+    console.log(error);
+    return 
+  }
+  throw redirect(303, "/dashboard");
+};

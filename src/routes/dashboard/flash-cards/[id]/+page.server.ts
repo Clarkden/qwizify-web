@@ -1,11 +1,12 @@
 import { redirect } from "@sveltejs/kit";
+import { PUBLIC_SERVER_URL } from "$env/static/public";
 
 export const load = async ({ cookies, params }) => {
   const { id } = params;
   try {
     const session = cookies.get("session");
 
-    const response = await fetch("http://localhost:3000/document/flash-cards/" + id, {
+    const response = await fetch(`${PUBLIC_SERVER_URL}/document/flash-cards/` + id, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${session}`,

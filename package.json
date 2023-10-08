@@ -27,6 +27,8 @@
     "lucide-svelte": "^0.279.0",
     "luxon": "^3.4.3",
     "shadcn-svelte": "latest",
+    "stripe": "^13.9.0",
+    "svelte-stripe": "^0.0.22",
     "tailwind-merge": "^1.14.0",
     "tailwind-variants": "^0.1.14"
   }
