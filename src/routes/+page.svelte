@@ -28,7 +28,7 @@
   class="h-[80vh] w-full flex flex-col items-center justify-center gap-14"
 >
   <div>
-    <h1 class="text-4xl md:text-5xl font-extrabold">
+    <h1 class="text-3xl sm:text-4xl md:text-5xl font-extrabold text-center">
       <span class="relative">
         Study
         <img
@@ -45,7 +45,7 @@
     <Button href="/auth">Get Started</Button>
     <Button href="#learn" variant="outline">Learn More</Button>
   </div>
-  <p class="text-lg text-neutral-500 mt-20">
+  <p class="text-neutral-500 mt-20">
     Trusted by High School and College Students
   </p>
 </section>
