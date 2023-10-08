@@ -24,8 +24,11 @@
   let processing = false;
   let error: any;
   let purchasingPlan: "monthly" | "yearly" | null = null;
+  
 
   const createPayment = async () => {
+    if (!purchasingPlan) return;
+
     try {
       const response = await fetch(
         `${PUBLIC_SERVER_URL}/payments/create-subscription`,
