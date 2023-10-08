@@ -3,15 +3,14 @@
   import * as Card from "$lib/components/ui/card";
   import { DateTime } from "luxon";
   import { loadStripe } from "@stripe/stripe-js";
-  import { Elements, PaymentElement } from "svelte-stripe";
   import { PUBLIC_STRIPE_KEY } from "$env/static/public";
   import { onMount } from "svelte";
   import { Loader2, X } from "lucide-svelte";
-  import Skeleton from "$lib/components/ui/skeleton/skeleton.svelte";
   import { goto } from "$app/navigation";
   import { page } from "$app/stores";
   import { PUBLIC_SERVER_URL } from "$env/static/public";
   import Input from "$lib/components/ui/input/input.svelte";
+  import { Switch } from "$lib/components/ui/switch";
 
   export let data: any;
   $: ({ user, session } = data);
@@ -23,7 +22,8 @@
   let stripe: any = null;
   let processing = false;
   let error: any;
-  let purchasingPlan: "monthly" | "yearly" | null = null;
+  let purchasingPlan: "monthly" | "yearly" = "yearly";
+  let annual = false;
 
   const createPayment = async () => {
     if (!purchasingPlan) return;
@@ -86,7 +86,7 @@
     >
       <button
         on:click={() => {
-          goto("/dashboard/settings");
+          goto("/dashboard/account");
         }}
       >
         <X class="text-green-500 absolute top-2 left-2" />
@@ -102,7 +102,7 @@
     >
       <button
         on:click={() => {
-          goto("/dashboard/settings");
+          goto("/dashboard/account");
         }}
       >
         <X class="text-red-500 absolute top-2 left-2" />
@@ -115,7 +115,7 @@
   {/if}
   <Card.Root class="border-secondary">
     <Card.Header>
-      <Card.Title>Subscriptions</Card.Title>
+      <Card.Title>Subscription</Card.Title>
     </Card.Header>
     <Card.Content class="flex flex-col">
       <div class="flex flex-row items-center justify-between">
@@ -133,15 +133,65 @@
                 </span>
               </p>
             </div>
-            <div class="flex flex-col md:flex-row gap-3 w-full">
+            <div class="flex flex-col md:flex-row gap-5 w-full">
               <Card.Root class="border-green-400 flex-1">
                 <Card.Header>
-                  <Card.Title>Monthly</Card.Title>
-                  <p class="text-sm text-neutral-300">Unlimited Docs</p>
+                  <Card.Title>
+                    <div
+                      class="flex flex-row w-full items-center justify-between"
+                    >
+                      {#if purchasingPlan === "monthly"}
+                        <p>Monthly</p>
+                      {:else if purchasingPlan === "yearly"}
+                        <p class="flex flex-row items-center gap-2">
+                          Yearly <span
+                            class="bg-white p-1 text-xs rounded text-black"
+                          >
+                            Best Value
+                          </span>
+                        </p>
+                      {/if}
+                      <button
+                        on:click={() => {
+                          if (purchasingPlan === "monthly") {
+                            purchasingPlan = "yearly";
+                          } else {
+                            purchasingPlan = "monthly";
+                          }
+                        }}
+                        class={`w-12 h-6 ${
+                          purchasingPlan === "yearly"
+                            ? "bg-white justify-end"
+                            : "bg-neutral-600 justify-start"
+                        } flex flex-row  rounded-full items-center`}
+                      >
+                        <div class="w-6 h-6 bg-green-400 rounded-full" />
+                      </button>
+                    </div>
+                  </Card.Title>
                 </Card.Header>
                 <Card.Content>
-                  <p class="text-2xl font-bold">$2.99</p>
-                  <p class="text-sm text-neutral-400">per month</p>
+                  <div class="flex flex-col mb-4">
+                    <p class="text-sm text-neutral-300">Unlimited Docs</p>
+                    <p class="text-sm text-neutral-300">
+                      Up to 16 cards per set
+                    </p>
+                    <p class="text-sm text-neutral-300">GPT-4</p>
+                  </div>
+                  <p class="text-2xl font-bold">
+                    {#if purchasingPlan === "monthly"}
+                      $2.99
+                    {:else if purchasingPlan === "yearly"}
+                      $29.99
+                    {/if}
+                  </p>
+                  <p class="text-sm text-neutral-400">
+                    {#if purchasingPlan === "monthly"}
+                      per month
+                    {:else if purchasingPlan === "yearly"}
+                      per year
+                    {/if}
+                  </p>
                   <div>
                     <Button
                       variant="outline"
@@ -157,29 +207,6 @@
                       Buy
                     </Button>
                   </div>
-                </Card.Content>
-              </Card.Root>
-              <Card.Root class="border-green-400 flex-1">
-                <Card.Header>
-                  <Card.Title>Yearly</Card.Title>
-                  <p class="text-sm text-neutral-300">Unlimited Docs</p>
-                </Card.Header>
-                <Card.Content>
-                  <p class="text-2xl font-bold">$29.99</p>
-                  <p class="text-sm text-neutral-400">per year</p>
-                  <Button
-                    variant="outline"
-                    on:click={() => {
-                      purchasingPlan = "yearly";
-                      createPayment();
-                    }}
-                    class="mt-4"
-                  >
-                    {#if processing}
-                      <Loader2 class="mr-2 animate-spin" />
-                    {/if}
-                    Buy
-                  </Button>
                 </Card.Content>
               </Card.Root>
             </div>

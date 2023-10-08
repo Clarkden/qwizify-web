@@ -48,7 +48,7 @@
           <Button
             variant="link"
             class="text-foreground"
-            href="/dashboard/settings">Settings</Button
+            href="/dashboard/account">Account</Button
           >
         </li>
         <!-- <li>
@@ -86,7 +86,7 @@
             <Button
               variant="link"
               class="text-foreground text-left w-full"
-              href="/dashboard/settings">Settings</Button
+              href="/dashboard/account">Account</Button
             >
           </li>
           <!-- <li>
