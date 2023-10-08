@@ -9,7 +9,7 @@
   $: ({ cards } = flashCards);
 </script>
 
-<section class="p-5 sm:mx-auto sm:w-2/3 md:w-3/5">
+<section class="p-5 sm:mx-auto w-full sm:w-2/3 md:w-3/5">
   <Button
     variant="ghost"
     on:click={() => history.back()}
@@ -17,7 +17,7 @@
     ><ArrowLeft class="w-5 h-5" /> Back</Button
   >
 </section>
-<section class="flex flex-col gap-3 p-5 mx-auto sm:w-2/3 md:w-3/5">
+<section class="flex flex-col gap-3 p-5 mx-auto w-full sm:w-2/3 md:w-3/5">
   {#each JSON.parse(cards) as card}
     <FlashCard data={card} />
   {/each}

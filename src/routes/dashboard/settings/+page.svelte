@@ -118,7 +118,7 @@
     <Card.Content class="flex flex-col">
       <div class="flex flex-row items-center justify-between">
         <div class="flex flex-col gap-4 w-full">
-          {#if user.planStatus !== "active"}
+          {#if user.plan === "free"}
             <div class="flex flex-col">
               <p>
                 <span class="text-sm text-neutral-400">
@@ -181,9 +181,7 @@
             </div>
           {:else}
             <div class="border p-4 rounded-md border-secondary bg-background">
-              {#if user.plan === "free"}
-                Free Trial
-              {:else if user.plan === "month"}
+              {#if user.plan === "month"}
                 Monthly Plan
               {:else if user.plan === "year"}
                 Yearly Plan

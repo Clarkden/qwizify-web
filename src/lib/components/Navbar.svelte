@@ -5,8 +5,9 @@
 <div
   class="h-16 w-full border-secondary border-b flex flex-row items-center justify-between px-5"
 >
-  <div class="flex flex-row items-center mx-auto sm:w-2/3 md:w-3/5">
-
+  <div
+    class="flex flex-row items-center justify-between mx-auto w-full sm:w-2/3 md:w-3/5"
+  >
     <div>
       <a href="/" class="font-bold text-lg">Qwizify</a>
     </div>

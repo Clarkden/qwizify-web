@@ -59,7 +59,7 @@
   onDestroy(async () => await saveDoc());
 </script>
 
-<section class="p-5 sm:mx-auto sm:w-2/3 md:w-3/5">
+<section class="p-5 w-full sm:mx-auto sm:w-2/3 md:w-3/5">
   <Button
     variant="ghost"
     on:click={() => history.back()}
@@ -68,7 +68,7 @@
   >
 </section>
 <section
-  class="section p-5 flex flex-col gap-5 flex-1 mx-auto sm:w-2/3 md:w-3/5"
+  class="section p-5 w-full flex flex-col gap-5 flex-1 mx-auto sm:w-2/3 md:w-3/5"
 >
   <div class="flex justify-between items-center">
     <Input placeholder="Title" class="w-fit" bind:value={doc.title} />

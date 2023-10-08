@@ -70,7 +70,7 @@
   {/if}
 </section>
 
-<section class="p-5 mx-auto sm:w-2/3 md:w-3/5">
+<section class="p-5 mx-auto w-full sm:w-2/3 md:w-3/5">
   <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
     {#if loading === "idle"}
       {#if docs && docs.length > 0}

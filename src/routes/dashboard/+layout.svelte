@@ -71,7 +71,7 @@
     </button>
     {#if mobileMenu}
       <div
-        class="absolute md:hidden w-full top-full left-0 right-0 bg-neutral-800 p-3"
+        class="absolute md:hidden w-full top-full left-0 right-0 bg-neutral-800 p-3 z-50"
         in:slide
       >
         <ul class="flex flex-col items-center">
