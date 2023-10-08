@@ -5,7 +5,7 @@
   import { loadStripe } from "@stripe/stripe-js";
   import { PUBLIC_STRIPE_KEY } from "$env/static/public";
   import { onMount } from "svelte";
-  import { Loader2, X } from "lucide-svelte";
+  import { CheckCircle2, Loader2, X } from "lucide-svelte";
   import { goto } from "$app/navigation";
   import { page } from "$app/stores";
   import { PUBLIC_SERVER_URL } from "$env/static/public";
@@ -151,52 +151,70 @@
                           </span>
                         </p>
                       {/if}
-                      <button
-                        on:click={() => {
-                          if (purchasingPlan === "monthly") {
-                            purchasingPlan = "yearly";
-                          } else {
-                            purchasingPlan = "monthly";
-                          }
-                        }}
-                        class={`w-12 h-6 ${
-                          purchasingPlan === "yearly"
-                            ? "bg-white justify-end"
-                            : "bg-neutral-600 justify-start"
-                        } flex flex-row  rounded-full items-center`}
-                      >
-                        <div class="w-6 h-6 bg-green-400 rounded-full" />
-                      </button>
+                      <div class="flex flex-row gap-2 items-center">
+                        <p class="text-sm">Monthly</p>
+                        <button
+                          on:click={() => {
+                            if (purchasingPlan === "monthly") {
+                              purchasingPlan = "yearly";
+                            } else {
+                              purchasingPlan = "monthly";
+                            }
+                          }}
+                          class={`w-12 h-6 ${
+                            purchasingPlan === "yearly"
+                              ? "bg-white justify-end"
+                              : "bg-neutral-600 justify-start"
+                          } flex flex-row  rounded-full items-center`}
+                        >
+                          <div class="w-6 h-6 bg-green-400 rounded-full" />
+                        </button>
+                        <p class="text-sm">Yearly</p>
+                      </div>
                     </div>
                   </Card.Title>
                 </Card.Header>
                 <Card.Content>
-                  <div class="flex flex-col mb-4">
-                    <p class="text-sm text-neutral-300">Unlimited Docs</p>
-                    <p class="text-sm text-neutral-300">
-                      Up to 16 cards per set
+                  <p class="text-neutral-300 mb-6">
+                    Get everything Qwizify has to offer
+                  </p>
+                  <p>
+                    <span class="text-2xl font-bold">
+                      {#if purchasingPlan === "monthly"}
+                        $2.99
+                      {:else if purchasingPlan === "yearly"}
+                        $29.99
+                      {/if}
+                    </span>
+                    <span class="text-sm text-neutral-400">
+                      {#if purchasingPlan === "monthly"}
+                        per month
+                      {:else if purchasingPlan === "yearly"}
+                        per year
+                      {/if}
+                    </span>
+                  </p>
+                  <div
+                    class="text-sm text-neutral-300 divide-y mt-5 divide-neutral-500"
+                  >
+                    <p class="py-3 flex flex-row items-center gap-2">
+                      <CheckCircle2 class="w-5 h-5 text-green-400" />
+                      Unlimited Documents
                     </p>
-                    <p class="text-sm text-neutral-300">GPT-4</p>
+                    <p class="py-3 flex flex-row items-center gap-2">
+                      <CheckCircle2 class="w-5 h-5 text-green-400" />
+                      Up to 20 Flash Cards per Set
+                    </p>
+                    <p class="py-3 flex flex-row items-center gap-2">
+                      <CheckCircle2 class="w-5 h-5 text-green-400" />
+                      GPT-4
+                    </p>
                   </div>
-                  <p class="text-2xl font-bold">
-                    {#if purchasingPlan === "monthly"}
-                      $2.99
-                    {:else if purchasingPlan === "yearly"}
-                      $29.99
-                    {/if}
-                  </p>
-                  <p class="text-sm text-neutral-400">
-                    {#if purchasingPlan === "monthly"}
-                      per month
-                    {:else if purchasingPlan === "yearly"}
-                      per year
-                    {/if}
-                  </p>
                   <div>
                     <Button
-                      variant="outline"
+                      variant="default"
                       on:click={() => {
-                        purchasingPlan = "monthly";
+                        
                         createPayment();
                       }}
                       class="mt-4"
