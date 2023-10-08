@@ -12,7 +12,10 @@
   >
     <div>
       <!-- <img src={Logo} alt="Qwizify Logo" class="w-10 h-10" /> -->
-      <a href="/" class="font-bold text-lg">Qwizify</a>
+      <a href="/" class="font-bold text-lg"
+        >Qwizify
+        <span class="text-xs text-green-400"> Beta </span>
+      </a>
     </div>
     <div>
       <ul class="flex flex-row items-center gap-3">
@@ -42,5 +45,7 @@
     <Button href="/auth">Get Started</Button>
     <Button href="#learn" variant="outline">Learn More</Button>
   </div>
-  <p class="text-lg text-neutral-500 mt-20">Trusted by High School and College Students</p>
+  <p class="text-lg text-neutral-500 mt-20">
+    Trusted by High School and College Students
+  </p>
 </section>

@@ -36,7 +36,12 @@
   <div
     class="flex flex-row items-center justify-between mx-auto w-full sm:w-2/3 md:w-3/5"
   >
-    <div><a href="/" class="font-bold text-lg">Qwizify</a></div>
+    <div>
+      <a href="/" class="font-bold text-lg flex gap-1 items-baseline"
+        >Qwizify
+        <span class="text-xs text-green-400"> Beta </span>
+      </a>
+    </div>
     <div class="hidden md:flex">
       <ul class="flex flex-row items-center">
         <li>
