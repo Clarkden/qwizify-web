@@ -1,3 +1,4 @@
+import { PUBLIC_SERVER_URL } from "$env/static/public";
 import { redirect } from "@sveltejs/kit";
 
 export const load = async ({ cookies, url }) => {
@@ -10,21 +11,20 @@ export const load = async ({ cookies, url }) => {
   try {
     const session = cookies.get("session");
 
-
-    const response = await fetch("http://localhost:3000/auth/validate", {
+    const response = await fetch(`${PUBLIC_SERVER_URL}/auth/validate`, {
       headers: {
         Authorization: `Bearer ${session}`,
       },
     });
 
     if (!response.ok) {
-      return
+      return;
     }
 
     // return response.json();
   } catch (error) {
     console.log(error);
-    return 
+    return;
   }
   throw redirect(303, "/dashboard");
 };

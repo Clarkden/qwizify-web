@@ -1,8 +1,7 @@
 <script lang="ts">
+  import { PUBLIC_SERVER_URL } from "$env/static/public";
   import { Button } from "$lib/components/ui/button";
   import * as Card from "$lib/components/ui/card";
-  import { Input } from "$lib/components/ui/input";
-  import { Label } from "$lib/components/ui/label";
   import { Loader2 } from "lucide-svelte";
 
   let error: string;
@@ -11,10 +10,13 @@
   const googleSignIn = async () => {
     loading = "loading";
     try {
-      const response = await fetch("http://127.0.0.1:3000/oauth/google", {
+      const response = await fetch(`${PUBLIC_SERVER_URL}/oauth/google`, {
         method: "GET",
         credentials: "include",
       });
+
+      console.log(response);
+
       const data = await response.json();
 
       window.location.href = data.url;
@@ -27,7 +29,7 @@
   const appleSignIn = async () => {
     loading = "loading";
     try {
-      const response = await fetch("http://127.0.0.1:3000/oauth/apple", {
+      const response = await fetch(`${PUBLIC_SERVER_URL}/oauth/apple`, {
         method: "GET",
         credentials: "include",
       });

@@ -63,7 +63,7 @@
     <Plus class="mr-2" />
     Create Doc</Button
   >
-  {#if user.plan !== "free"}
+  {#if user.plan === "free"}
     <p class="text-sm text-neutral-400">
       {docs.length}/3 Free Docs
     </p>
