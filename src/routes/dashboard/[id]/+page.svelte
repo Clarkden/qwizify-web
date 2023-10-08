@@ -4,7 +4,7 @@
   import { Textarea } from "$lib/components/ui/textarea";
   import { ArrowLeft, Loader2 } from "lucide-svelte";
   import { onDestroy } from "svelte";
-  import {PUBLIC_SERVER_URL} from "$env/static/public";
+  import { PUBLIC_SERVER_URL } from "$env/static/public";
 
   export let data: any;
   $: ({ doc, session } = data);
@@ -70,30 +70,40 @@
 <section
   class="section p-5 w-full flex flex-col gap-5 flex-1 mx-auto sm:w-2/3 md:w-3/5"
 >
-  <div class="flex justify-between items-center">
-    <Input placeholder="Title" class="w-fit" bind:value={doc.title} />
-    <div class="flex flex-row items-center gap-3">
+  <div
+    class="flex flex-col md:flex-row gap-3 md:justify-between md:items-center"
+  >
+    <Input placeholder="Title" class="w-full md:w-fit" bind:value={doc.title} />
+    <div class="flex flex-row items-center gap-3 w-full md:w-fit">
       {#if doc.flashCards}
-        <Button variant="secondary" href={"/dashboard/flash-cards/" + doc.id}
-          >View Flash Cards</Button
+        <Button
+          variant="secondary"
+          href={"/dashboard/flash-cards/" + doc.id}
+          class="md:w-[auto] w-full">View Flash Cards</Button
         >
         <Button
           variant="default"
           href={"/dashboard/flash-cards/" + doc.id + "/practice"}
-          >Practice Test</Button
+          class="md:w-[auto] w-full">Practice Test</Button
         >
       {:else if loading === "loading"}
-        <Button variant="outline">
+        <Button variant="outline" class="md:w-[auto] w-full">
           <Loader2 class="w-5 h-5 animate-spin" />
         </Button>
       {:else if loading === "error"}
-        <Button variant="destructive" disabled>
+        <Button variant="destructive" disabled class="md:w-[auto] w-full">
           <p class="text-red-500">Error</p>
         </Button>
       {:else if loading === "idle"}
-        <Button variant="ghost" on:click={saveDoc}>Save</Button>
-        <Button variant="default" on:click={createFlashCards}
-          >Create Flash Cards</Button
+        <Button
+          variant="secondary"
+          on:click={saveDoc}
+          class="md:w-[auto] w-full">Save</Button
+        >
+        <Button
+          variant="default"
+          on:click={createFlashCards}
+          class="md:w-[auto] w-full">Create Flash Cards</Button
         >
       {/if}
     </div>
