@@ -6,7 +6,7 @@
   import { navigating } from "$app/stores";
 
   export let data: any;
-  $: ({ session } = data);
+  $: ({ session, path, user } = data);
 
   let mobileMenu = false;
 
@@ -30,82 +30,102 @@
   };
 </script>
 
-<div
-  class="h-16 w-full border-secondary border-b flex flex-row items-center justify-between px-5 relative"
->
+{#if !path.includes("admin")}
   <div
-    class="flex flex-row items-center justify-between mx-auto w-full sm:w-2/3 md:w-3/5"
+    class="h-16 w-full border-secondary border-b flex flex-row items-center justify-between px-5 relative"
   >
-    <div>
-      <a href="/" class="font-bold text-2xl"
+    <div
+      class="flex flex-row items-center justify-between mx-auto w-full sm:w-2/3 md:w-3/5"
+    >
+      <div>
+        <a href="/" class="font-bold text-2xl"
           >Qwizify
           <span class="text-sm text-green-400 font-normal"> Beta </span>
         </a>
-    </div>
-    <div class="hidden md:flex">
-      <ul class="flex flex-row items-center">
-        <li>
-          <Button variant="link" class="text-foreground" href="/dashboard"
-            >Dashboard</Button
-          >
-        </li>
-        <li>
-          <Button
-            variant="link"
-            class="text-foreground"
-            href="/dashboard/account">Account</Button
-          >
-        </li>
-        <!-- <li>
+      </div>
+      <div class="hidden md:flex">
+        <ul class="flex flex-row items-center">
+          <li>
+            <Button variant="link" class="text-foreground" href="/dashboard"
+              >Dashboard</Button
+            >
+          </li>
+          <li>
+            <Button
+              variant="link"
+              class="text-foreground"
+              href="/dashboard/account">Account</Button
+            >
+          </li>
+          {#if user.role === "admin"}
+            <li>
+              <Button
+                variant="link"
+                class="text-foreground"
+                href="/dashboard/admin">Admin</Button
+              >
+            </li>
+          {/if}
+          <!-- <li>
         <Button variant="link" class="text-foreground" href="/dashboard/flash-cards"
           >Flash Cards</Button
         >
       </li> -->
-        <li>
-          <Button variant="ghost" on:click={signOut}>Logout</Button>
-        </li>
-      </ul>
-    </div>
-    <button
-      class="md:hidden"
-      on:click={() => {
-        mobileMenu = !mobileMenu;
-      }}
-    >
-      <Menu />
-    </button>
-    {#if mobileMenu}
-      <div
-        class="absolute md:hidden w-full top-full left-0 right-0 bg-neutral-800 p-3 z-50"
-        in:slide
+          <li>
+            <Button variant="ghost" on:click={signOut}>Logout</Button>
+          </li>
+        </ul>
+      </div>
+      <button
+        class="md:hidden"
+        on:click={() => {
+          mobileMenu = !mobileMenu;
+        }}
       >
-        <ul class="flex flex-col items-center">
-          <li>
-            <Button
-              variant="link"
-              class="text-foreground w-full"
-              href="/dashboard">Dashboard</Button
-            >
-          </li>
-          <li>
-            <Button
-              variant="link"
-              class="text-foreground text-left w-full"
-              href="/dashboard/account">Account</Button
-            >
-          </li>
-          <!-- <li>
+        <Menu />
+      </button>
+      {#if mobileMenu}
+        <div
+          class="absolute md:hidden w-full top-full left-0 right-0 bg-neutral-800 p-3 z-50"
+          in:slide
+        >
+          <ul class="flex flex-col items-center">
+            <li>
+              <Button
+                variant="link"
+                class="text-foreground w-full"
+                href="/dashboard">Dashboard</Button
+              >
+            </li>
+            <li>
+              <Button
+                variant="link"
+                class="text-foreground text-left w-full"
+                href="/dashboard/account">Account</Button
+              >
+            </li>
+            {#if user.role === "admin"}
+              <li>
+                <Button
+                  variant="link"
+                  class="text-foreground text-left w-full"
+                  href="/dashboard/account">Admin</Button
+                >
+              </li>
+            {/if}
+            <!-- <li>
           <Button variant="link" class="text-foreground" href="/dashboard/flash-cards"
             >Flash Cards</Button
           >
         </li> -->
-          <li>
-            <Button variant="link" on:click={signOut}>Logout</Button>
-          </li>
-        </ul>
-      </div>
-    {/if}
+            <li>
+              <Button variant="link" on:click={signOut}>Logout</Button>
+            </li>
+          </ul>
+        </div>
+      {/if}
+    </div>
   </div>
-</div>
+{/if}
 
 <slot />

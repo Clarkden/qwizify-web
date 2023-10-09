@@ -29,6 +29,7 @@ export const load = async ({ cookies, url }) => {
       return {
         session,
         user: await response.json(),
+        path: url.pathname,
       };
     }
 
