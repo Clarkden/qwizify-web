@@ -14,6 +14,7 @@
   import { fade } from "svelte/transition";
   import { onMount } from "svelte";
   import { browser } from "$app/environment";
+  import Logo from "$lib/assets/images/Logo.png";
 
   let index = 0;
   $: displayIndex = index + 1;
@@ -149,6 +150,38 @@
   });
 </script>
 
+<svelte:head>
+  <meta
+    name="description"
+    content="Qwizify is an AI study platform that turns your notes into study material in seconds."
+  />
+  <meta
+    name="keywords"
+    content="study, notes, flash cards, quiz, test, study material, study notes, study flash cards, study quiz, study test, study study material, study study notes, study study flash cards, study study quiz, study study test, study material material, study material notes, study material flash cards, study material quiz, study material test, study notes notes, study notes flash cards, study notes quiz, study notes test, study flash cards flash cards, study flash cards quiz, study flash cards test, study quiz quiz, study quiz test, study test test, study material material, study material notes, study material flash cards, study material quiz, study material test, study notes notes, study notes flash cards, study notes quiz, study notes test, study flash cards flash cards, study flash cards quiz, study flash cards test, study quiz quiz, study quiz test, study test test"
+  />
+  <meta name="author" content="Qwizify" />
+  <title>Qwizify | Study Your Notes With AI</title>
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://qwizify.com" />
+  <meta property="og:title" content="Qwizify | Study Your Notes With AI" />
+  <meta
+    property="og:description"
+    content="Qwizify is an AI study platform that turns your notes into study material in seconds."
+  />
+  <meta property="og:image" content={Logo} />
+  <meta property="og:site_name" content="Qwizify" />
+  <meta property="twitter:card" content="summary_large_image" />
+  <meta property="twitter:url" content="https://qwizify.com" />
+  <meta
+    property="twitter:title"
+    content="Qwizify | Study Your Notes With AI"
+  />
+  <meta
+    property="twitter:description"
+    content="Qwizify is an AI study platform that turns your notes into study material in seconds."
+  />
+</svelte:head>
+
 <main class="pb-20 flex flex-col gap-10">
   <section
     class="h-16 w-full border-secondary border-b flex flex-row items-center justify-between px-5"
@@ -282,7 +315,7 @@
     </div>
   </section>
   <section
-    class="h-fit mx-auto w-11/12 sm:w-2/3 md:w-4/5 my-20 items-start justify-around gap-20 flex flex-col-reverse md:flex-row "
+    class="h-fit mx-auto w-11/12 sm:w-2/3 md:w-4/5 my-20 items-start justify-around gap-20 flex flex-col-reverse md:flex-row"
   >
     <div
       class="grid grid-cols-1 grid-flow-row divide-y divide-secondary border border-secondary rounded-lg overflow-hidden shadow-green-400/20 shadow-2xl w-full opacity-0 transition-all duration-1000"
@@ -316,7 +349,9 @@
         </Card.Footer>
       </Card.Root>
     </div>
-    <div class="flex justify-start items-center w-full opacity-0 transition-all duration-1000">
+    <div
+      class="flex justify-start items-center w-full opacity-0 transition-all duration-1000"
+    >
       <div class="flex flex-col gap-2">
         <h2 class="text-3xl font-bold">Generate Flash Cards</h2>
         <p class="text-neutral-200 font-light">
@@ -334,7 +369,9 @@
   <section
     class="h-fit mx-auto w-11/12 sm:w-2/3 md:w-4/5 my-20 items-start justify-around grid gap-20 md:grid-cols-2"
   >
-    <div class="flex justify-start items-center opacity-0 transition-all duration-1000">
+    <div
+      class="flex justify-start items-center opacity-0 transition-all duration-1000"
+    >
       <div class="flex flex-col gap-2">
         <h2 class="text-3xl font-bold">Practice Your Expertise</h2>
         <p class="text-neutral-200 font-light">
@@ -406,7 +443,9 @@
   </section>
   <section class="h-fit mx-auto w-11/12 sm:w-2/3 md:w-3/5 my-40">
     <!-- Pricing section with the header simple pricing with two pricing options -->
-    <div class="flex flex-col gap-3 justify-center items-center opacity-0 transition-all duration-1000">
+    <div
+      class="flex flex-col gap-3 justify-center items-center opacity-0 transition-all duration-1000"
+    >
       <h2 class="text-3xl font-bold">Simple Pricing</h2>
       <div class="flex flex-row gap-2">
         <p>Monthly</p>
@@ -429,7 +468,9 @@
         <p>Yearly</p>
       </div>
     </div>
-    <div class="grid grid-cols-1 md:grid-cols-2 grid-flow-row gap-10 mt-10 opacity-0 transition-all duration-1000">
+    <div
+      class="grid grid-cols-1 md:grid-cols-2 grid-flow-row gap-10 mt-10 opacity-0 transition-all duration-1000"
+    >
       <div
         class="h-fit col-span-1 border-2 border-secondary bg-neutral-900 rounded-lg transition p-5 relative z-50"
       >
