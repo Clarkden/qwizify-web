@@ -1,8 +1,10 @@
 <script lang="ts">
+  import { goto } from "$app/navigation";
   import FlashCards from "$lib/components/FlashCards.svelte";
   import Practice from "$lib/components/PracticeTest.svelte";
   import Button from "$lib/components/ui/button/button.svelte";
   import * as Card from "$lib/components/ui/card";
+  import { page } from "$app/stores";
 
   import { ArrowLeft } from "lucide-svelte";
 
@@ -14,7 +16,7 @@
 <section class="p-5 w-full sm:mx-auto sm:w-2/3 md:w-3/5">
   <Button
     variant="ghost"
-    on:click={() => history.back()}
+    on:click={() => goto("/dashboard/" + $page.params.id)}
     class="flex flex-row gap-2 items-center"
     ><ArrowLeft class="w-5 h-5" /> Back</Button
   >

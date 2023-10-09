@@ -59,7 +59,7 @@
 <section
   class="p-5 sm:mx-auto sm:w-2/3 md:w-3/5 flex flex-row gap-3 items-center"
 >
-  {#if user.plan === "free"}
+  {#if user.plan === "free" && user.role !== "admin"}
     {#if docs.length < 3}
       <Button on:click={createDoc}>
         <Plus class="mr-2" />
@@ -78,7 +78,7 @@
       Create Doc</Button
     >
   {/if}
-  {#if user.plan === "free"}
+  {#if user.plan === "free" && user.role !== "admin"}
     <p class="text-sm text-neutral-400">
       {docs.length}/3 Free Docs
     </p>

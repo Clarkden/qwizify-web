@@ -5,6 +5,7 @@
   import { ArrowLeft, Loader2 } from "lucide-svelte";
   import { onDestroy } from "svelte";
   import { PUBLIC_SERVER_URL } from "$env/static/public";
+  import { goto } from "$app/navigation";
 
   export let data: any;
   $: ({ doc, session } = data);
@@ -33,6 +34,7 @@
   const createFlashCards = async () => {
     loading = "loading";
     try {
+      await saveDoc();
       const response = await fetch(
         `${PUBLIC_SERVER_URL}/document/flash-cards`,
         {
@@ -62,7 +64,7 @@
 <section class="p-5 w-full sm:mx-auto sm:w-2/3 md:w-3/5">
   <Button
     variant="ghost"
-    on:click={() => history.back()}
+    on:click={() => goto("/dashboard")}
     class="flex flex-row gap-2 items-center"
     ><ArrowLeft class="w-5 h-5" /> Back</Button
   >
@@ -77,15 +79,15 @@
     <div class="flex flex-row items-center gap-3 w-full md:w-fit">
       {#if doc.flashCards}
         <Button
-          variant="secondary"
+          variant="default"
           href={"/dashboard/flash-cards/" + doc.id}
           class="md:w-[auto] w-full">View Flash Cards</Button
         >
-        <Button
+        <!-- <Button
           variant="default"
           href={"/dashboard/flash-cards/" + doc.id + "/practice"}
           class="md:w-[auto] w-full">Practice Test</Button
-        >
+        > -->
       {:else if loading === "loading"}
         <Button variant="outline" class="md:w-[auto] w-full">
           <Loader2 class="w-5 h-5 animate-spin" />
