@@ -3,7 +3,7 @@
   import { Button } from "$lib/components/ui/button";
   import * as Card from "$lib/components/ui/card";
   import { Loader2 } from "lucide-svelte";
-  import { page } from "$app/stores";
+  // import { page } from "$app/stores";
 
   let error: string;
   let loading: "idle" | "error" | "loading" = "idle";
