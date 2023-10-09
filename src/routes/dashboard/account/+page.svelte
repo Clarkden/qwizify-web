@@ -143,13 +143,7 @@
                       {#if purchasingPlan === "monthly"}
                         <p>Monthly</p>
                       {:else if purchasingPlan === "yearly"}
-                        <p class="flex flex-row items-center gap-2">
-                          Yearly <span
-                            class="bg-white p-1 text-xs rounded text-black"
-                          >
-                            Best Value
-                          </span>
-                        </p>
+                        <p class="flex flex-row items-center gap-2">Yearly</p>
                       {/if}
                       <div class="flex flex-row gap-2 items-center">
                         <p class="text-sm">Monthly</p>
@@ -214,7 +208,6 @@
                     <Button
                       variant="default"
                       on:click={() => {
-                        
                         createPayment();
                       }}
                       class="mt-4"
