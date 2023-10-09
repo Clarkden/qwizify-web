@@ -498,7 +498,7 @@
     </div>
   </section>
 </main>
-<footer class="h-64 bg-neutral-800 flex flex-col p-10 justify-between">
+<footer class="h-64 bg-neutral-900 flex flex-col p-10 justify-between">
   <div class="flex flex-row justify-between">
     <div class="flex flex-col gap-1">
       <a href="/" class="flex flex-row justify-start items-baseline gap-1">
