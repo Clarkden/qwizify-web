@@ -247,8 +247,8 @@
           of a button.
         </p>
         <div class="flex flex-row gap-3 mt-4">
-          <Button href="/auth">Get Started</Button>
-          <Button href="#learn" variant="outline">Learn More</Button>
+          <Button href="/auth" variant="secondary">Start Studying</Button>
+          <!-- <Button href="#learn" variant="outline">Learn More</Button> -->
         </div>
       </div>
     </div>
@@ -358,8 +358,8 @@
           of flash cards.
         </p>
         <div class="flex flex-row gap-3 mt-4">
-          <Button href="/auth">Get Started</Button>
-          <Button href="#learn" variant="outline">Learn More</Button>
+          <Button href="/auth" variant="secondary">Create Flash Cards</Button>
+          <!-- <Button href="#learn" variant="outline">Learn More</Button> -->
         </div>
       </div>
     </div>
@@ -378,8 +378,8 @@
           the practice test.
         </p>
         <div class="flex flex-row gap-3 mt-4">
-          <Button href="/auth">Get Started</Button>
-          <Button href="#learn" variant="outline">Learn More</Button>
+          <Button href="/auth" variant="secondary">Practice Now</Button>
+          <!-- <Button href="#learn" variant="outline">Learn More</Button> -->
         </div>
       </div>
     </div>
