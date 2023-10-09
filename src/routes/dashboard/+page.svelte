@@ -59,10 +59,25 @@
 <section
   class="p-5 sm:mx-auto sm:w-2/3 md:w-3/5 flex flex-row gap-3 items-center"
 >
-  <Button on:click={createDoc}>
-    <Plus class="mr-2" />
-    Create Doc</Button
-  >
+  {#if user.plan === "free"}
+    {#if docs.length < 3}
+      <Button on:click={createDoc}>
+        <Plus class="mr-2" />
+        Create Doc</Button
+      >
+    {:else}
+      <Button disabled>Upgrade</Button>
+      <p>
+        You have reached the maximum number of docs for the free plan. Please
+        upgrade to create more docs.
+      </p>
+    {/if}
+  {:else}
+    <Button on:click={createDoc}>
+      <Plus class="mr-2" />
+      Create Doc</Button
+    >
+  {/if}
   {#if user.plan === "free"}
     <p class="text-sm text-neutral-400">
       {docs.length}/3 Free Docs
