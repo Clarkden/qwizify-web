@@ -66,11 +66,11 @@
         Create Doc</Button
       >
     {:else}
-      <Button disabled>Upgrade</Button>
-      <p>
+      <Button href="/dashboard/account">Upgrade</Button>
+      <!-- <p>
         You have reached the maximum number of docs for the free plan. Please
         upgrade to create more docs.
-      </p>
+      </p> -->
     {/if}
   {:else}
     <Button on:click={createDoc}>
