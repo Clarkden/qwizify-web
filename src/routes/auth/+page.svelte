@@ -3,9 +3,12 @@
   import { Button } from "$lib/components/ui/button";
   import * as Card from "$lib/components/ui/card";
   import { Loader2 } from "lucide-svelte";
+  import { page } from "$app/stores";
 
   let error: string;
   let loading: "idle" | "error" | "loading" = "idle";
+
+  // $: redirect = $page.url.searchParams.get("redirect");
 
   const googleSignIn = async () => {
     loading = "loading";
@@ -15,7 +18,7 @@
         credentials: "include",
       });
 
-      console.log(response);
+      // console.log(response);
 
       const data = await response.json();
 

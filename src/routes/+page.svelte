@@ -28,7 +28,7 @@
   let chosenAnswer: string;
   let correct: boolean;
 
-  let purchasingPlan: "yearly" | "monthly" = "yearly";
+  let purchasingPlan: "yearly" | "monthly" = "monthly";
 
   let mockFlashCards = [
     {
@@ -172,10 +172,7 @@
   <meta property="og:site_name" content="Qwizify" />
   <meta property="twitter:card" content="summary_large_image" />
   <meta property="twitter:url" content="https://qwizify.com" />
-  <meta
-    property="twitter:title"
-    content="Qwizify | Study Your Notes With AI"
-  />
+  <meta property="twitter:title" content="Qwizify | Study Your Notes With AI" />
   <meta
     property="twitter:description"
     content="Qwizify is an AI study platform that turns your notes into study material in seconds."
@@ -228,6 +225,7 @@
         <Button href="/auth">Get Started</Button>
         <Button href="#learn" variant="outline">Learn More</Button>
       </div>
+      <!-- <p class="text-sm font-light text-neutral-300 mt-4">Join and get 3 documents free</p> -->
     </div>
   </section>
   <section

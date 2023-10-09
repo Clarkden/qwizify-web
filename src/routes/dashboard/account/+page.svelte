@@ -22,8 +22,7 @@
   let stripe: any = null;
   let processing = false;
   let error: any;
-  let purchasingPlan: "monthly" | "yearly" = "yearly";
-  let annual = false;
+  let purchasingPlan: "monthly" | "yearly" = "monthly";
 
   const createPayment = async () => {
     if (!purchasingPlan) return;
