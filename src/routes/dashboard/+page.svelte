@@ -26,6 +26,7 @@
         method: "POST",
         headers: {
           Authorization: `Bearer ${session}`,
+          "Access-Control-Allow-Origin": "*"
         },
       });
 

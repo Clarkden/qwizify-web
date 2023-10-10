@@ -37,7 +37,7 @@
     class="flex flex-row items-center justify-between mx-auto w-full sm:w-2/3 md:w-3/5"
   >
     <div>
-      <a href="/" class="font-bold text-2xl"
+      <a href="/dashboard" class="font-bold text-2xl"
         >Admin
         <span class="text-sm text-green-400 font-normal"> Beta </span>
       </a>
