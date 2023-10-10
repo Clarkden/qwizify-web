@@ -109,7 +109,7 @@
                 <Button
                   variant="link"
                   class="text-foreground text-left w-full"
-                  href="/dashboard/account">Admin</Button
+                  href="/dashboard/admin">Admin</Button
                 >
               </li>
             {/if}

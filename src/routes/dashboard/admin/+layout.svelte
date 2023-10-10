@@ -91,7 +91,7 @@
             <Button
               variant="link"
               class="text-foreground text-left w-full"
-              href="/dashboard/account">Account</Button
+              href="/dashboard/admin/users">Users</Button
             >
           </li>
           <!-- <li>
