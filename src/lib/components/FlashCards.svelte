@@ -5,12 +5,18 @@
   import { ArrowLeft, ArrowRight } from "lucide-svelte";
   import { answerState } from "$lib/stores/flashcardanswer";
   import { page } from "$app/stores";
+  import Skeleton from "./ui/skeleton/skeleton.svelte";
 
   export let data: any;
-  $: cards = JSON.parse(data.cards);
+  $: cards = []
+  $: if(data.cards) cards = data.cards
+  $: ({ loading } = data);
+
+  // $: if (data.cards) cards = JSON.parse(data.cards);
 
   let index = 0;
-  $: displayIndex = index + 1;
+  $: displayIndex = 0;
+  $: if (cards.length > 0) displayIndex = index + 1;
 
   const nextCard = () => {
     answerState.set(false);
@@ -33,19 +39,27 @@
 
     index--;
   };
+  
 </script>
 
 <div class="w-full">
   <Card.Root class="border-secondary">
     <Card.Header class="flex flex-row items-center justify-between">
       <h1 class="font-bold text-2xl">Flash Cards</h1>
-      <Button
-        href={`/dashboard/flash-cards/${$page.params.id}/practice`}
-        variant="secondary">Practice Test</Button
-      >
+      {#if loading === "idle"}
+        <Button
+          href={`/dashboard/flash-cards/${$page.params.id}/practice`}
+          variant="secondary">Practice Test</Button
+        >
+      {/if}
     </Card.Header>
     <Card.Content>
-      <FlashCardAnswer data={cards[index]} />
+      {#if cards.length > 0}
+        <FlashCardAnswer data={cards[index]} />
+      {:else}
+        <Skeleton class="w-full h-16" />
+        <Skeleton class="w-36 h-12 mt-4" />
+      {/if}
     </Card.Content>
 
     <Card.Footer class="flex flex-row gap-3">

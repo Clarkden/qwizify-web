@@ -13,6 +13,10 @@
   const googleSignIn = async () => {
     loading = "loading";
     try {
+      let headers = new Headers();
+
+      headers.append("Origin", "http://127.0.0.1:5173");
+
       const response = await fetch(`${PUBLIC_SERVER_URL}/oauth/google`, {
         method: "GET",
         credentials: "include",

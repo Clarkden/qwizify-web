@@ -6,6 +6,8 @@ export const load = async ({ cookies, params }) => {
   try {
     const session = cookies.get("session");
 
+    
+
     const response = await fetch(`${PUBLIC_SERVER_URL}/document/flash-cards/` + id, {
       method: "GET",
       headers: {
@@ -20,7 +22,15 @@ export const load = async ({ cookies, params }) => {
     }
   } catch (error) {
     console.log(error);
+
+    return {
+      flashCards: []
+    }
   }
 
-  throw redirect(303, "/dashboard");
+  return {
+    flashCards: []
+  }
+
+  // throw redirect(303, "/dashboard");
 };

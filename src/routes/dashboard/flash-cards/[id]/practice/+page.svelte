@@ -9,6 +9,8 @@
   export let data: any;
   $: ({ flashCards } = data);
   $: ({ cards } = flashCards);
+
+  // $: console.log(flashCards)
 </script>
 
 <section class="p-5 sm:mx-auto w-full sm:w-2/3 md:w-3/5">
@@ -20,7 +22,7 @@
   >
 </section>
 <section class="flex flex-col gap-3 p-5 mx-auto w-full sm:w-2/3 md:w-3/5">
-  {#each JSON.parse(cards) as card}
+  {#each cards as card}
     <FlashCard data={card} />
   {/each}
 </section>

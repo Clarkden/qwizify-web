@@ -2,14 +2,16 @@
   import Button from "$lib/components/ui/button/button.svelte";
   import { Input } from "$lib/components/ui/input";
   import { Textarea } from "$lib/components/ui/textarea";
-  import { ArrowLeft, Loader2 } from "lucide-svelte";
+  import { ArrowLeft, Loader2, MoreHorizontal } from "lucide-svelte";
   import { onDestroy } from "svelte";
   import { PUBLIC_SERVER_URL } from "$env/static/public";
   import { goto } from "$app/navigation";
+  import * as DropdownMenu from "$lib/components/ui/dropdown-menu";
 
   export let data: any;
-  $: ({ doc, session } = data);
+  $: ({ doc, session, user } = data);
   $: inputLength = doc.content.length;
+  let result = "";
 
   let loading: "idle" | "error" | "loading" = "idle";
 
@@ -33,28 +35,28 @@
 
   const createFlashCards = async () => {
     loading = "loading";
+
     try {
       await saveDoc();
-      const response = await fetch(
-        `${PUBLIC_SERVER_URL}/document/flash-cards`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${session}`,
-          },
-          body: JSON.stringify({
-            documentId: doc.id,
-          }),
-        }
-      );
-
-      loading = "idle";
-
       window.location.href = "/dashboard/flash-cards/" + doc.id;
     } catch (error) {
       console.log(error);
       loading = "error";
+    }
+  };
+
+  const deleteDoc = async () => {
+    try {
+      const response = await fetch(`${PUBLIC_SERVER_URL}/document/` + doc.id, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${session}`,
+        },
+      });
+
+      goto("/dashboard");
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -64,7 +66,10 @@
 <section class="p-5 w-full sm:mx-auto sm:w-2/3 md:w-3/5">
   <Button
     variant="ghost"
-    on:click={() => goto("/dashboard")}
+    on:click={() => {
+      saveDoc();
+      goto("/dashboard");
+    }}
     class="flex flex-row gap-2 items-center"
     ><ArrowLeft class="w-5 h-5" /> Back</Button
   >
@@ -107,6 +112,22 @@
           on:click={createFlashCards}
           class="md:w-[auto] w-full">Create Flash Cards</Button
         >
+      {/if}
+      {#if user.plan !== "free" || user.role === "admin"}
+        <DropdownMenu.Root>
+          <DropdownMenu.Trigger asChild let:builder>
+            <Button builders={[builder]} variant="ghost">
+              <MoreHorizontal />
+            </Button>
+          </DropdownMenu.Trigger>
+          <DropdownMenu.Content class="w-56 border-secondary">
+            <!-- <DropdownMenu.Label>Options</DropdownMenu.Label>
+          <DropdownMenu.Separator /> -->
+            <DropdownMenu.Group>
+              <DropdownMenu.Item on:click={deleteDoc}>Delete</DropdownMenu.Item>
+            </DropdownMenu.Group>
+          </DropdownMenu.Content>
+        </DropdownMenu.Root>
       {/if}
     </div>
   </div>
