@@ -5,14 +5,12 @@
 <div
   class="h-16 w-full border-secondary border-b flex flex-row items-center justify-between px-5"
 >
-  <div
-    class="flex flex-row items-center justify-between mx-auto w-full sm:w-2/3 md:w-3/5"
-  >
+  <div class="flex flex-row items-center justify-between mx-auto w-full">
     <div>
       <a href="/" class="font-bold text-2xl"
-      >Qwizify
-      <span class="text-sm text-green-400 font-normal"> Beta </span>
-    </a>
+        >Qwizify
+        <span class="text-sm text-green-400 font-normal"> Beta </span>
+      </a>
     </div>
     <div>
       <ul class="flex flex-row items-center gap-3">

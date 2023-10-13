@@ -100,7 +100,8 @@
               </Card.Header>
               <Card.Content class="flex-1">
                 <p class="truncate">
-                  {doc.content}
+                  {@html doc.content}
+                  <!-- {doc.content} -->
                 </p>
               </Card.Content>
               <Card.Footer>

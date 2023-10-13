@@ -35,7 +35,7 @@
     class="h-16 w-full border-secondary border-b flex flex-row items-center justify-between px-5 relative"
   >
     <div
-      class="flex flex-row items-center justify-between mx-auto w-full sm:w-2/3 md:w-3/5"
+      class="flex flex-row items-center justify-between mx-auto w-full"
     >
       <div>
         <a href="/" class="font-bold text-2xl"
@@ -86,7 +86,7 @@
       </button>
       {#if mobileMenu}
         <div
-          class="absolute md:hidden w-full top-full left-0 right-0 bg-neutral-800 p-3 z-50"
+          class="absolute md:hidden w-full top-full left-0 right-0 bg-neutral-200 p-3 z-50"
           in:slide
         >
           <ul class="flex flex-col items-center">

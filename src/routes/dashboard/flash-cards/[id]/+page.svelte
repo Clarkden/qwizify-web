@@ -9,8 +9,9 @@
 
   import { ArrowLeft, Loader2, Minus, Plus, RotateCw } from "lucide-svelte";
   import { onMount } from "svelte";
-  import { PUBLIC_SERVER_URL } from "$env/static/public";
+  import { PUBLIC_SERVER_URL, PUBLIC_WEBSOCKET_URL } from "$env/static/public";
   import Input from "$lib/components/ui/input/input.svelte";
+  // import { WebSocket } from "vite";
 
   export let data: any;
   $: ({ flashCards, session } = data);
@@ -26,6 +27,7 @@
     question: "",
     answer: "",
   };
+  let webSocketResponse = ""
 
   const isJson = (item: string) => {
     let value = typeof item !== "string" ? JSON.stringify(item) : item;
@@ -36,26 +38,6 @@
     }
 
     return typeof value === "object" && value !== null;
-  };
-
-  const saveFlashCards = async () => {
-    try {
-      const response = await fetch(
-        `${PUBLIC_SERVER_URL}/document/flash-cards/${$page.params.id}`,
-        {
-          method: "PATCH",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${session}`,
-          },
-          body: JSON.stringify({
-            cards,
-          }),
-        }
-      );
-    } catch (error) {
-      console.log(error);
-    }
   };
 
   const loadNewFlashCards = async () => {
@@ -156,10 +138,6 @@
     }
   };
 
-  $: if (cards.length > 0) {
-    saveFlashCards();
-  }
-
   onMount(async () => {
     if (!flashCards.cards) {
       await loadNewFlashCards();
@@ -167,9 +145,27 @@
       cards = flashCards.cards;
       // loading = "idle"
     }
+
+    // const websocket = new WebSocket(`${PUBLIC_WEBSOCKET_URL}/`);
+
+    // // console.log(websocket);
+
+    // websocket.addEventListener("open", () => {
+    //   console.log("connected");
+    //   // websocket.send("Hello");
+    // });
+
+    // websocket.addEventListener("message", (event) => {
+    //   webSocketResponse += event.data
+    // });
+
+    // websocket.addEventListener("close", () => {
+    //   console.log("disconnected");
+    // });
   });
 </script>
 
+<!-- {webSocketResponse} -->
 <section class="p-5 w-full sm:mx-auto sm:w-2/3 md:w-3/5">
   <Button
     variant="ghost"

@@ -7,13 +7,28 @@
   import { PUBLIC_SERVER_URL } from "$env/static/public";
   import { goto } from "$app/navigation";
   import * as DropdownMenu from "$lib/components/ui/dropdown-menu";
+  import { EditorTheme, SvelteEditor } from "@nextlint/svelte";
+  import type { Editor } from "@tiptap/core";
 
   export let data: any;
   $: ({ doc, session, user } = data);
   $: inputLength = doc.content.length;
-  let result = "";
+  let input = "";
 
   let loading: "idle" | "error" | "loading" = "idle";
+  let editor: Editor;
+
+  const submitPromt = async (prompt: string) => {
+    // handle prompt for GPT plugin
+    return "";
+  };
+
+  const handleUpload = async (file: File) => {
+    // handle upload here
+    const blob = new Blob([file]);
+    const previewUrl = URL.createObjectURL(blob);
+    return previewUrl;
+  };
 
   const saveDoc = async () => {
     try {
@@ -25,7 +40,7 @@
         },
         body: JSON.stringify({
           title: doc.title,
-          content: doc.content,
+          content: editor.getHTML(),
         }),
       });
     } catch (error) {
@@ -80,7 +95,11 @@
   <div
     class="flex flex-col md:flex-row gap-3 md:justify-between md:items-center"
   >
-    <Input placeholder="Title" class="w-full md:w-fit" bind:value={doc.title} />
+    <input
+      placeholder="Title"
+      class="w-fit outline-none border-secondary border-b-2 py-2 text-xl font-bold"
+      bind:value={doc.title}
+    />
     <div class="flex flex-row items-center gap-3 w-full md:w-fit">
       {#if doc.flashCards}
         <Button
@@ -131,11 +150,38 @@
       {/if}
     </div>
   </div>
-  <Textarea
+  <!-- <div class="editor"> -->
+  <EditorTheme>
+    <!-- <div class="container"> -->
+    <!-- <div class="wrapper"> -->
+    <SvelteEditor
+      content={doc.content}
+      placeholder="Press 'space' GPT support, type '/' for help"
+      onCreated={(createdEditor) => {
+        editor = createdEditor;
+      }}
+      onChange="{(nextEditor) => {
+        editor = nextEditor;
+      }},"
+      plugins={{
+        selectImage: {
+          handleUpload,
+          // unsplash: {
+          //   accessKey: "UNPLASH_API_KEY",
+          // },
+        },
+        //   gpt: { query: submitPromt },
+      }}
+    />
+    <!-- </div> -->
+    <!-- </div> -->
+  </EditorTheme>
+  <!-- </div> -->
+  <!-- <Textarea
     placeholder="Title"
     class="flex-1 resize-none overflow-y-auto"
     bind:value={doc.content}
     maxlength={4000}
-  />
-  <p class="text-right text-gray-500">{inputLength}/4000 characters</p>
+  /> -->
+  <!-- <p class="text-right text-gray-500">{inputLength}/4000 characters</p> -->
 </section>

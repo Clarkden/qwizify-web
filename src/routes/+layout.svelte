@@ -3,6 +3,6 @@
 
 </script>
 
-<body class="bg-background text-white flex flex-col min-h-screen">
+<body class="bg-background text-black flex flex-col min-h-screen">
   <slot />
 </body>
