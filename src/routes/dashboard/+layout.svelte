@@ -1,12 +1,18 @@
 <script lang="ts">
   import { Button } from "$lib/components/ui/button";
   import { PUBLIC_SERVER_URL } from "$env/static/public";
-  import { Menu } from "lucide-svelte";
+  import { Menu, MoreHorizontal, Plus, User } from "lucide-svelte";
   import { fade, slide } from "svelte/transition";
   import { navigating } from "$app/stores";
+  import { onMount } from "svelte";
+  import { Settings, FileText } from "lucide-svelte";
+  import { deletedDocument, documentTitleUpdate } from "$lib/stores/documents";
 
   export let data: any;
   $: ({ session, path, user } = data);
+
+  let docs: any = [];
+  let loading: "idle" | "error" | "loading" = "loading";
 
   let mobileMenu = false;
 
@@ -28,9 +34,60 @@
       console.log(error.message);
     }
   };
+
+  const createDoc = async () => {
+    try {
+      const response = await fetch(`${PUBLIC_SERVER_URL}/document/new`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${session}`,
+          "Access-Control-Allow-Origin": "*",
+        },
+      });
+
+      window.location.replace("/dashboard/" + (await response.json()).id);
+    } catch (error: any) {
+      console.log(error.message);
+    }
+  };
+
+  const getdocs = async () => {
+    try {
+      const response = await fetch(`${PUBLIC_SERVER_URL}/document`, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${session}`,
+        },
+      });
+
+      docs = await response.json();
+
+      loading = "idle";
+    } catch (error) {
+      loading = "error";
+      console.log(error);
+    }
+  };
+
+  onMount(getdocs);
+
+  $: if ($deletedDocument) {
+    getdocs();
+    deletedDocument.set(false);
+  }
+
+  $: if ($documentTitleUpdate) {
+    docs = docs.map((doc: any) => {
+      if (doc.id === $documentTitleUpdate.id) {
+        doc.title = $documentTitleUpdate.title;
+      }
+
+      return doc;
+    });
+  }
 </script>
 
-{#if !path.includes("admin")}
+<!-- {#if !path.includes("admin")}
   <div
     class="h-16 w-full border-secondary border-b flex flex-row items-center justify-between px-5 relative"
   >
@@ -66,11 +123,6 @@
               >
             </li>
           {/if}
-          <!-- <li>
-        <Button variant="link" class="text-foreground" href="/dashboard/flash-cards"
-          >Flash Cards</Button
-        >
-      </li> -->
           <li>
             <Button variant="ghost" on:click={signOut}>Logout</Button>
           </li>
@@ -113,11 +165,6 @@
                 >
               </li>
             {/if}
-            <!-- <li>
-          <Button variant="link" class="text-foreground" href="/dashboard/flash-cards"
-            >Flash Cards</Button
-          >
-        </li> -->
             <li>
               <Button variant="link" on:click={signOut}>Logout</Button>
             </li>
@@ -126,6 +173,55 @@
       {/if}
     </div>
   </div>
-{/if}
+{/if} -->
 
-<slot />
+<div
+  class="h-screen grid grid-cols-1 sm:grid-cols-3 md:grid-cols-5 bg-white gap-3"
+>
+  <aside
+    class="h-full col-span-1 p-5 flex flex-col gap-5 overflow-y-auto overflow-x-hidden border-r border-accent bg-secondary"
+  >
+    <div class="w-full">
+      <a href="/" class="font-bold text-2xl"
+        >Qwizify
+        <span class="text-sm text-accent font-normal"> Beta </span>
+      </a>
+    </div>
+    <ul class="flex flex-col">
+      <li class="hover:bg-background p-1 rounded">
+        <a
+          href="/dashboard/account"
+          class="text-foreground flex flex-row items-center"
+        >
+          <Settings class="w-5 h-5 mr-2" />
+          Account</a
+        >
+      </li>
+      <li class="hover:bg-background p-1 rounded">
+        <button on:click={createDoc} class="flex flex-row items-center w-full">
+          <Plus class="w-5 h-5 mr-2" />
+          New Page
+        </button>
+      </li>
+    </ul>
+    <div class="flex flex-col gap-3 flex-1 overflow-y-auto">
+      <ul class="flex flex-col flex-1">
+        {#each docs as doc}
+          <li
+            class="p-1 rounded flex flex-row hover:bg-background overflow-x-hidden truncate"
+          >
+            <FileText class="w-5 h-5 min-w-[20px] mr-2" />
+            <a class="w-full" href={`/dashboard/${doc.id}`}>
+              {doc.title}
+            </a>
+          </li>
+        {/each}
+      </ul>
+    </div>
+    <div class="pt-4 flex flex-row gap-2 items-center">
+      {user.email}
+      <MoreHorizontal class="w-5 h-5" />
+    </div>
+  </aside>
+  <slot />
+</div>

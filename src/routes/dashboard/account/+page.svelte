@@ -75,7 +75,7 @@
   });
 </script>
 
-<section class="p-5 mx-auto w-full sm:w-2/3 md:w-3/5 flex flex-col gap-4">
+<section class="w-full flex flex-col gap-4 col-span-4 border rounded">
   <!-- {#if error}
     {JSON.stringify(error)}
   {/if} -->
@@ -112,9 +112,9 @@
       </p>
     </div>
   {/if}
-  <Card.Root class="border-secondary">
+  <Card.Root class="border-secondary h-full">
     <Card.Header>
-      <Card.Title>Subscription</Card.Title>
+      <Card.Title>Account</Card.Title>
     </Card.Header>
     <Card.Content class="flex flex-col">
       <div class="flex flex-row items-center justify-between">
@@ -123,17 +123,17 @@
             <div class="flex flex-col">
               <p>
                 <span class="text-sm text-neutral-400">
-                  {#if planExpiresIn.days > 0}
+                  <!-- {#if planExpiresIn.days > 0}
                     Expires
                     {DateTime.fromMillis(user.planExpires).toRelative()}
                   {:else}
                     Your trial has ended
-                  {/if}
+                  {/if} -->
                 </span>
               </p>
             </div>
             <div class="flex flex-col md:flex-row gap-5 w-full">
-              <Card.Root class="border-green-400 flex-1">
+              <Card.Root class="border-green-400 flex-1 max-w-[500px]">
                 <Card.Header>
                   <Card.Title>
                     <div
@@ -168,7 +168,7 @@
                   </Card.Title>
                 </Card.Header>
                 <Card.Content>
-                  <p class="text-neutral-300 mb-6">
+                  <p class="text-neutral-600 mb-6">
                     Get everything Qwizify has to offer
                   </p>
                   <p>
@@ -179,7 +179,7 @@
                         $29.99
                       {/if}
                     </span>
-                    <span class="text-sm text-neutral-400">
+                    <span class="text-sm text-neutral-500">
                       {#if purchasingPlan === "monthly"}
                         per month
                       {:else if purchasingPlan === "yearly"}
@@ -188,7 +188,7 @@
                     </span>
                   </p>
                   <div
-                    class="text-sm text-neutral-300 divide-y mt-5 divide-neutral-500"
+                    class="text-sm text-neutral-500 divide-y mt-5 divide-neutral-500"
                   >
                     <p class="py-3 flex flex-row items-center gap-2">
                       <CheckCircle2 class="w-5 h-5 text-green-400" />
@@ -196,11 +196,19 @@
                     </p>
                     <p class="py-3 flex flex-row items-center gap-2">
                       <CheckCircle2 class="w-5 h-5 text-green-400" />
-                      Up to 20 Flash Cards per Set
+                      Flash Cards
                     </p>
                     <p class="py-3 flex flex-row items-center gap-2">
                       <CheckCircle2 class="w-5 h-5 text-green-400" />
-                      GPT-4
+                      AI Powered Flash Cards
+                    </p>
+                    <p class="py-3 flex flex-row items-center gap-2">
+                      <CheckCircle2 class="w-5 h-5 text-green-400" />
+                      AI Practice Tests
+                    </p>
+                    <p class="py-3 flex flex-row items-center gap-2">
+                      <CheckCircle2 class="w-5 h-5 text-green-400" />
+                      AI Tutor
                     </p>
                   </div>
                   <div>

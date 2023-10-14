@@ -26,7 +26,7 @@
         method: "POST",
         headers: {
           Authorization: `Bearer ${session}`,
-          "Access-Control-Allow-Origin": "*"
+          "Access-Control-Allow-Origin": "*",
         },
       });
 
@@ -36,28 +36,28 @@
     }
   };
 
-  const getdocs = async () => {
-    try {
-      const response = await fetch(`${PUBLIC_SERVER_URL}/document`, {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${session}`,
-        },
-      });
+  // const getdocs = async () => {
+  //   try {
+  //     const response = await fetch(`${PUBLIC_SERVER_URL}/document`, {
+  //       method: "GET",
+  //       headers: {
+  //         Authorization: `Bearer ${session}`,
+  //       },
+  //     });
 
-      docs = await response.json();
+  //     docs = await response.json();
 
-      loading = "idle";
-    } catch (error) {
-      loading = "error";
-      console.log(error);
-    }
-  };
+  //     loading = "idle";
+  //   } catch (error) {
+  //     loading = "error";
+  //     console.log(error);
+  //   }
+  // };
 
-  onMount(getdocs);
+  // onMount(getdocs);
 </script>
 
-<section
+<!-- <section
   class="p-5 sm:mx-auto sm:w-2/3 md:w-3/5 flex flex-row gap-3 items-center"
 >
   {#if user.plan === "free" && user.role !== "admin"}
@@ -68,11 +68,11 @@
       >
     {:else}
       <Button href="/dashboard/account">Upgrade</Button>
-      <!-- <p>
+       <p>
         You have reached the maximum number of docs for the free plan. Please
         upgrade to create more docs.
       </p> -->
-    {/if}
+<!-- {/if}
   {:else}
     <Button on:click={createDoc}>
       <Plus class="mr-2" />
@@ -83,52 +83,84 @@
     <p class="text-sm text-neutral-400">
       {docs.length}/3 Free Docs
     </p>
-  {/if}
-</section>
+  {/if} -->
+<!-- </section> -->
 
-<section class="p-5 mx-auto w-full sm:w-2/3 md:w-3/5">
-  <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
-    {#if loading === "idle"}
-      {#if docs && docs.length > 0}
-        {#each docs as doc (doc.id)}
-          <a href={"/dashboard/" + doc.id} class="group">
-            <Card.Root
-              class="border-secondary group-hover:border-primary h-[200px] flex flex-col"
-            >
-              <Card.Header class="group">
-                <Card.Title>{doc.title}</Card.Title>
-              </Card.Header>
-              <Card.Content class="flex-1">
-                <p class="truncate">
-                  {@html doc.content}
-                  <!-- {doc.content} -->
-                </p>
-              </Card.Content>
-              <Card.Footer>
-                <p class="text-sm text-muted-foreground">
-                  Last Updated {DateTime.fromISO(doc.updatedAt).toLocaleString(
-                    DateTime.DATETIME_MED
-                  )}
-                </p>
-              </Card.Footer>
-            </Card.Root>
-          </a>
-        {/each}
-      {/if}
-    {:else if loading === "loading"}
-      <Skeleton class="w-full h-[200px]" />
-      <Skeleton class="w-full h-[200px]" />
-      <Skeleton class="w-full h-[200px]" />
-    {:else if loading === "error"}
-      <Card.Root class="border-destructive">
-        <Card.Header>
-          <Card.Title>Something went wrong</Card.Title>
-        </Card.Header>
-        <Card.Content class="flex-1">Test</Card.Content>
-        <Card.Content>
-          <p>There was an error loading your docs</p>
-        </Card.Content>
-      </Card.Root>
+<!-- <section class="p-5 mx-auto w-full sm:w-2/3 md:w-3/5"> -->
+<!-- <div
+  class="gap-5 col-span-1 sm:col-span-2 md:col-span-3 h-full w-full overflow-y-scroll"
+>
+  {#if loading === "idle"}
+    {#if docs && docs.length > 0}
+      {#each docs as doc (doc.id)}
+        <a href={"/dashboard/" + doc.id} class="group">
+          <Card.Root
+            class="border-secondary group-hover:border-primary h-[200px] flex flex-col"
+          >
+            <Card.Header class="group">
+              <Card.Title>{doc.title}</Card.Title>
+            </Card.Header>
+            <Card.Content class="flex-1">
+              <p class="truncate">
+                {@html doc.content}
+              </p>
+            </Card.Content>
+            <Card.Footer>
+              <p class="text-sm text-muted-foreground">
+                Last Updated {DateTime.fromISO(doc.updatedAt).toLocaleString(
+                  DateTime.DATETIME_MED
+                )}
+              </p>
+            </Card.Footer>
+          </Card.Root>
+        </a>
+      {/each}
     {/if}
+  {:else if loading === "loading"}
+    <Skeleton class="w-full h-[200px]" />
+    <Skeleton class="w-full h-[200px]" />
+    <Skeleton class="w-full h-[200px]" />
+  {:else if loading === "error"}
+    <Card.Root class="border-destructive">
+      <Card.Header>
+        <Card.Title>Something went wrong</Card.Title>
+      </Card.Header>
+      <Card.Content class="flex-1">Test</Card.Content>
+      <Card.Content>
+        <p>There was an error loading your docs</p>
+      </Card.Content>
+    </Card.Root>
+  {/if}
+</div> -->
+<!-- </section> -->
+<!-- <div
+  class="w-full h-full border border-rounded bg-white p-5 rounded-lg col-span-1 sm:col-span-2 md:col-span-3"
+>
+  Create
+</div> -->
+
+<div class="col-span-1 sm:col-span-3 md:col-span-4 flex flex-col pt-5 gap-4">
+  <!-- <div class="bg-white"> -->
+  <h2 class="text-lg font-bold">Get Started</h2>
+  <div class="bg-secondary p-3 rounded border border-accent w-fit">
+    <h3 class="text-md font-bold">Create a New Page</h3>
+    <p class="text-sm text-muted-primary">
+      Pages are the main building blocks of Qwizify. Create a page to get
+      started.
+    </p>
   </div>
-</section>
+  <div class="flex flex-row gap-3 grid-flow-row w-fit">
+    <button
+      class="bg-accent p-3 rounded text-white flex-1 flex flex-row items-center"
+      on:click={createDoc}
+    >
+      <Plus class="w-5 h-5 mr-2" />
+      Create Page
+    </button>
+  </div>
+  <!-- </div> -->
+  <!-- <Button variant="default" on:click={createDoc}>
+    <Plus class="mr-2" />
+    Create Doc</Button
+  > -->
+</div>

@@ -9,6 +9,7 @@
     IterationCw,
     CheckCircle2,
     Check,
+    XCircle,
   } from "lucide-svelte";
   import * as RadioGroup from "$lib/components/ui/radio-group";
   import { Label } from "$lib/components/ui/label";
@@ -256,7 +257,7 @@
       class="grid grid-cols-1 grid-flow-row divide-y divide-secondary border border-secondary rounded-lg overflow-hidden shadow-green-400/20 shadow-2xl"
     >
       <div
-        class="h-fit col-span-1  hover:shadow-lg hover:shadow-green-400 transition p-5 relative z-50"
+        class="h-fit col-span-1 hover:shadow-lg hover:shadow-green-400 transition p-5 relative z-50"
       >
         <div class="flex gap-2 items-center mb-2">
           <div
@@ -270,7 +271,7 @@
       </div>
 
       <div
-        class="h-fit col-span-1  hover:shadow-lg hover:shadow-green-400 transition p-5 relative z-50"
+        class="h-fit col-span-1 hover:shadow-lg hover:shadow-green-400 transition p-5 relative z-50"
       >
         <div class="flex gap-2 items-center mb-2">
           <div
@@ -283,7 +284,7 @@
         <p>Add your notes to the document</p>
       </div>
       <div
-        class="h-fit col-span-1  hover:shadow-lg hover:shadow-green-400 transition p-5 relative z-50"
+        class="h-fit col-span-1 hover:shadow-lg hover:shadow-green-400 transition p-5 relative z-50"
       >
         <div class="flex gap-2 items-center mb-2">
           <div
@@ -298,7 +299,7 @@
         </p>
       </div>
       <div
-        class="h-fit col-span-1  hover:shadow-lg hover:shadow-green-400 transition p-5 relative z-50"
+        class="h-fit col-span-1 hover:shadow-lg hover:shadow-green-400 transition p-5 relative z-50"
       >
         <div class="flex gap-2 items-center mb-2">
           <div
@@ -472,27 +473,35 @@
       <div
         class="h-fit col-span-1 border-2 border-secondary bg-white rounded-lg transition p-5 relative z-50"
       >
-        <h4 class="text-xl font-bold mb-4">Trial</h4>
+        <h4 class="text-xl font-bold mb-4">Free</h4>
         <p class="text-neutral-600 mb-6">Perfect for testing out Qwizify</p>
         <div class="text-sm text-neutral-500 divide-y mt-5 divide-neutral-500">
           <p class="py-3 flex flex-row items-center gap-2">
             <CheckCircle2 class="w-5 h-5 text-green-400" />
-            3 Documents
+            Unlimited Documents
           </p>
           <p class="py-3 flex flex-row items-center gap-2">
             <CheckCircle2 class="w-5 h-5 text-green-400" />
-            8 Flash Cards per Set
+            Flash Cards
           </p>
           <p class="py-3 flex flex-row items-center gap-2">
-            <CheckCircle2 class="w-5 h-5 text-green-400" />
-            GPT-3
+            <XCircle class="w-5 h-5 text-slate-400" />
+            AI Powered Flash Cards
+          </p>
+          <p class="py-3 flex flex-row items-center gap-2">
+            <XCircle class="w-5 h-5 text-slate-400" />
+            AI Practice Tests
+          </p>
+          <p class="py-3 flex flex-row items-center gap-2">
+            <XCircle class="w-5 h-5 text-slate-400" />
+            AI Tutor
           </p>
         </div>
         <Button href="/auth" class="mt-4" variant="outline">Get Started</Button>
       </div>
 
       <div
-        class="h-fit col-span-1 border-2 border-green-400  rounded-lg shadow-lg shadow-green-400/25 transition p-5 relative z-50"
+        class="h-fit col-span-1 border-2 border-green-400 rounded-lg shadow-lg shadow-green-400/25 transition p-5 relative z-50"
       >
         <h4 class="text-xl font-bold mb-4">
           {#if purchasingPlan === "monthly"}
@@ -525,11 +534,19 @@
           </p>
           <p class="py-3 flex flex-row items-center gap-2">
             <CheckCircle2 class="w-5 h-5 text-green-400" />
-            Up to 20 Flash Cards per Set
+            Flash Cards
           </p>
           <p class="py-3 flex flex-row items-center gap-2">
             <CheckCircle2 class="w-5 h-5 text-green-400" />
-            GPT-4
+            AI Powered Flash Cards
+          </p>
+          <p class="py-3 flex flex-row items-center gap-2">
+            <CheckCircle2 class="w-5 h-5 text-green-400" />
+            AI Practice Tests
+          </p>
+          <p class="py-3 flex flex-row items-center gap-2">
+            <CheckCircle2 class="w-5 h-5 text-green-400" />
+            AI Tutor
           </p>
         </div>
         <Button href="/auth" class="mt-4" variant="default">Get Started</Button>

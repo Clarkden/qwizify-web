@@ -14,7 +14,7 @@ export const load = async ({ cookies, url }) => {
     }
   }
 
-  // console.log('validating')
+  
 
   try {
     const session = cookies.get("session");

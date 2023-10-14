@@ -27,8 +27,9 @@
   }
 } */
 
-@layer base {
+/* @layer base {
   :root {
+
     --background: 0 0% 100%;
     --foreground: 240 10% 3.9%;
     --card: 0 0% 100%;
@@ -71,4 +72,22 @@
     --input: 240 3.7% 15.9%;
     --ring: 142.4 71.8% 29.2%;
   }
+} */
+
+@layer base {
+  :root {
+    --text: #231c06;
+    --background: #fffaeb;
+    --primary: #2148c0;
+    --secondary: #f5eac6;
+    --accent: #234dcd;
+  }
+  .dark {
+    --text: #f9f2dc;
+    --background: #140f00;
+    --primary: #3f67de;
+    --secondary: #382e0a;
+    --accent: #325ddc;
+  }
 }
+
