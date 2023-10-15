@@ -379,10 +379,7 @@
                 {flashCard.question}
               </Card.Header>
               <Card.Footer>
-                {#if flashCard.answers && flashCard.answers.find((data: { correctAnswer: boolean, answer: string }) => {
-                    return data.correctAnswer === true;
-
-                  })}
+                {#if flashCard.answers}
                   {flashCard.answers.find((data: { correctAnswer: boolean, answer: string }) => {
                     return data.correctAnswer === true;
                   }).answer}
