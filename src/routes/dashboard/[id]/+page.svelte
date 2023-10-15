@@ -315,7 +315,7 @@
         {#if !$navigating}
           <SvelteEditor
             content={doc.content}
-            placeholder="Press 'space' GPT support, type '/' for help"
+            placeholder="Type '/' for options"
             onCreated={(createdEditor) => {
               editor = createdEditor;
             }}
@@ -329,7 +329,7 @@
                 //   accessKey: "UNPLASH_API_KEY",
                 // },
               },
-              gpt: { query: submitPromt },
+              // gpt: { query: submitPromt },
             }}
           />
         {/if}
@@ -370,9 +370,9 @@
         >
       </div>
       <div class="flex flex-col gap-2">
-        {#if doc.flashCards.cards && doc.flashCards.cards.length === 0}
+        {#if !doc.flashCards.cards && doc.flashCards.cards.length === 0}
           <p class="text-center">No Flash Cards</p>
-        {:else}
+        {:else if doc.flashCards.cards.length > 0}
           {#each doc.flashCards.cards as flashCard}
             <Card.Root class="border-secondary">
               <Card.Header>
