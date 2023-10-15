@@ -370,7 +370,7 @@
         >
       </div>
       <div class="flex flex-col gap-2">
-        {#if !doc.flashCards.cards && doc.flashCards.cards.length === 0}
+        {#if !doc.flashCards.cards || doc.flashCards.cards.length === 0}
           <p class="text-center">No Flash Cards</p>
         {:else if doc.flashCards.cards.length > 0}
           {#each doc.flashCards.cards as flashCard}
@@ -379,8 +379,11 @@
                 {flashCard.question}
               </Card.Header>
               <Card.Footer>
-                {#if flashCard}
-                  {flashCard.answers.find((data) => {
+                {#if flashCard.answers && flashCard.answers.find((data: { correctAnswer: boolean, answer: string }) => {
+                    return data.correctAnswer === true;
+
+                  })}
+                  {flashCard.answers.find((data: { correctAnswer: boolean, answer: string }) => {
                     return data.correctAnswer === true;
                   }).answer}
                 {/if}
