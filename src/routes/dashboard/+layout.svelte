@@ -188,7 +188,7 @@
       </a>
     </div>
     <ul class="flex flex-col">
-      <li class="hover:bg-background p-1 rounded">
+      <li class="hover:bg-secondary p-1 rounded">
         <a
           href="/dashboard/account"
           class="text-foreground flex flex-row items-center"
@@ -197,7 +197,7 @@
           Account</a
         >
       </li>
-      <li class="hover:bg-background p-1 rounded">
+      <li class="hover:bg-secondary p-1 rounded">
         <button on:click={createDoc} class="flex flex-row items-center w-full">
           <Plus class="w-5 h-5 mr-2" />
           New Page
@@ -208,7 +208,7 @@
       <ul class="flex flex-col flex-1">
         {#each docs as doc}
           <li
-            class="p-1 rounded flex flex-row hover:bg-background overflow-x-hidden truncate"
+            class="p-1 rounded flex flex-row hover:bg-secondary overflow-x-hidden truncate"
           >
             <FileText class="w-5 h-5 min-w-[20px] mr-2" />
             <a class="w-full" href={`/dashboard/${doc.id}`}>

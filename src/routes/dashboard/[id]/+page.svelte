@@ -380,7 +380,7 @@
               </Card.Header>
               <Card.Footer>
                 {#if flashCard.answers}
-                  {flashCard.answers.find((data: { correctAnswer: boolean, answer: string }) => {
+                  {flashCard.answers.find((data) => {
                     return data.correctAnswer === true;
                   }).answer}
                 {/if}
