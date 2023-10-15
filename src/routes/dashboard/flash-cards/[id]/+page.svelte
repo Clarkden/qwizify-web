@@ -27,7 +27,7 @@
     question: "",
     answer: "",
   };
-  let webSocketResponse = ""
+  let webSocketResponse = "";
 
   const isJson = (item: string) => {
     let value = typeof item !== "string" ? JSON.stringify(item) : item;
@@ -166,94 +166,98 @@
 </script>
 
 <!-- {webSocketResponse} -->
-<section class="p-5 w-full sm:mx-auto sm:w-2/3 md:w-3/5">
-  <Button
-    variant="ghost"
-    on:click={() => goto("/dashboard/" + $page.params.id)}
-    class="flex flex-row gap-2 items-center"
-    ><ArrowLeft class="w-5 h-5" /> Back</Button
-  >
-</section>
-{#if loading !== "error"}
-  {#if loading === "streaming"}
-    <section class="p-5 w-full sm:mx-auto sm:w-2/3 md:w-3/5">
-      <Loader2 class="animate-spin w-10 h-10 mx-auto" />
-    </section>
-  {/if}
-  <section class="p-5 w-full mx-auto sm:w-2/3 md:w-3/5">
-    <FlashCards data={{ cards, loading }} />
+<div
+  class="col-span-1 sm:col-span-2 md:col-span-4 lg:col-span-6 overflow-y-auto overflow-x-hidden"
+>
+  <section class="p-5 w-full sm:mx-auto sm:w-2/3 md:w-3/5">
+    <Button
+      variant="ghost"
+      on:click={() => goto("/dashboard/" + $page.params.id)}
+      class="flex flex-row gap-2 items-center"
+      ><ArrowLeft class="w-5 h-5" /> Back</Button
+    >
   </section>
-  <section class="flex flex-col gap-3 p-5 mx-auto w-full sm:w-2/3 md:w-3/5">
-    <div class="flex flex-row justify-between">
-      <h2 class="font-bold text-xl">Note Cards In This Set</h2>
-      <Button
-        variant="secondary"
-        class="flex flex-row gap-2"
-        on:click={() => {
-          addingCards = !addingCards;
-        }}
-      >
-        {#if !addingCards}
-          <Plus /> Add Cards
-        {:else}
-          <Minus /> Cancel
-        {/if}
-      </Button>
-    </div>
-    {#if addingCards}
-      <Card.Root
-        class="border-secondary flex flex-col md:flex-row md:items-center divide-y-2 md:divide-x-2 md:divide-y-0 divide-secondary"
-      >
-        <Card.Content class="pt-4 flex flex-col gap-2 w-full">
-          <Input bind:value={newCard.question} placeholder="Question" />
-          <Input bind:value={newCard.answer} placeholder="Answer" />
-          <Button
-            variant="secondary"
-            class="flex flex-row gap-2"
-            on:click={async () => {
-              await saveNewCard();
-              await fetchFlashCards();
-            }}
-          >
-            Save
-          </Button>
-        </Card.Content>
-      </Card.Root>
+  {#if loading !== "error"}
+    {#if loading === "streaming"}
+      <section class="p-5 w-full sm:mx-auto sm:w-2/3 md:w-3/5">
+        <Loader2 class="animate-spin w-10 h-10 mx-auto" />
+      </section>
     {/if}
-    {#if cards.length > 0}
-      {#each cards as card}
+    <section class="p-5 w-full mx-auto sm:w-2/3 md:w-3/5">
+      <FlashCards data={{ cards, loading }} />
+    </section>
+    <section class="flex flex-col gap-3 p-5 mx-auto w-full sm:w-2/3 md:w-3/5">
+      <div class="flex flex-row justify-between">
+        <h2 class="font-bold text-xl">Note Cards In This Set</h2>
+        <Button
+          variant="secondary"
+          class="flex flex-row gap-2"
+          on:click={() => {
+            addingCards = !addingCards;
+          }}
+        >
+          {#if !addingCards}
+            <Plus /> Add Cards
+          {:else}
+            <Minus /> Cancel
+          {/if}
+        </Button>
+      </div>
+      {#if addingCards}
         <Card.Root
           class="border-secondary flex flex-col md:flex-row md:items-center divide-y-2 md:divide-x-2 md:divide-y-0 divide-secondary"
         >
-          <Card.Header class="md:w-[50%] md:min-w-[50%] md:max-w-[50%]">
-            <h1 class="font-bold">
-              {card.question}
-            </h1>
-          </Card.Header>
-          <Card.Content class="pt-4">
-            <p class="text-muted-primary">
-              {card.answers.find((data) => {
-                return data.correctAnswer === true;
-              }).answer}
-            </p>
+          <Card.Content class="pt-4 flex flex-col gap-2 w-full">
+            <Input bind:value={newCard.question} placeholder="Question" />
+            <Input bind:value={newCard.answer} placeholder="Answer" />
+            <Button
+              variant="secondary"
+              class="flex flex-row gap-2"
+              on:click={async () => {
+                await saveNewCard();
+                await fetchFlashCards();
+              }}
+            >
+              Save
+            </Button>
           </Card.Content>
         </Card.Root>
-      {/each}
-    {/if}
-    {#if loading === "streaming"}
-      <!--  Skeleton loading ui -->
-      <Skeleton class="w-full h-20" />
-    {/if}
-  </section>
-{:else}
-  <section class="p-5 w-full sm:mx-auto sm:w-2/3 md:w-3/5">
-    <h1 class="font-bold text-xl">Uh Oh</h1>
-    <p class="text-muted-primary">
-      Something went wrong while generating your flash cards. Please try again
-    </p>
-    <Button variant="outline" on:click={loadNewFlashCards} class="mt-3">
-      <RotateCw class="w-5 h-5 mr-2" />
-      Try Again</Button
-    >
-  </section>
-{/if}
+      {/if}
+      {#if cards.length > 0}
+        {#each cards as card}
+          <Card.Root
+            class="border-secondary flex flex-col md:flex-row md:items-center divide-y-2 md:divide-x-2 md:divide-y-0 divide-secondary"
+          >
+            <Card.Header class="md:w-[50%] md:min-w-[50%] md:max-w-[50%]">
+              <h1 class="font-bold">
+                {card.question}
+              </h1>
+            </Card.Header>
+            <Card.Content class="pt-4">
+              <p class="text-muted-primary">
+                {card.answers.find((data) => {
+                  return data.correctAnswer === true;
+                }).answer}
+              </p>
+            </Card.Content>
+          </Card.Root>
+        {/each}
+      {/if}
+      {#if loading === "streaming"}
+        <!--  Skeleton loading ui -->
+        <Skeleton class="w-full h-20" />
+      {/if}
+    </section>
+  {:else}
+    <section class="p-5 w-full sm:mx-auto sm:w-2/3 md:w-3/5">
+      <h1 class="font-bold text-xl">Uh Oh</h1>
+      <p class="text-muted-primary">
+        Something went wrong while generating your flash cards. Please try again
+      </p>
+      <Button variant="outline" on:click={loadNewFlashCards} class="mt-3">
+        <RotateCw class="w-5 h-5 mr-2" />
+        Try Again</Button
+      >
+    </section>
+  {/if}
+</div>

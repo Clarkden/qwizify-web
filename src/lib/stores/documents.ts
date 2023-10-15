@@ -6,3 +6,5 @@ export const documentTitleUpdate = writable({
   title: "",
   id: "",
 });
+
+export const flashCardSidebar = writable(false);

@@ -2,8 +2,14 @@
   import Button from "$lib/components/ui/button/button.svelte";
   import { Input } from "$lib/components/ui/input";
   import { Textarea } from "$lib/components/ui/textarea";
-  import { ArrowLeft, Loader2, MoreHorizontal } from "lucide-svelte";
-  import { onDestroy } from "svelte";
+  import {
+    ArrowLeft,
+    FileText,
+    Loader2,
+    Menu,
+    MoreHorizontal,
+  } from "lucide-svelte";
+  import { onDestroy, onMount } from "svelte";
   import { PUBLIC_SERVER_URL } from "$env/static/public";
   import { goto } from "$app/navigation";
   import * as DropdownMenu from "$lib/components/ui/dropdown-menu";
@@ -11,21 +17,19 @@
   import type { Editor } from "@tiptap/core";
   import { navigating } from "$app/stores";
   import { deletedDocument, documentTitleUpdate } from "$lib/stores/documents";
+  import * as Card from "$lib/components/ui/card";
+  import { browser } from "$app/environment";
+  import { flashCardSidebar } from "$lib/stores/documents";
 
   export let data: any;
   $: ({ doc, session, user } = data);
-  $: inputLength = doc.content.length;
-  let input = "";
+  $: ({ flashCards } = doc);
 
   let loading: "idle" | "error" | "loading" = "idle";
+  let flashCardsStatus: "idle" | "error" | "loading" = "idle";
   let editor: Editor;
 
-  const onSave = () => {
-    const json = editor.getJSON();
-    localStorage.setItem("editor", JSON.stringify(json));
-  };
-
-  const submitPromt = async (prompt: string) => {
+  const submitPromt = async (prompt: string): Promise<string> => {
     try {
       const response = await fetch(`${PUBLIC_SERVER_URL}/document/gpt`, {
         method: "POST",
@@ -68,6 +72,7 @@
         body: JSON.stringify({
           title: doc.title,
           content: editor && editor.getHTML(),
+          text: editor && editor.getText(),
         }),
       });
     } catch (error) {
@@ -75,12 +80,66 @@
     }
   };
 
+  const isJson = (item: string) => {
+    let value = typeof item !== "string" ? JSON.stringify(item) : item;
+    try {
+      value = JSON.parse(value);
+    } catch (e) {
+      return false;
+    }
+
+    return typeof value === "object" && value !== null;
+  };
+
   const createFlashCards = async () => {
     loading = "loading";
 
     try {
       await saveDoc();
-      window.location.href = "/dashboard/flash-cards/" + doc.id;
+      // window.location.href = "/dashboard/flash-cards/" + doc.id;
+
+      flashCardsStatus = "loading";
+      const response = await fetch(
+        `${PUBLIC_SERVER_URL}/document/flash-cards`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${session}`,
+          },
+          body: JSON.stringify({
+            documentId: doc.id,
+          }),
+        }
+      );
+
+      const reader = response?.body?.getReader();
+      const decoder = new TextDecoder("utf-8");
+
+      let object = "";
+
+      while (true) {
+        const { done, value } = await reader!.read();
+        // console.log(done, value)
+        const decodedChunk = decoder.decode(value);
+
+        let character = decodedChunk;
+
+        object += decodedChunk;
+
+        if (done) {
+          loading = "idle";
+
+          if (!isJson(object)) {
+            loading = "error";
+            break;
+          }
+
+          flashCards.cards = JSON.parse(object);
+
+          break;
+        }
+      }
     } catch (error) {
       console.log(error);
       loading = "error";
@@ -106,42 +165,48 @@
 
   $: if ($navigating) saveDoc();
 
+  onMount(() => {
+    if (browser) {
+      let prose = document.querySelector("ProseMirror");
+      prose?.classList.add("!text-white bg-red-400");
+    }
+  });
+
   onDestroy(() => {
     saveDoc();
     console.log("doc saved");
   });
+
+  $: if (browser) {
+    if ($flashCardSidebar) {
+      document.getElementById("flash-side-bar")?.classList.remove("hidden");
+      document.getElementById("flash-side-bar")?.classList.add("flex");
+      document.getElementById("editor")?.classList.remove("lg:col-span-6");
+      document.getElementById("editor")?.classList.add("lg:col-span-4");
+    } else {
+      document.getElementById("flash-side-bar")?.classList.remove("flex");
+      document.getElementById("flash-side-bar")?.classList.add("hidden");
+      document.getElementById("editor")?.classList.remove("lg:col-span-4");
+      document.getElementById("editor")?.classList.add("lg:col-span-6");
+    }
+  }
 </script>
 
-<!-- bg-[#fffdd0] -->
-<!-- <div
-  class="h-screen grid grid-cols-1 sm:grid-cols-3 md:grid-cols-5 gap-3 p-3 bg-slate-50"
-> -->
-<!-- {doc.content} -->
-
 <div
-  class="col-span-1 sm:col-span-3 md:col-span-4 overflow-y-auto overflow-x-hidden"
+  id="editor"
+  class="col-span-1 sm:col-span-3 md:col-span-2 lg:col-span-6 overflow-y-auto overflow-x-hidden"
 >
-  <!-- <section class="p-5 w-full">
-      <Button
-        variant="ghost"
-        on:click={() => {
-          saveDoc();
-          goto("/dashboard");
-        }}
-        class="flex flex-row gap-2 items-center"
-        ><ArrowLeft class="w-5 h-5" /> Back</Button
-      >
-    </section> -->
   <section class="section p-5 px-10 w-full flex flex-col gap-5 flex-1">
     <div
       class="flex flex-col md:flex-row gap-4 md:justify-between md:items-center"
     >
+      <FileText class="w-5 h-5 min-w-[20px] mr-2" />
       <input
         placeholder="Title"
-        class="outline-none border-accent border-b-2 py-2 text-2xl font-bold w-fit bg-transparent"
+        class="outline-none py-2 text-2xl font-bold w-full bg-transparent"
         bind:value={doc.title}
         on:input={() => {
-          console.log($documentTitleUpdate);
+          // console.log($documentTitleUpdate);
           documentTitleUpdate.set({ id: doc.id, title: doc.title });
         }}
       />
@@ -199,41 +264,79 @@
             </DropdownMenu.Content>
           </DropdownMenu.Root>
         {/if}
+        <button
+          on:click={() => {
+            flashCardSidebar.set(!$flashCardSidebar);
+          }}
+        >
+          <Menu class="hidden md:block" />
+        </button>
       </div>
     </div>
     <!-- <div class="editor"> -->
-    <EditorTheme
-      override={{
-        "--editor-font": "sans-serif",
-        "--editor-font-heading": "sans-serif",
-      }}
-    >
-      <!-- <div class="container"> -->
-      <!-- <div class="wrapper"> -->
-      {#if !$navigating}
-        <SvelteEditor
-          content={doc.content}
-          placeholder="Press 'space' GPT support, type '/' for help"
-          onCreated={(createdEditor) => {
-            editor = createdEditor;
-          }}
-          onChange="{(nextEditor) => {
-            editor = nextEditor;
-          }},"
-          plugins={{
-            selectImage: {
-              handleUpload,
-              // unsplash: {
-              //   accessKey: "UNPLASH_API_KEY",
-              // },
+    <div class="!text-white">
+      <EditorTheme
+        override={{
+          "--editor-font": "sans-serif",
+          "--editor-font-heading": "sans-serif",
+          "& .ProseMirror": {
+            "& p": {
+              color: "#f2f2f2",
+              fontSize: "1rem",
+              "& code": {
+                backgroundColor: "#2e1065",
+                borderColor: "#2e1065",
+                color: "#f2f2f2",
+                padding: "0.2rem 0.4rem",
+              },
             },
-            gpt: { query: submitPromt },
-          }}
-        />
-      {/if}
-      <!-- </div> -->
-      <!-- </div> -->
-    </EditorTheme>
+            "& h1,h2,h3,h4,h5,h6": {
+              color: "white",
+            },
+            "& h1": {
+              fontSize: "1.9rem",
+            },
+            "& h2": {
+              fontSize: "1.5rem",
+            },
+            "& h3": {
+              fontSize: "1.3rem",
+            },
+
+            "& blockquote": {
+              backgroundColor: "#020817",
+              borderColor: "#404040",
+            },
+          },
+        }}
+      >
+        <!-- <div class="container"> -->
+        <!-- <div class="wrapper"> -->
+        {#if !$navigating}
+          <SvelteEditor
+            content={doc.content}
+            placeholder="Press 'space' GPT support, type '/' for help"
+            onCreated={(createdEditor) => {
+              editor = createdEditor;
+            }}
+            onChange="{(nextEditor) => {
+              editor = nextEditor;
+            }},"
+            plugins={{
+              selectImage: {
+                handleUpload,
+                // unsplash: {
+                //   accessKey: "UNPLASH_API_KEY",
+                // },
+              },
+              gpt: { query: submitPromt },
+            }}
+          />
+        {/if}
+        <!-- </div> -->
+        <!-- </div> -->
+      </EditorTheme>
+    </div>
     <!-- </div> -->
     <!-- <Textarea
     placeholder="Title"
@@ -244,7 +347,46 @@
     <!-- <p class="text-right text-gray-500">{inputLength}/4000 characters</p> -->
   </section>
 </div>
-<!-- <div class="col-span-1 bg-white p-5 rounded drop-shadow-lg border">
-  <h1 class="font-bold text-lg">Actions</h1>
-</div> -->
-<!-- </div> -->
+<div
+  class="hidden flex-col md:col-span-2 p-5 overflow-y-scroll"
+  id="flash-side-bar"
+>
+  <div
+    class="col-span-1 rounded drop-shadow-lg border border-card flex flex-col gap-3"
+  >
+    {#if !doc.flashCards}
+      <Button variant="default" on:click={createFlashCards}
+        >Create Flash Cards</Button
+      >
+      {#if flashCardsStatus === "loading"}
+        <Loader2 class="w-5 h-5 animate-spin" />
+      {:else if flashCardsStatus === "error"}
+        <p class="text-red-500">Error</p>
+      {/if}
+    {:else}
+      <div>
+        <Button variant="secondary" href={"/dashboard/flash-cards/" + doc.id}
+          >View All Flash Cards</Button
+        >
+      </div>
+      <div class="flex flex-col gap-2">
+        {#if doc.flashCards.cards && doc.flashCards.cards.length === 0}
+          <p class="text-center">No Flash Cards</p>
+        {:else}
+          {#each doc.flashCards.cards as flashCard}
+            <Card.Root class="border-secondary">
+              <Card.Header>
+                {flashCard.question}
+              </Card.Header>
+              <Card.Footer>
+                {flashCard.answers.find((data) => {
+                  return data.correctAnswer === true;
+                }).answer}
+              </Card.Footer>
+            </Card.Root>
+          {/each}
+        {/if}
+      </div>
+    {/if}
+  </div>
+</div>

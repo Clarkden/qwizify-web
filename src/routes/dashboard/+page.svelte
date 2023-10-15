@@ -30,7 +30,9 @@
         },
       });
 
-      window.location.replace("/dashboard/" + (await response.json()).id);
+      // window.location.replace("/dashboard/" + (await response.json()).id);
+
+      window.location.href = "/dashboard/" + (await response.json()).id;
     } catch (error: any) {
       console.log(error.message);
     }

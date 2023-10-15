@@ -176,15 +176,15 @@
 {/if} -->
 
 <div
-  class="h-screen grid grid-cols-1 sm:grid-cols-3 md:grid-cols-5 bg-white gap-3"
+  class="h-screen grid grid-cols-1 sm:grid-cols-3 md:grid-cols-5 lg:grid-cols-7 gap-3"
 >
   <aside
-    class="h-full col-span-1 p-5 flex flex-col gap-5 overflow-y-auto overflow-x-hidden border-r border-accent bg-secondary"
+    class="h-full col-span-1 px-5 flex flex-col gap-5 overflow-y-auto overflow-x-hidden border-r border-accent"
   >
-    <div class="w-full">
+    <div class="w-full pt-4">
       <a href="/" class="font-bold text-2xl"
         >Qwizify
-        <span class="text-sm text-accent font-normal"> Beta </span>
+        <span class="text-sm font-normal text-primary"> Beta </span>
       </a>
     </div>
     <ul class="flex flex-col">
@@ -212,16 +212,18 @@
           >
             <FileText class="w-5 h-5 min-w-[20px] mr-2" />
             <a class="w-full" href={`/dashboard/${doc.id}`}>
-              {doc.title}
+              {doc.title || "Untitled"}
             </a>
           </li>
         {/each}
       </ul>
     </div>
-    <div class="pt-4 flex flex-row gap-2 items-center">
+    <!-- <div class=" flex flex-row items-center"> -->
+    <Button variant="ghost">
       {user.email}
-      <MoreHorizontal class="w-5 h-5" />
-    </div>
+      <!-- <MoreHorizontal class="w-5 h-5" /> -->
+    </Button>
+    <!-- </div> -->
   </aside>
   <slot />
 </div>
