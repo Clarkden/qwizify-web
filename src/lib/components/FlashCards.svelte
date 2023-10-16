@@ -8,11 +8,10 @@
   import Skeleton from "./ui/skeleton/skeleton.svelte";
 
   export let data: any;
-  $: cards = []
-  $: if(data.cards) cards = data.cards
+  $: cards = [];
+  $: if (data.cards) cards = data.cards;
   $: ({ loading } = data);
 
-  // $: if (data.cards) cards = JSON.parse(data.cards);
 
   let index = 0;
   $: displayIndex = 0;
@@ -39,7 +38,6 @@
 
     index--;
   };
-  
 </script>
 
 <div class="w-full">

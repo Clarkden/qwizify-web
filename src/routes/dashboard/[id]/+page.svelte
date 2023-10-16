@@ -193,226 +193,167 @@
     saveDoc();
     console.log("doc saved");
   });
-
-  $: if (browser) {
-    if (flashCardSidebar) {
-      document.getElementById("editor")?.classList.remove("lg:col-span-6");
-      document.getElementById("editor")?.classList.add("lg:col-span-4");
-    } else {
-      setTimeout(() => {
-        document.getElementById("editor")?.classList.remove("lg:col-span-4");
-        document.getElementById("editor")?.classList.add("lg:col-span-6");
-      }, 300);
-    }
-  }
 </script>
 
-<!-- {result} -->
-<div
-  id="editor"
-  class="col-span-1 sm:col-span-3 md:col-span-2 lg:col-span-6 overflow-y-auto overflow-x-hidden"
->
-  <section class="section p-5 px-10 w-full flex flex-col gap-5 flex-1">
-    <div
-      class="flex flex-col md:flex-row gap-4 md:justify-between md:items-center"
-    >
-      <FileText class="w-5 h-5 min-w-[20px] mr-2" />
-      <input
-        placeholder="Title"
-        class="outline-none py-2 text-2xl font-bold w-full bg-transparent"
-        bind:value={doc.title}
-        on:input={() => {
-          // console.log($documentTitleUpdate);
-          documentTitleUpdate.set({ id: doc.id, title: doc.title });
-        }}
-      />
-      <div class="flex flex-row items-center gap-3 w-full md:w-fit">
-        <!-- {#if doc.flashCards}
+<div class="flex-1 flex flex-row gap-3 min-h-screen overflow-y-scroll">
+  <div
+    id="editor"
+    class="max-w-[1600px] w-full mx-auto"
+  >
+    <section class="section p-5 px-10 w-full flex flex-col gap-5 flex-1">
+      <div
+        class="flex flex-col md:flex-row gap-4 md:justify-between md:items-center"
+      >
+        <FileText class="w-5 h-5 min-w-[20px] mr-2" />
+        <input
+          placeholder="Title"
+          class="outline-none py-2 text-2xl font-bold w-full bg-transparent"
+          bind:value={doc.title}
+          on:input={() => {
+            // console.log($documentTitleUpdate);
+            documentTitleUpdate.set({ id: doc.id, title: doc.title });
+          }}
+        />
+        <div class="flex flex-row items-center gap-3 w-full md:w-fit">
+          {#if user.plan !== "free" || user.role === "admin"}
+            <DropdownMenu.Root>
+              <DropdownMenu.Trigger asChild let:builder>
+                <Button builders={[builder]} variant="ghost">
+                  <MoreHorizontal />
+                </Button>
+              </DropdownMenu.Trigger>
+              <DropdownMenu.Content class="w-56 border-secondary">
+                <DropdownMenu.Group>
+                  <DropdownMenu.Item on:click={deleteDoc}
+                    >Delete</DropdownMenu.Item
+                  >
+                </DropdownMenu.Group>
+              </DropdownMenu.Content>
+            </DropdownMenu.Root>
+          {/if}
           <Button
-            variant="default"
-            href={"/dashboard/flash-cards/" + doc.id}
-            class="md:w-[auto] w-full">View Flash Cards</Button
+            variant="ghost"
+            on:click={() => {
+              flashCardSidebar = !flashCardSidebar;
+            }}
           >
-          <Button
-          variant="default"
-          href={"/dashboard/flash-cards/" + doc.id + "/practice"}
-          class="md:w-[auto] w-full">Practice Test</Button
-        >
-        {:else if loading === "loading"}
-          <Button variant="outline" class="md:w-[auto] w-full">
-            <Loader2 class="w-5 h-5 animate-spin" />
+            <Menu class="hidden md:block" />
           </Button>
-        {:else if loading === "error"}
-          <Button variant="destructive" disabled class="md:w-[auto] w-full">
-            <p class="text-red-500">Error</p>
-          </Button>
-        {:else if loading === "idle"}
-          <Button
-          variant="secondary"
-          on:click={saveDoc}
-          class="md:w-[auto] w-full">Save</Button
-        >
-          <button class="md:w-[auto] w-full" on:click={createFlashCards}>
-            <p class="text-accent">Create Flash Cards</p>
-          </button>
+        </div>
+      </div>
+      <div class="!text-white">
+        <EditorTheme
+          override={{
+            "--editor-font": "sans-serif",
+            "--editor-font-heading": "sans-serif",
+            "& .ProseMirror": {
+              "& p": {
+                color: "#f2f2f2",
+                fontSize: "1rem",
+                "& code": {
+                  backgroundColor: "#2e1065",
+                  borderColor: "#2e1065",
+                  color: "#f2f2f2",
+                  padding: "0.2rem 0.4rem",
+                },
+              },
+              "& h1,h2,h3,h4,h5,h6": {
+                color: "white",
+              },
+              "& h1": {
+                fontSize: "1.9rem",
+              },
+              "& h2": {
+                fontSize: "1.5rem",
+              },
+              "& h3": {
+                fontSize: "1.3rem",
+              },
 
-          <Button
-            variant="default"
-            on:click={createFlashCards}
-            class="md:w-[auto] w-full">Create Flash Cards</Button
-          >
-        {/if} -->
-        {#if user.plan !== "free" || user.role === "admin"}
-          <DropdownMenu.Root>
-            <DropdownMenu.Trigger asChild let:builder>
-              <Button builders={[builder]} variant="ghost">
-                <MoreHorizontal />
-              </Button>
-            </DropdownMenu.Trigger>
-            <DropdownMenu.Content class="w-56 border-secondary">
-              <!-- <DropdownMenu.Label>Options</DropdownMenu.Label>
-          <DropdownMenu.Separator /> -->
-              <DropdownMenu.Group>
-                <DropdownMenu.Item on:click={deleteDoc}
-                  >Delete</DropdownMenu.Item
-                >
-              </DropdownMenu.Group>
-            </DropdownMenu.Content>
-          </DropdownMenu.Root>
-        {/if}
-        <Button
-          variant="ghost"
-          on:click={() => {
-            flashCardSidebar = !flashCardSidebar;
-
+              "& blockquote": {
+                backgroundColor: "#020817",
+                borderColor: "#404040",
+              },
+            },
           }}
         >
-          <Menu class="hidden md:block" />
-        </Button>
+          {#if !$navigating}
+            <SvelteEditor
+              content={doc.content}
+              placeholder="Type '/' for options"
+              onCreated={(createdEditor) => {
+                editor = createdEditor;
+              }}
+              onChange="{(nextEditor) => {
+                editor = nextEditor;
+              }},"
+              plugins={{
+                selectImage: {
+                  handleUpload,
+                  // unsplash: {
+                  //   accessKey: "UNPLASH_API_KEY",
+                  // },
+                },
+                // gpt: { query: submitPromt },
+              }}
+            />
+          {/if}
+        </EditorTheme>
+      </div>
+    </section>
+  </div>
+
+  {#if flashCardSidebar}
+    <div
+      class="w-[340px] p-5"
+      id="flash-side-bar"
+      transition:blur={{ duration: 300 }}
+    >
+      <div
+        class="col-span-1 rounded drop-shadow-lg border border-card flex flex-col gap-3"
+      >
+        {#if !doc.flashCards || !doc.flashCards.cards || doc.flashCards.cards.length === 0}
+          {#if flashCardsStatus === "loading"}
+            <Button variant="outline" disabled
+              ><Loader2 class="w-5 h-5 animate-spin" /></Button
+            >
+          {:else if flashCardsStatus === "error"}
+            <p class="text-red-500">Error</p>
+          {:else if flashCardsStatus === "idle"}
+            <Button variant="default" on:click={createFlashCards}
+              >Create Flash Cards</Button
+            >
+          {/if}
+        {:else}
+          <div>
+            <Button
+              variant="secondary"
+              href={"/dashboard/flash-cards/" + doc.id}
+              >View All Flash Cards</Button
+            >
+          </div>
+          <div class="flex flex-col gap-2">
+            {#if !doc.flashCards.cards || doc.flashCards.cards.length === 0}
+              <p class="text-center">No Flash Cards</p>
+            {:else if doc.flashCards.cards.length > 0}
+              {#each doc.flashCards.cards as flashCard}
+                <Card.Root class="border-secondary">
+                  <Card.Header>
+                    {flashCard.question}
+                  </Card.Header>
+                  <Card.Footer>
+                    {#if flashCard.answers}
+                      {flashCard.answers.find((data) => {
+                        return data.correctAnswer === true;
+                      }).answer}
+                    {/if}
+                  </Card.Footer>
+                </Card.Root>
+              {/each}
+            {/if}
+          </div>
+        {/if}
       </div>
     </div>
-    <!-- <div class="editor"> -->
-    <div class="!text-white">
-      <EditorTheme
-        override={{
-          "--editor-font": "sans-serif",
-          "--editor-font-heading": "sans-serif",
-          "& .ProseMirror": {
-            "& p": {
-              color: "#f2f2f2",
-              fontSize: "1rem",
-              "& code": {
-                backgroundColor: "#2e1065",
-                borderColor: "#2e1065",
-                color: "#f2f2f2",
-                padding: "0.2rem 0.4rem",
-              },
-            },
-            "& h1,h2,h3,h4,h5,h6": {
-              color: "white",
-            },
-            "& h1": {
-              fontSize: "1.9rem",
-            },
-            "& h2": {
-              fontSize: "1.5rem",
-            },
-            "& h3": {
-              fontSize: "1.3rem",
-            },
-
-            "& blockquote": {
-              backgroundColor: "#020817",
-              borderColor: "#404040",
-            },
-          },
-        }}
-      >
-        <!-- <div class="container"> -->
-        <!-- <div class="wrapper"> -->
-        {#if !$navigating}
-          <SvelteEditor
-            content={doc.content}
-            placeholder="Type '/' for options"
-            onCreated={(createdEditor) => {
-              editor = createdEditor;
-            }}
-            onChange="{(nextEditor) => {
-              editor = nextEditor;
-            }},"
-            plugins={{
-              selectImage: {
-                handleUpload,
-                // unsplash: {
-                //   accessKey: "UNPLASH_API_KEY",
-                // },
-              },
-              // gpt: { query: submitPromt },
-            }}
-          />
-        {/if}
-        <!-- </div> -->
-        <!-- </div> -->
-      </EditorTheme>
-    </div>
-    <!-- </div> -->
-    <!-- <Textarea
-    placeholder="Title"
-    class="flex-1 resize-none overflow-y-auto"
-    bind:value={doc.content}
-    maxlength={4000}
-  /> -->
-    <!-- <p class="text-right text-gray-500">{inputLength}/4000 characters</p> -->
-  </section>
+  {/if}
 </div>
-{#if flashCardSidebar}
-  <div
-    class="flex-col md:col-span-2 p-5 overflow-y-scroll"
-    id="flash-side-bar"
-    transition:blur={{ duration: 300 }}
-  >
-    <div
-      class="col-span-1 rounded drop-shadow-lg border border-card flex flex-col gap-3"
-    >
-      {#if !doc.flashCards || !doc.flashCards.cards || doc.flashCards.cards.length === 0}
-        {#if flashCardsStatus === "loading"}
-          <Button variant="outline" disabled
-            ><Loader2 class="w-5 h-5 animate-spin" /></Button
-          >
-        {:else if flashCardsStatus === "error"}
-          <p class="text-red-500">Error</p>
-        {:else if flashCardsStatus === "idle"}
-          <Button variant="default" on:click={createFlashCards}
-            >Create Flash Cards</Button
-          >
-        {/if}
-      {:else}
-        <div>
-          <Button variant="secondary" href={"/dashboard/flash-cards/" + doc.id}
-            >View All Flash Cards</Button
-          >
-        </div>
-        <div class="flex flex-col gap-2">
-          {#if !doc.flashCards.cards || doc.flashCards.cards.length === 0}
-            <p class="text-center">No Flash Cards</p>
-          {:else if doc.flashCards.cards.length > 0}
-            {#each doc.flashCards.cards as flashCard}
-              <Card.Root class="border-secondary">
-                <Card.Header>
-                  {flashCard.question}
-                </Card.Header>
-                <Card.Footer>
-                  {#if flashCard.answers}
-                    {flashCard.answers.find((data) => {
-                      return data.correctAnswer === true;
-                    }).answer}
-                  {/if}
-                </Card.Footer>
-              </Card.Root>
-            {/each}
-          {/if}
-        </div>
-      {/if}
-    </div>
-  </div>
-{/if}

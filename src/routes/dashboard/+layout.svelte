@@ -176,10 +176,10 @@
 {/if} -->
 
 <div
-  class="h-screen grid grid-cols-1 sm:grid-cols-3 md:grid-cols-5 lg:grid-cols-7 gap-3"
+  class="h-screen flex flex-row gap-3"
 >
   <aside
-    class="h-full col-span-1 px-5 flex flex-col gap-5 overflow-y-auto overflow-x-hidden border-r border-accent"
+    class="h-full col-span-1 px-5 flex flex-col gap-5 overflow-y-auto overflow-x-hidden border-r border-primary md:w-[240px] md:min-w-[240px] border-secondary"
   >
     <div class="w-full pt-4">
       <a href="/" class="font-bold text-2xl"
@@ -225,5 +225,8 @@
     </Button> -->
     <!-- </div> -->
   </aside>
-  <slot />
+  <div class="flex-1 overflow-y-scroll overflow-x-hidden">
+
+    <slot />
+  </div>
 </div>

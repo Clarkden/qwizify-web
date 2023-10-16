@@ -164,6 +164,37 @@
     }
   };
 
+  const deleteOne = async (card: {
+    question: string;
+    answers: { answer: string; correctAnswer: boolean }[];
+  }) => {
+    try {
+      const newCards = cards.filter((data) => {
+        return data.question !== card.question;
+      });
+
+      const response = await fetch(
+        `${PUBLIC_SERVER_URL}/document/flash-cards/${$page.params.id}`,
+        {
+          method: "PATCH",
+          headers: {
+            Authorization: `Bearer ${session}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            cards: newCards,
+          }),
+        }
+      );
+
+      const data = response.json();
+
+      cards = newCards;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   onMount(async () => {
     if (!flashCards.cards) {
       await loadNewFlashCards();
@@ -268,7 +299,7 @@
       {#if cards.length > 0}
         {#each cards as card}
           <Card.Root
-            class="border-secondary flex flex-col md:flex-row md:items-center divide-y-2 md:divide-x-2 md:divide-y-0 divide-secondary"
+            class="border-secondary flex flex-col md:flex-row md:items-center divide-y-2 md:divide-x-2 md:divide-y-0 divide-secondary relative"
           >
             <Card.Header class="md:w-[50%] md:min-w-[50%] md:max-w-[50%]">
               <h1 class="font-bold">
@@ -276,7 +307,28 @@
               </h1>
             </Card.Header>
             <Card.Content class="pt-4">
-              <p class="text-muted-primary">
+              <DropdownMenu.Root>
+                <DropdownMenu.Trigger asChild let:builder>
+                  <Button
+                    builders={[builder]}
+                    class="absolute top-4 right-4 !p-1 !h-fit"
+                    variant="ghost"
+                  >
+                    <MoreHorizontal />
+                  </Button>
+                </DropdownMenu.Trigger>
+                <DropdownMenu.Content class="w-56 border-secondary">
+                  <!-- <DropdownMenu.Label>Options</DropdownMenu.Label>
+              <DropdownMenu.Separator /> -->
+                  <DropdownMenu.Group>
+                    <DropdownMenu.Item on:click={() => deleteOne(card)}
+                      >Delete</DropdownMenu.Item
+                    >
+                  </DropdownMenu.Group>
+                </DropdownMenu.Content>
+              </DropdownMenu.Root>
+
+              <p class="text-muted-primary pr-5">
                 {card.answers.find((data) => {
                   return data.correctAnswer === true;
                 }).answer}
