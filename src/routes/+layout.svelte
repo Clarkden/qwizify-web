@@ -12,13 +12,13 @@
       //   document.body.classList.add(theme);
       //   darkMode.set(theme === "dark");
       // }
-      if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
-        document.documentElement.classList.add("dark");
-        darkMode.set(true);
-      } else {
-        document.documentElement.classList.remove("dark");
-        darkMode.set(false);
-      }
+      // if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+      //   document.documentElement.classList.add("dark");
+      //   darkMode.set(true);
+      // } else {
+      //   document.documentElement.classList.remove("dark");
+      //   darkMode.set(false);
+      // }
     }
 
     // darkMode.subscribe((value) => {
@@ -36,6 +36,6 @@
   });
 </script>
 
-<body class="bg-background text-foreground flex flex-col min-h-screen dark">
+<body class="bg-background text-foreground flex flex-col min-h-screen">
   <slot />
 </body>

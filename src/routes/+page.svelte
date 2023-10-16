@@ -487,7 +487,7 @@
       class="flex flex-col md:flex-row items-start justify-center gap-10 mt-10 opacity-0 transition-all duration-1000"
     >
       <div
-        class="h-fit md:max-w-[350px] md:w-[350px] col-span-1 border rounded-lg transition p-5 relative z-50 bg-card border-secondary"
+        class="h-fit w-full md:max-w-[350px] md:w-[350px] col-span-1 border rounded-lg transition p-5 relative z-50 bg-card border-secondary"
       >
         <h4 class="text-xl font-bold mb-4">Free</h4>
         <p class="text-neutral-400 mb-6">Perfect for testing out Qwizify</p>
@@ -519,7 +519,7 @@
       </div>
 
       <div
-        class="h-fit md:max-w-[350px] md:w-[350px] col-span-1 border rounded-lg drop-shadow-lg shadow-accent transition p-5 relative z-50 bg-card border-secondary"
+        class="h-fit w-full md:max-w-[350px] md:w-[350px] col-span-1 border rounded-lg transition p-5 relative z-50 bg-card border-secondary"
       >
         <h4 class="text-xl font-bold mb-4">
           {#if purchasingPlan === "monthly"}
@@ -574,7 +574,7 @@
     </div>
   </section>
 </main>
-<footer class="h-64 bg-neutral-900 flex flex-col p-10 justify-between">
+<footer class="h-64 bg-neutral-900 flex flex-col p-10 justify-between text-white">
   <div class="flex flex-row justify-between">
     <div class="flex flex-col gap-1">
       <a href="/" class="flex flex-row justify-start items-baseline gap-1">
