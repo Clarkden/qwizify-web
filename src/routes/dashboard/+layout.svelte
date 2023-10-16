@@ -219,10 +219,10 @@
       </ul>
     </div>
     <!-- <div class=" flex flex-row items-center"> -->
-    <Button variant="ghost">
+    <!-- <Button variant="ghost">
       {user.email}
-      <!-- <MoreHorizontal class="w-5 h-5" /> -->
-    </Button>
+
+    </Button> -->
     <!-- </div> -->
   </aside>
   <slot />
