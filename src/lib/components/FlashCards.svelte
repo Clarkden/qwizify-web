@@ -3,7 +3,7 @@
   import FlashCardAnswer from "./FlashCardAnswer.svelte";
   import Button from "./ui/button/button.svelte";
   import { ArrowLeft, ArrowRight } from "lucide-svelte";
-  import { answerState } from "$lib/stores/flashcardanswer";
+  import { answerState } from "$lib/stores/documents";
   import { page } from "$app/stores";
   import Skeleton from "./ui/skeleton/skeleton.svelte";
 

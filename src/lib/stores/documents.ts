@@ -7,4 +7,4 @@ export const documentTitleUpdate = writable({
   id: "",
 });
 
-export const flashCardSidebar = writable(false);
+export const answerState = writable(false);

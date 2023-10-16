@@ -19,7 +19,7 @@
   import { deletedDocument, documentTitleUpdate } from "$lib/stores/documents";
   import * as Card from "$lib/components/ui/card";
   import { browser } from "$app/environment";
-  import { flashCardSidebar } from "$lib/stores/documents";
+  // import { flashCardSidebar } from "$lib/stores/documents";
   import { blur, fade, fly, slide } from "svelte/transition";
 
   export let data: any;
@@ -30,6 +30,7 @@
   let loading: "idle" | "error" | "loading" = "idle";
   let flashCardsStatus: "idle" | "error" | "loading" = "idle";
   let editor: Editor;
+  let flashCardSidebar = false;
 
   const submitPromt = async (prompt: string): Promise<string> => {
     try {
@@ -194,7 +195,7 @@
   });
 
   $: if (browser) {
-    if ($flashCardSidebar) {
+    if (flashCardSidebar) {
       document.getElementById("editor")?.classList.remove("lg:col-span-6");
       document.getElementById("editor")?.classList.add("lg:col-span-4");
     } else {
@@ -282,7 +283,8 @@
         <Button
           variant="ghost"
           on:click={() => {
-            flashCardSidebar.set(!$flashCardSidebar);
+            flashCardSidebar = !flashCardSidebar;
+
           }}
         >
           <Menu class="hidden md:block" />
@@ -363,7 +365,7 @@
     <!-- <p class="text-right text-gray-500">{inputLength}/4000 characters</p> -->
   </section>
 </div>
-{#if $flashCardSidebar}
+{#if flashCardSidebar}
   <div
     class="flex-col md:col-span-2 p-5 overflow-y-scroll"
     id="flash-side-bar"

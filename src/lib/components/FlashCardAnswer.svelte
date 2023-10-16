@@ -1,6 +1,6 @@
 <script lang="ts">
   import { Button } from "$lib/components/ui/button";
-  import { answerState } from "$lib/stores/flashcardanswer";
+  import { answerState } from "$lib/stores/documents";
   import { slide } from "svelte/transition";
 
   export let data: any;
