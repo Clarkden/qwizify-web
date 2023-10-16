@@ -198,8 +198,8 @@
   });
 </script>
 
-<div class="flex-1 flex flex-row gap-3 min-h-screen">
-  <div id="editor" class="max-w-[1600px] w-full mx-auto">
+<div class="flex-1 flex flex-row gap-3 min-h-screen h-fit">
+  <div id="editor" class="max-w-[1600px] w-full mx-auto h-fit">
     <section
       class="section p-5 mt-10 md:mt-0 md:px-10 w-full flex flex-col gap-5 flex-1"
     >
@@ -337,7 +337,7 @@
 
   {#if flashCardSidebar}
     <div
-      class="w-[340px] p-5"
+      class="w-[340px] p-5 hidden md:block"
       id="flash-side-bar"
       transition:blur={{ duration: 300 }}
     >

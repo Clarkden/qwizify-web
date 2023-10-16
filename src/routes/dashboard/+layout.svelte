@@ -211,7 +211,7 @@
     </aside>
   {/if}
   {#if mobileMenu}
-    <div class="absolute w-screen h-screen z-50 bg-black/5">
+    <div class="absolute w-screen h-screen z-50 bg-black/5 md:hidden">
       <div
         class="w-4/5 h-screen bg-white m-2 z-50 drop-shadow-xl rounded-lg p-5 flex flex-col gap-3 relative"
         use:clickOutside={() => {
