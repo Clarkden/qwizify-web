@@ -251,10 +251,10 @@
                 // color: "#f2f2f2",
                 fontSize: "1rem",
                 "& code": {
-                  backgroundColor: "#2e1065",
-                  borderColor: "#2e1065",
+                  // backgroundColor: "#2e1065",
+                  // borderColor: "#2e1065",
                   // color: "#f2f2f2",
-                  padding: "0.2rem 0.4rem",
+                  // padding: "0.2rem 0.4rem",
                 },
               },
               "& h1,h2,h3,h4,h5,h6": {
@@ -270,10 +270,10 @@
                 fontSize: "1.3rem",
               },
 
-              "& blockquote": {
-                backgroundColor: "#020817",
-                borderColor: "#404040",
-              },
+              // "& blockquote": {
+              //   backgroundColor: "#020817",
+              //   borderColor: "#404040",
+              // },
             },
           }}
         >
