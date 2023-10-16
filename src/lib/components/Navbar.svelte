@@ -9,7 +9,7 @@
     <div>
       <a href="/" class="font-bold text-2xl"
         >Qwizify
-        <span class="text-sm text-green-400 font-normal"> Beta </span>
+        <span class="text-sm text-primary font-normal"> Beta </span>
       </a>
     </div>
     <div>

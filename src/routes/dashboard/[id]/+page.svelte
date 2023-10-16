@@ -248,17 +248,17 @@
             "--editor-font-heading": "sans-serif",
             "& .ProseMirror": {
               "& p": {
-                color: "#f2f2f2",
+                // color: "#f2f2f2",
                 fontSize: "1rem",
                 "& code": {
                   backgroundColor: "#2e1065",
                   borderColor: "#2e1065",
-                  color: "#f2f2f2",
+                  // color: "#f2f2f2",
                   padding: "0.2rem 0.4rem",
                 },
               },
               "& h1,h2,h3,h4,h5,h6": {
-                color: "white",
+                // color: "white",
               },
               "& h1": {
                 fontSize: "1.9rem",
@@ -310,7 +310,7 @@
       transition:blur={{ duration: 300 }}
     >
       <div
-        class="col-span-1 rounded drop-shadow-lg border border-card flex flex-col gap-3"
+        class="col-span-1 rounded flex flex-col gap-3"
       >
         {#if !doc.flashCards || !doc.flashCards.cards || doc.flashCards.cards.length === 0}
           {#if flashCardsStatus === "loading"}
