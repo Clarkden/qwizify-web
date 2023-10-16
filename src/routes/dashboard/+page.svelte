@@ -141,7 +141,9 @@
   Create
 </div> -->
 
-<div class="col-span-1 sm:col-span-3 md:col-span-4 flex flex-col pt-5 gap-4">
+<div
+  class="col-span-1 sm:col-span-3 md:col-span-4 flex flex-col pt-5 gap-4 md:mt-0 mt-12 p-5"
+>
   <!-- <div class="bg-white"> -->
   <h2 class="text-lg font-bold">Get Started</h2>
   <div class="bg-secondary p-3 rounded border border-accent w-fit">
@@ -152,13 +154,10 @@
     </p>
   </div>
   <div class="flex flex-row gap-3 grid-flow-row w-fit">
-    <button
-      class="bg-accent p-3 rounded text-white flex-1 flex flex-row items-center"
-      on:click={createDoc}
-    >
+    <Button on:click={createDoc}>
       <Plus class="w-5 h-5 mr-2" />
       Create Page
-    </button>
+    </Button>
   </div>
   <!-- </div> -->
   <!-- <Button variant="default" on:click={createDoc}>
