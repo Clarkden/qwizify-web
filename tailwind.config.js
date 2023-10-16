@@ -13,6 +13,9 @@ const config = {
       },
     },
     extend: {
+      transformOrigin: {
+        width: "width",
+      },
       animation: {},
       //   colors: {
       // 	'text': 'var(--text)',

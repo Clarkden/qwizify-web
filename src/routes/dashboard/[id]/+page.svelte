@@ -20,6 +20,7 @@
   import * as Card from "$lib/components/ui/card";
   import { browser } from "$app/environment";
   import { flashCardSidebar } from "$lib/stores/documents";
+  import { blur, fade, fly, slide } from "svelte/transition";
 
   export let data: any;
   $: ({ doc, session, user } = data);
@@ -194,15 +195,13 @@
 
   $: if (browser) {
     if ($flashCardSidebar) {
-      document.getElementById("flash-side-bar")?.classList.remove("hidden");
-      document.getElementById("flash-side-bar")?.classList.add("flex");
       document.getElementById("editor")?.classList.remove("lg:col-span-6");
       document.getElementById("editor")?.classList.add("lg:col-span-4");
     } else {
-      document.getElementById("flash-side-bar")?.classList.remove("flex");
-      document.getElementById("flash-side-bar")?.classList.add("hidden");
-      document.getElementById("editor")?.classList.remove("lg:col-span-4");
-      document.getElementById("editor")?.classList.add("lg:col-span-6");
+      setTimeout(() => {
+        document.getElementById("editor")?.classList.remove("lg:col-span-4");
+        document.getElementById("editor")?.classList.add("lg:col-span-6");
+      }, 300);
     }
   }
 </script>
@@ -280,13 +279,14 @@
             </DropdownMenu.Content>
           </DropdownMenu.Root>
         {/if}
-        <button
+        <Button
+          variant="ghost"
           on:click={() => {
             flashCardSidebar.set(!$flashCardSidebar);
           }}
         >
           <Menu class="hidden md:block" />
-        </button>
+        </Button>
       </div>
     </div>
     <!-- <div class="editor"> -->
@@ -363,51 +363,54 @@
     <!-- <p class="text-right text-gray-500">{inputLength}/4000 characters</p> -->
   </section>
 </div>
-<div
-  class="hidden flex-col md:col-span-2 p-5 overflow-y-scroll"
-  id="flash-side-bar"
->
+{#if $flashCardSidebar}
   <div
-    class="col-span-1 rounded drop-shadow-lg border border-card flex flex-col gap-3"
+    class="flex-col md:col-span-2 p-5 overflow-y-scroll"
+    id="flash-side-bar"
+    transition:blur={{ duration: 300 }}
   >
-    {#if !doc.flashCards || !doc.flashCards.cards || doc.flashCards.cards.length === 0}
-      {#if flashCardsStatus === "loading"}
-        <Button variant="outline" disabled
-          ><Loader2 class="w-5 h-5 animate-spin" /></Button
-        >
-      {:else if flashCardsStatus === "error"}
-        <p class="text-red-500">Error</p>
-      {:else if flashCardsStatus === "idle"}
-        <Button variant="default" on:click={createFlashCards}
-          >Create Flash Cards</Button
-        >
-      {/if}
-    {:else}
-      <div>
-        <Button variant="secondary" href={"/dashboard/flash-cards/" + doc.id}
-          >View All Flash Cards</Button
-        >
-      </div>
-      <div class="flex flex-col gap-2">
-        {#if !doc.flashCards.cards || doc.flashCards.cards.length === 0}
-          <p class="text-center">No Flash Cards</p>
-        {:else if doc.flashCards.cards.length > 0}
-          {#each doc.flashCards.cards as flashCard}
-            <Card.Root class="border-secondary">
-              <Card.Header>
-                {flashCard.question}
-              </Card.Header>
-              <Card.Footer>
-                {#if flashCard.answers}
-                  {flashCard.answers.find((data) => {
-                    return data.correctAnswer === true;
-                  }).answer}
-                {/if}
-              </Card.Footer>
-            </Card.Root>
-          {/each}
+    <div
+      class="col-span-1 rounded drop-shadow-lg border border-card flex flex-col gap-3"
+    >
+      {#if !doc.flashCards || !doc.flashCards.cards || doc.flashCards.cards.length === 0}
+        {#if flashCardsStatus === "loading"}
+          <Button variant="outline" disabled
+            ><Loader2 class="w-5 h-5 animate-spin" /></Button
+          >
+        {:else if flashCardsStatus === "error"}
+          <p class="text-red-500">Error</p>
+        {:else if flashCardsStatus === "idle"}
+          <Button variant="default" on:click={createFlashCards}
+            >Create Flash Cards</Button
+          >
         {/if}
-      </div>
-    {/if}
+      {:else}
+        <div>
+          <Button variant="secondary" href={"/dashboard/flash-cards/" + doc.id}
+            >View All Flash Cards</Button
+          >
+        </div>
+        <div class="flex flex-col gap-2">
+          {#if !doc.flashCards.cards || doc.flashCards.cards.length === 0}
+            <p class="text-center">No Flash Cards</p>
+          {:else if doc.flashCards.cards.length > 0}
+            {#each doc.flashCards.cards as flashCard}
+              <Card.Root class="border-secondary">
+                <Card.Header>
+                  {flashCard.question}
+                </Card.Header>
+                <Card.Footer>
+                  {#if flashCard.answers}
+                    {flashCard.answers.find((data) => {
+                      return data.correctAnswer === true;
+                    }).answer}
+                  {/if}
+                </Card.Footer>
+              </Card.Root>
+            {/each}
+          {/if}
+        </div>
+      {/if}
+    </div>
   </div>
-</div>
+{/if}
