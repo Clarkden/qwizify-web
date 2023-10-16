@@ -15,6 +15,7 @@
     MoreHorizontal,
     Plus,
     RotateCw,
+    Trash,
   } from "lucide-svelte";
   import { onMount } from "svelte";
   import { PUBLIC_SERVER_URL, PUBLIC_WEBSOCKET_URL } from "$env/static/public";
@@ -227,7 +228,7 @@
   class="col-span-1 sm:col-span-2 md:col-span-4 lg:col-span-6 overflow-y-auto overflow-x-hidden"
 >
   <section
-    class="p-5 w-full sm:mx-auto sm:w-2/3 md:w-3/5 flex flex-row items-center justify-between"
+    class="p-5 w-full sm:mx-auto sm:w-2/3 md:w-3/5 hidden md:flex flex-row items-center justify-between mt-10 md:mt-0"
   >
     <Button
       variant="ghost"
@@ -245,11 +246,49 @@
         <!-- <DropdownMenu.Label>Options</DropdownMenu.Label>
     <DropdownMenu.Separator /> -->
         <DropdownMenu.Group>
-          <DropdownMenu.Item on:click={deleteAll}>Delete</DropdownMenu.Item>
+          <DropdownMenu.Item
+            on:click={deleteAll}
+            class="flex flex-row items-center gap-1"
+          >
+            <Trash class="w-4 h-4" />
+            Delete</DropdownMenu.Item
+          >
         </DropdownMenu.Group>
       </DropdownMenu.Content>
     </DropdownMenu.Root>
   </section>
+  <section
+    class="px-2 w-full flex flex-row md:hidden items-center justify-between mt-12"
+  >
+    <Button
+      variant="ghost"
+      on:click={() => goto("/dashboard/" + $page.params.id)}
+      class="flex flex-row gap-2 items-center"
+      ><ArrowLeft class="w-5 h-5" /> Back</Button
+    >
+  </section>
+  <div class="md:hidden block absolute top-5 right-5">
+    <DropdownMenu.Root>
+      <DropdownMenu.Trigger asChild let:builder>
+        <Button builders={[builder]} variant="ghost">
+          <MoreHorizontal />
+        </Button>
+      </DropdownMenu.Trigger>
+      <DropdownMenu.Content class="w-56 border-secondary">
+        <!-- <DropdownMenu.Label>Options</DropdownMenu.Label>
+    <DropdownMenu.Separator /> -->
+        <DropdownMenu.Group>
+          <DropdownMenu.Item
+            on:click={deleteAll}
+            class="flex flex-row items-center gap-1"
+          >
+            <Trash class="w-4 h-4" />
+            Delete</DropdownMenu.Item
+          >
+        </DropdownMenu.Group>
+      </DropdownMenu.Content>
+    </DropdownMenu.Root>
+  </div>
   {#if loading !== "error"}
     {#if loading === "streaming"}
       <section class="p-5 w-full sm:mx-auto sm:w-2/3 md:w-3/5">

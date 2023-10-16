@@ -1,12 +1,20 @@
 <script lang="ts">
   import { Button } from "$lib/components/ui/button";
   import { PUBLIC_SERVER_URL } from "$env/static/public";
-  import { Menu, MoreHorizontal, Plus, User } from "lucide-svelte";
-  import { fade, slide } from "svelte/transition";
+  import {
+    Menu,
+    MoreHorizontal,
+    Plus,
+    ChevronsLeft,
+    ChevronsRight,
+  } from "lucide-svelte";
+  import { fade, fly, slide } from "svelte/transition";
   import { navigating } from "$app/stores";
   import { onMount } from "svelte";
   import { Settings, FileText } from "lucide-svelte";
   import { deletedDocument, documentTitleUpdate } from "$lib/stores/documents";
+  import { page } from "$app/stores";
+  import { clickOutside } from "svelte-use-click-outside";
 
   export let data: any;
   $: ({ session, path, user } = data);
@@ -15,6 +23,7 @@
   let loading: "idle" | "error" | "loading" = "loading";
 
   let mobileMenu = false;
+  let sideNav = true;
 
   $: if ($navigating) {
     mobileMenu = false;
@@ -87,145 +96,148 @@
   }
 </script>
 
-<!-- {#if !path.includes("admin")}
-  <div
-    class="h-16 w-full border-secondary border-b flex flex-row items-center justify-between px-5 relative"
-  >
-    <div
-      class="flex flex-row items-center justify-between mx-auto w-full"
+<div class="h-screen flex flex-row bg-white relative">
+  {#if sideNav}
+    <aside
+      class="h-full col-span-1 px-5 hidden md:flex flex-col gap-5 overflow-y-auto overflow-x-hidden md:w-[240px] md:min-w-[240px] group relative"
+      transition:fly={{ x: -100, duration: 500 }}
     >
-      <div>
-        <a href="/" class="font-bold text-2xl"
-          >Qwizify
-          <span class="text-sm text-green-400 font-normal"> Beta </span>
-        </a>
-      </div>
-      <div class="hidden md:flex">
-        <ul class="flex flex-row items-center">
-          <li>
-            <Button variant="link" class="text-foreground" href="/dashboard"
-              >Dashboard</Button
-            >
-          </li>
-          <li>
-            <Button
-              variant="link"
-              class="text-foreground"
-              href="/dashboard/account">Account</Button
-            >
-          </li>
-          {#if user.role === "admin"}
-            <li>
-              <Button
-                variant="link"
-                class="text-foreground"
-                href="/dashboard/admin">Admin</Button
-              >
-            </li>
-          {/if}
-          <li>
-            <Button variant="ghost" on:click={signOut}>Logout</Button>
-          </li>
-        </ul>
-      </div>
       <button
-        class="md:hidden"
+        class="absolute top-5 right-5 hidden group-hover:block rounded-lg p-1 hover:bg-secondary transition"
         on:click={() => {
-          mobileMenu = !mobileMenu;
+          sideNav = !sideNav;
         }}
       >
-        <Menu />
+        <ChevronsLeft class="w-5 h-5" />
       </button>
-      {#if mobileMenu}
-        <div
-          class="absolute md:hidden w-full top-full left-0 right-0 bg-neutral-200 p-3 z-50"
-          in:slide
-        >
-          <ul class="flex flex-col items-center">
-            <li>
-              <Button
-                variant="link"
-                class="text-foreground w-full"
-                href="/dashboard">Dashboard</Button
-              >
-            </li>
-            <li>
-              <Button
-                variant="link"
-                class="text-foreground text-left w-full"
-                href="/dashboard/account">Account</Button
-              >
-            </li>
-            {#if user.role === "admin"}
-              <li>
-                <Button
-                  variant="link"
-                  class="text-foreground text-left w-full"
-                  href="/dashboard/admin">Admin</Button
-                >
-              </li>
-            {/if}
-            <li>
-              <Button variant="link" on:click={signOut}>Logout</Button>
-            </li>
-          </ul>
-        </div>
-      {/if}
-    </div>
-  </div>
-{/if} -->
 
-<div
-  class="h-screen flex flex-row gap-3"
->
-  <aside
-    class="h-full col-span-1 px-5 flex flex-col gap-5 overflow-y-auto overflow-x-hidden border-r border-primary md:w-[240px] md:min-w-[240px] border-secondary"
-  >
-    <div class="w-full pt-4">
-      <a href="/" class="font-bold text-2xl"
-        >Qwizify
-        <span class="text-sm font-normal text-primary"> Beta </span>
-      </a>
-    </div>
-    <ul class="flex flex-col">
-      <li class="hover:bg-secondary p-1 rounded">
-        <a
-          href="/dashboard/account"
-          class="text-foreground flex flex-row items-center"
-        >
-          <Settings class="w-5 h-5 mr-2" />
-          Account</a
-        >
-      </li>
-      <li class="hover:bg-secondary p-1 rounded">
-        <button on:click={createDoc} class="flex flex-row items-center w-full">
-          <Plus class="w-5 h-5 mr-2" />
-          New Page
-        </button>
-      </li>
-    </ul>
-    <div class="flex flex-col gap-3 flex-1 overflow-y-auto">
-      <ul class="flex flex-col flex-1">
-        {#each docs as doc}
-          <li
-            class="p-1 rounded flex flex-row hover:bg-secondary overflow-x-hidden truncate"
+      <div class="w-full pt-4">
+        <a href="/" class="font-bold text-2xl"
+          >Qwizify
+          <span class="text-sm font-normal text-primary"> Beta </span>
+        </a>
+      </div>
+      <Button variant="outline" on:click={createDoc}>
+        <Plus class="w-5 h-5 mr-2" />
+        New Page
+      </Button>
+      <ul class="flex flex-col">
+        <!-- <li class="hover:bg-secondary p-1 rounded">
+          <a
+            href="/dashboard/account"
+            class="text-foreground flex flex-row items-center text-sm"
           >
-            <FileText class="w-5 h-5 min-w-[20px] mr-2" />
-            <a class="w-full" href={`/dashboard/${doc.id}`}>
-              {doc.title || "Untitled"}
-            </a>
-          </li>
-        {/each}
+            <Settings class="w-5 h-5 mr-2" />
+            Account</a
+          >
+        </li> -->
       </ul>
-    </div>
-    <!-- <div class=" flex flex-row items-center"> -->
-    <!-- <Button variant="ghost">
+      <div class="flex flex-col gap-3 flex-1 overflow-y-auto">
+        <ul class="flex flex-col flex-1">
+          {#each docs as doc}
+            <li
+              class={`p-1 rounded flex flex-row hover:bg-secondary overflow-x-hidden truncate text-sm ${
+                $page.params.id === doc.id ? "bg-secondary" : ""
+              }`}
+            >
+              <FileText class="w-5 h-5 min-w-[20px] mr-2" />
+              <a class="w-full" href={`/dashboard/${doc.id}`}>
+                {doc.title || "Untitled"}
+              </a>
+            </li>
+          {/each}
+        </ul>
+      </div>
+      <!-- <div class=" flex flex-row items-center"> -->
+      <!-- <Button variant="ghost">
       {user.email}
 
     </Button> -->
-    <!-- </div> -->
-  </aside>
-  <div class="flex-1 overflow-y-scroll overflow-x-hidden">
+      <!-- </div> -->
+    </aside>
+  {/if}
+  {#if mobileMenu}
+    <div class="absolute w-screen h-screen z-50 bg-black/5">
+      <div
+        class="w-4/5 h-screen bg-white m-2 z-50 drop-shadow-xl rounded-lg p-5 flex flex-col gap-3 relative"
+        use:clickOutside={() => {
+          setTimeout(() => {
+            // if()
+            mobileMenu = false;
+          }, 50);
+        }}
+        transition:fade={{ duration: 300 }}
+      >
+        <button
+          class="absolute top-5 right-5 rounded-lg p-1 hover:bg-secondary transition"
+          on:click={() => {
+            mobileMenu = false;
+          }}
+        >
+          <ChevronsLeft class="w-5 h-5" />
+        </button>
+        <div class="w-full">
+          <a href="/" class="font-bold text-2xl"
+            >Qwizify
+            <span class="text-sm font-normal text-primary"> Beta </span>
+          </a>
+        </div>
+        <Button variant="outline" on:click={createDoc}>
+          <Plus class="w-5 h-5 mr-2" />
+          New Page
+        </Button>
+        <ul class="flex flex-col">
+          <!-- <li class="hover:bg-secondary p-1 rounded">
+          <a
+            href="/dashboard/account"
+            class="text-foreground flex flex-row items-center text-sm"
+          >
+            <Settings class="w-5 h-5 mr-2" />
+            Account</a
+          >
+        </li> -->
+        </ul>
+        <div class="flex flex-col gap-3 flex-1 overflow-y-auto">
+          <ul class="flex flex-col flex-1">
+            {#each docs as doc}
+              <li
+                class={`p-1 rounded flex flex-row hover:bg-secondary overflow-x-hidden truncate text-sm ${
+                  $page.params.id === doc.id ? "bg-secondary" : ""
+                }`}
+              >
+                <FileText class="w-5 h-5 min-w-[20px] mr-2" />
+                <a class="w-full" href={`/dashboard/${doc.id}`}>
+                  {doc.title || "Untitled"}
+                </a>
+              </li>
+            {/each}
+          </ul>
+        </div>
+      </div>
+    </div>
+  {/if}
+  <div
+    class="flex-1 bg-white drop-shadow overflow-y-auto m-2 ml-2 mr-2 mb-0 rounded-t-xl relative"
+  >
+    {#if !sideNav}
+      <button
+        class="absolute top-5 left-5 rounded-lg p-1 hover:bg-secondary transition"
+        on:click={() => {
+          sideNav = !sideNav;
+        }}
+      >
+        <ChevronsRight class="w-5 h-5" />
+      </button>
+    {/if}
+
+    <button
+      class="absolute top-5 left-5 rounded-lg p-1 hover:bg-secondary transition block md:hidden"
+      on:click={() => {
+        mobileMenu = !mobileMenu;
+      }}
+    >
+      <Menu class="w-5 h-5" />
+    </button>
 
     <slot />
   </div>

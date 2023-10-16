@@ -4,10 +4,13 @@
   import { Textarea } from "$lib/components/ui/textarea";
   import {
     ArrowLeft,
+    Diamond,
     FileText,
     Loader2,
     Menu,
     MoreHorizontal,
+    Trash,
+    X,
   } from "lucide-svelte";
   import { onDestroy, onMount } from "svelte";
   import { PUBLIC_SERVER_URL } from "$env/static/public";
@@ -21,6 +24,7 @@
   import { browser } from "$app/environment";
   // import { flashCardSidebar } from "$lib/stores/documents";
   import { blur, fade, fly, slide } from "svelte/transition";
+  import DropdownMenuSeparator from "$lib/components/ui/dropdown-menu/dropdown-menu-separator.svelte";
 
   export let data: any;
   $: ({ doc, session, user } = data);
@@ -196,15 +200,12 @@
 </script>
 
 <div class="flex-1 flex flex-row gap-3 min-h-screen overflow-y-scroll">
-  <div
-    id="editor"
-    class="max-w-[1600px] w-full mx-auto"
-  >
-    <section class="section p-5 px-10 w-full flex flex-col gap-5 flex-1">
-      <div
-        class="flex flex-col md:flex-row gap-4 md:justify-between md:items-center"
-      >
-        <FileText class="w-5 h-5 min-w-[20px] mr-2" />
+  <div id="editor" class="max-w-[1600px] w-full mx-auto">
+    <section
+      class="section p-5 mt-10 md:mt-0 md:px-10 w-full flex flex-col gap-5 flex-1"
+    >
+      <div class="flex flex-row gap-4 justify-between items-center">
+        <!-- <FileText class="w-5 h-5 min-w-[20px] mr-2" /> -->
         <input
           placeholder="Title"
           class="outline-none py-2 text-2xl font-bold w-full bg-transparent"
@@ -214,7 +215,7 @@
             documentTitleUpdate.set({ id: doc.id, title: doc.title });
           }}
         />
-        <div class="flex flex-row items-center gap-3 w-full md:w-fit">
+        <div class="hidden md:flex flex-row items-center gap-3 w-fit">
           {#if user.plan !== "free" || user.role === "admin"}
             <DropdownMenu.Root>
               <DropdownMenu.Trigger asChild let:builder>
@@ -233,47 +234,77 @@
           {/if}
           <Button
             variant="ghost"
+            class="hidden md:block"
             on:click={() => {
               flashCardSidebar = !flashCardSidebar;
             }}
           >
-            <Menu class="hidden md:block" />
+            {#if flashCardSidebar}
+              <X />
+            {:else}
+              <Menu />
+            {/if}
           </Button>
         </div>
+        <div class="absolute top-5 right-5">
+          <DropdownMenu.Root>
+            <DropdownMenu.Trigger asChild let:builder>
+              <Button
+                builders={[builder]}
+                variant="ghost"
+                class="!m-0 !p-0 !h-0"
+              >
+                <MoreHorizontal />
+              </Button>
+            </DropdownMenu.Trigger>
+            <DropdownMenu.Content class="w-56 border-secondary">
+              <DropdownMenu.Group>
+                <DropdownMenu.Label>Options</DropdownMenu.Label>
+                <DropdownMenu.Separator />
+              </DropdownMenu.Group>
+              <DropdownMenu.Group>
+                <DropdownMenu.Item
+                  on:click={() => {
+                    goto("/dashboard/flash-cards/" + doc.id);
+                  }}
+                  class="flex flex-row items-center gap-2"
+                >
+                  <Diamond class="w-4 h-4" />
+                  Flash Cards</DropdownMenu.Item
+                >
+                <DropdownMenuSeparator />
+                <DropdownMenu.Item
+                  on:click={deleteDoc}
+                  class="flex flex-row items-center gap-2"
+                >
+                  <Trash class="w-4 h-4" />
+                  Delete</DropdownMenu.Item
+                >
+              </DropdownMenu.Group>
+            </DropdownMenu.Content>
+          </DropdownMenu.Root>
+        </div>
       </div>
-      <div class="!text-white">
+      <div class="!text-black">
         <EditorTheme
           override={{
-            "--editor-font": "sans-serif",
-            "--editor-font-heading": "sans-serif",
             "& .ProseMirror": {
               "& p": {
                 // color: "#f2f2f2",
                 fontSize: "1rem",
-                "& code": {
-                  // backgroundColor: "#2e1065",
-                  // borderColor: "#2e1065",
-                  // color: "#f2f2f2",
-                  // padding: "0.2rem 0.4rem",
-                },
               },
               "& h1,h2,h3,h4,h5,h6": {
-                // color: "white",
+                color: "black",
               },
               "& h1": {
-                fontSize: "1.9rem",
-              },
-              "& h2": {
                 fontSize: "1.5rem",
               },
-              "& h3": {
-                fontSize: "1.3rem",
+              "& h2": {
+                fontSize: "1.2rem",
               },
-
-              // "& blockquote": {
-              //   backgroundColor: "#020817",
-              //   borderColor: "#404040",
-              // },
+              "& h3": {
+                fontSize: "1rem",
+              },
             },
           }}
         >
@@ -309,9 +340,7 @@
       id="flash-side-bar"
       transition:blur={{ duration: 300 }}
     >
-      <div
-        class="col-span-1 rounded flex flex-col gap-3"
-      >
+      <div class="col-span-1 rounded flex flex-col gap-3">
         {#if !doc.flashCards || !doc.flashCards.cards || doc.flashCards.cards.length === 0}
           {#if flashCardsStatus === "loading"}
             <Button variant="outline" disabled
