@@ -199,7 +199,7 @@
   });
 </script>
 
-<div class="flex-1 flex flex-row gap-3 min-h-screen ">
+<div class="flex-1 flex flex-row gap-3 min-h-screen">
   <div id="editor" class="max-w-[1600px] w-full mx-auto">
     <section
       class="section p-5 mt-10 md:mt-0 md:px-10 w-full flex flex-col gap-5 flex-1"
@@ -288,6 +288,8 @@
       <div class="!text-black">
         <EditorTheme
           override={{
+            "--editor-font": "sans-serif",
+            "--editor-font-heading": "sans-serif",
             "& .ProseMirror": {
               "& p": {
                 // color: "#f2f2f2",
