@@ -17,7 +17,9 @@ export const load = async ({ cookies, url }) => {
       },
     });
 
-    if (!response.ok) {
+    const data = await response.json();
+
+    if (!data.userId) {
       return;
     }
 

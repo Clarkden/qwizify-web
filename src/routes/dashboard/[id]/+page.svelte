@@ -195,7 +195,7 @@
 
   onDestroy(() => {
     saveDoc();
-    console.log("doc saved");
+    // console.log("doc saved");
   });
 </script>
 

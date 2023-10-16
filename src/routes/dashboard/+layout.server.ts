@@ -14,8 +14,6 @@ export const load = async ({ cookies, url }) => {
     }
   }
 
-  
-
   try {
     const session = cookies.get("session");
 
@@ -25,10 +23,12 @@ export const load = async ({ cookies, url }) => {
       },
     });
 
-    if (response.ok) {
+    const data = await response.json();
+
+    if (data.userId) {
       return {
         session,
-        user: await response.json(),
+        user: data,
         path: url.pathname,
       };
     }
