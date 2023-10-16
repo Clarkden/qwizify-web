@@ -4,10 +4,18 @@
   import Practice from "$lib/components/PracticeTest.svelte";
   import Button from "$lib/components/ui/button/button.svelte";
   import * as Card from "$lib/components/ui/card";
+  import * as DropdownMenu from "$lib/components/ui/dropdown-menu";
   import { page } from "$app/stores";
   import Skeleton from "$lib/components/ui/skeleton/skeleton.svelte";
 
-  import { ArrowLeft, Loader2, Minus, Plus, RotateCw } from "lucide-svelte";
+  import {
+    ArrowLeft,
+    Loader2,
+    Minus,
+    MoreHorizontal,
+    Plus,
+    RotateCw,
+  } from "lucide-svelte";
   import { onMount } from "svelte";
   import { PUBLIC_SERVER_URL, PUBLIC_WEBSOCKET_URL } from "$env/static/public";
   import Input from "$lib/components/ui/input/input.svelte";
@@ -138,6 +146,24 @@
     }
   };
 
+  const deleteAll = async () => {
+    try {
+      const response = await fetch(
+        `${PUBLIC_SERVER_URL}/document/flash-cards/${$page.params.id}`,
+        {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${session}`,
+          },
+        }
+      );
+
+      window.location.href = "/dashboard/" + $page.params.id;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   onMount(async () => {
     if (!flashCards.cards) {
       await loadNewFlashCards();
@@ -169,13 +195,29 @@
 <div
   class="col-span-1 sm:col-span-2 md:col-span-4 lg:col-span-6 overflow-y-auto overflow-x-hidden"
 >
-  <section class="p-5 w-full sm:mx-auto sm:w-2/3 md:w-3/5">
+  <section
+    class="p-5 w-full sm:mx-auto sm:w-2/3 md:w-3/5 flex flex-row items-center justify-between"
+  >
     <Button
       variant="ghost"
       on:click={() => goto("/dashboard/" + $page.params.id)}
       class="flex flex-row gap-2 items-center"
       ><ArrowLeft class="w-5 h-5" /> Back</Button
     >
+    <DropdownMenu.Root>
+      <DropdownMenu.Trigger asChild let:builder>
+        <Button builders={[builder]} variant="ghost">
+          <MoreHorizontal />
+        </Button>
+      </DropdownMenu.Trigger>
+      <DropdownMenu.Content class="w-56 border-secondary">
+        <!-- <DropdownMenu.Label>Options</DropdownMenu.Label>
+    <DropdownMenu.Separator /> -->
+        <DropdownMenu.Group>
+          <DropdownMenu.Item on:click={deleteAll}>Delete</DropdownMenu.Item>
+        </DropdownMenu.Group>
+      </DropdownMenu.Content>
+    </DropdownMenu.Root>
   </section>
   {#if loading !== "error"}
     {#if loading === "streaming"}

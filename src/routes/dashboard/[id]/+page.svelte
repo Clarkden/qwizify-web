@@ -24,6 +24,7 @@
   export let data: any;
   $: ({ doc, session, user } = data);
   $: ({ flashCards } = doc);
+  $: result = "";
 
   let loading: "idle" | "error" | "loading" = "idle";
   let flashCardsStatus: "idle" | "error" | "loading" = "idle";
@@ -92,7 +93,7 @@
   };
 
   const createFlashCards = async () => {
-    loading = "loading";
+    // loading = "loading";
 
     try {
       await saveDoc();
@@ -126,16 +127,30 @@
         let character = decodedChunk;
 
         object += decodedChunk;
+        result += decodedChunk;
 
         if (done) {
-          loading = "idle";
+          console.log("done streaming");
+          flashCardsStatus = "idle";
+
+          console.log("checking if json");
 
           if (!isJson(object)) {
-            loading = "error";
+            console.log("not json");
+
+            flashCardsStatus = "error";
             break;
           }
 
-          flashCards.cards = JSON.parse(object);
+          console.log("json");
+
+          let cards = JSON.parse(object);
+
+          if (Array.isArray(cards)) {
+            flashCards.cards = cards;
+          } else {
+            flashCards.cards = [cards];
+          }
 
           break;
         }
@@ -192,6 +207,7 @@
   }
 </script>
 
+<!-- {result} -->
 <div
   id="editor"
   class="col-span-1 sm:col-span-3 md:col-span-2 lg:col-span-6 overflow-y-auto overflow-x-hidden"
@@ -354,14 +370,17 @@
   <div
     class="col-span-1 rounded drop-shadow-lg border border-card flex flex-col gap-3"
   >
-    {#if !doc.flashCards}
-      <Button variant="default" on:click={createFlashCards}
-        >Create Flash Cards</Button
-      >
+    {#if !doc.flashCards || !doc.flashCards.cards || doc.flashCards.cards.length === 0}
       {#if flashCardsStatus === "loading"}
-        <Loader2 class="w-5 h-5 animate-spin" />
+        <Button variant="outline" disabled
+          ><Loader2 class="w-5 h-5 animate-spin" /></Button
+        >
       {:else if flashCardsStatus === "error"}
         <p class="text-red-500">Error</p>
+      {:else if flashCardsStatus === "idle"}
+        <Button variant="default" on:click={createFlashCards}
+          >Create Flash Cards</Button
+        >
       {/if}
     {:else}
       <div>
