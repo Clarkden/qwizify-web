@@ -20,12 +20,16 @@ export const load = async ({ cookies, url }) => {
     const data = await response.json();
 
     if (!data.userId) {
+      cookies.delete("session");
+
       return;
     }
 
     // return response.json();
   } catch (error) {
     console.log(error);
+    cookies.delete("session");
+
     return;
   }
   throw redirect(303, "/dashboard");

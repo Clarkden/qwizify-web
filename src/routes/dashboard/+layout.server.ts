@@ -32,11 +32,14 @@ export const load = async ({ cookies, url }) => {
         path: url.pathname,
       };
     }
+    cookies.delete("session");
 
     throw redirect(303, "/auth");
 
     // return response.json();
   } catch (error) {
+    cookies.delete("session");
+
     throw redirect(303, "/auth");
   }
 };
