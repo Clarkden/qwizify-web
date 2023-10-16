@@ -24,7 +24,6 @@
   import { browser } from "$app/environment";
   // import { flashCardSidebar } from "$lib/stores/documents";
   import { blur, fade, fly, slide } from "svelte/transition";
-  import DropdownMenuSeparator from "$lib/components/ui/dropdown-menu/dropdown-menu-separator.svelte";
 
   export let data: any;
   $: ({ doc, session, user } = data);
@@ -272,7 +271,7 @@
                   <Diamond class="w-4 h-4" />
                   Flash Cards</DropdownMenu.Item
                 >
-                <DropdownMenuSeparator />
+                <DropdownMenu.Separator />
                 <DropdownMenu.Item
                   on:click={deleteDoc}
                   class="flex flex-row items-center gap-2"
@@ -285,7 +284,7 @@
           </DropdownMenu.Root>
         </div>
       </div>
-      <div class="!text-black">
+      <div class="!text-black !drop-shadow-none">
         <EditorTheme
           override={{
             "--editor-font": "sans-serif",
