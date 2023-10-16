@@ -322,7 +322,7 @@
   >
     {#if !sideNav}
       <button
-        class="absolute top-5 left-5 rounded-lg p-1 hover:bg-secondary transition"
+        class="absolute top-5 left-5 rounded-lg p-1 hover:bg-secondary transition hidden md:block"
         on:click={() => {
           sideNav = !sideNav;
         }}
