@@ -171,7 +171,7 @@
           </DropdownMenu.Content>
         </DropdownMenu.Root>
       </div>
-      <Button variant="outline" on:click={createDoc}>
+      <Button variant="outline" on:click={createDoc} class="text-primary">
         <Plus class="w-5 h-5 mr-2" />
         New Page
       </Button>
@@ -283,7 +283,7 @@
             </DropdownMenu.Content>
           </DropdownMenu.Root>
         </div>
-        <Button variant="outline" on:click={createDoc}>
+        <Button variant="outline" on:click={createDoc} class="text-primary">
           <Plus class="w-5 h-5 mr-2" />
           New Page
         </Button>

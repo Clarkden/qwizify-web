@@ -246,7 +246,7 @@
             {/if}
           </Button>
         </div>
-        <div class="absolute top-5 right-5">
+        <div class="absolute top-5 right-5 block md:hidden">
           <DropdownMenu.Root>
             <DropdownMenu.Trigger asChild let:builder>
               <Button
