@@ -106,7 +106,7 @@
   {#if sideNav}
     <aside
       class="h-full col-span-1 px-5 hidden md:flex flex-col gap-5 overflow-y-auto overflow-x-hidden md:w-[240px] md:min-w-[240px] group absolute top-0 left-0 z-40"
-      transition:fly={{ x: -100, duration: 500 }}
+      transition:fly={{ x: -100, duration: 300 }}
     >
       <div class="relative flex-1 flex flex-col gap-5">
         <button
