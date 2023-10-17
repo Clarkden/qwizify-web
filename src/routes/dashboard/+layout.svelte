@@ -102,9 +102,10 @@
 <div class="h-screen flex flex-row bg-white relative">
   {#if sideNav}
     <aside
-      class="h-full col-span-1 px-5 hidden md:flex flex-col gap-5 overflow-y-auto overflow-x-hidden md:w-[240px] md:min-w-[240px] group relative"
+      class="h-full col-span-1 px-5 hidden md:flex flex-col gap-5 overflow-y-auto overflow-x-hidden md:w-[240px] md:min-w-[240px] group absolute top-0 left-0 z-40"
       transition:fly={{ x: -100, duration: 500 }}
     >
+    <div class="relative flex-1 flex flex-col gap-5">
       <button
         class="absolute top-5 right-5 hidden group-hover:block rounded-lg p-1 hover:bg-secondary transition"
         on:click={() => {
@@ -208,6 +209,7 @@
 
     </Button> -->
       <!-- </div> -->
+    </div>
     </aside>
   {/if}
   {#if mobileMenu}
@@ -220,7 +222,7 @@
             mobileMenu = false;
           }, 50);
         }}
-        transition:fade={{ duration: 300 }}
+        in:fade
       >
         <button
           class="absolute top-5 right-5 rounded-lg p-1 hover:bg-secondary transition"
@@ -318,7 +320,9 @@
     </div>
   {/if}
   <div
-    class="flex-1 bg-white drop-shadow overflow-y-auto m-2 ml-2 mr-2 mb-0 rounded-t-xl relative"
+    class={`flex-1 bg-white drop-shadow overflow-y-auto m-2 ml-2 mr-2 mb-0 rounded-t-xl relative transition-all first-letter:
+      ${sideNav ? "md:ml-[240px] md:mr-0" : ""}
+    `}
   >
     {#if !sideNav}
       <button
