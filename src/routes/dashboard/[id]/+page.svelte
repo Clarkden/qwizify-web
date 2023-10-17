@@ -198,7 +198,7 @@
   });
 </script>
 
-<div class="flex-1 flex flex-row gap-3 min-h-screen h-fit">
+<div class="flex-1 flex flex-row gap-3 min-h-screen h-fit bg-white">
   <div
     id="editor"
     class={`max-w-[1600px] w-full mx-auto h-fit ${
