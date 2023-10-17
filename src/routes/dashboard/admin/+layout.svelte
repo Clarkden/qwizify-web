@@ -31,7 +31,7 @@
 </script>
 
 <div
-  class="h-16 w-full border-secondary border-b flex flex-row items-center justify-between px-5 relative"
+  class="h-16 w-full border-secondary border-b flex flex-row items-center justify-between px-5 relative md:mt-0 mt-16"
 >
   <div
     class="flex flex-row items-center justify-between mx-auto w-full sm:w-2/3 md:w-3/5"
@@ -39,7 +39,7 @@
     <div>
       <a href="/dashboard" class="font-bold text-2xl"
         >Admin
-        <span class="text-sm text-green-400 font-normal"> Beta </span>
+        <span class="text-sm text-primary font-normal"> Beta </span>
       </a>
     </div>
     <div class="hidden md:flex">

@@ -7,6 +7,6 @@
     <h2>{user.email}</h2>
   </div>
   <div class="col-span-1">
-    <p class="text-green-400 text-right">{user.role}</p>
+    <p class="text-primary text-right">{user.role}</p>
   </div>
 </div>
