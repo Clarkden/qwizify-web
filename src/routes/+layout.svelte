@@ -3,11 +3,11 @@
   import "../app.css";
   import { darkMode } from "$lib/stores/darkMode";
   import { browser } from "$app/environment";
+  import { Toaster } from "svelte-french-toast";
 
   onMount(() => {
     if (browser && document) {
       // const theme = localStorage.getItem("theme");
-
       // if (theme) {
       //   document.body.classList.add(theme);
       //   darkMode.set(theme === "dark");
@@ -37,5 +37,6 @@
 </script>
 
 <body class="bg-background text-foreground flex flex-col min-h-screen">
+  <Toaster />
   <slot />
 </body>

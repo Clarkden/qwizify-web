@@ -199,7 +199,12 @@
 </script>
 
 <div class="flex-1 flex flex-row gap-3 min-h-screen h-fit">
-  <div id="editor" class="max-w-[1600px] w-full mx-auto h-fit">
+  <div
+    id="editor"
+    class={`max-w-[1600px] w-full mx-auto h-fit ${
+      flashCardSidebar ? "md:w-[calc(100%-340px)]" : "md:w-full"
+    }`}
+  >
     <section
       class="section p-5 mt-10 md:px-10 w-full flex flex-col gap-5 flex-1"
     >
@@ -231,7 +236,7 @@
               </DropdownMenu.Content>
             </DropdownMenu.Root>
           {/if}
-          <Button
+          <!-- <Button
             variant="ghost"
             class="hidden md:block"
             on:click={() => {
@@ -243,7 +248,7 @@
             {:else}
               <Menu />
             {/if}
-          </Button>
+          </Button> -->
         </div>
         <div class="absolute top-5 right-5 block md:hidden">
           <DropdownMenu.Root>
@@ -335,7 +340,7 @@
     </section>
   </div>
 
-  {#if flashCardSidebar}
+  <!-- {#if flashCardSidebar}
     <div
       class="w-[340px] p-5 hidden md:block"
       id="flash-side-bar"
@@ -385,5 +390,5 @@
         {/if}
       </div>
     </div>
-  {/if}
+  {/if} -->
 </div>
