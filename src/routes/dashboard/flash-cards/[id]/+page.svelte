@@ -240,7 +240,7 @@
 
 <!-- {webSocketResponse} -->
 <div
-  class="col-span-1 sm:col-span-2 md:col-span-4 lg:col-span-6 overflow-y-auto overflow-x-hidden"
+  class="col-span-1 sm:col-span-2 md:col-span-4 lg:col-span-6 overflow-y-auto overflow-x-hidden bg-white"
 >
   <section
     class="p-5 w-full sm:mx-auto sm:w-2/3 md:w-3/5 hidden md:flex flex-row items-center justify-between mt-10 md:mt-0"

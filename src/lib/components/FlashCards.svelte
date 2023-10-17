@@ -12,7 +12,6 @@
   $: if (data.cards) cards = data.cards;
   $: ({ loading } = data);
 
-
   let index = 0;
   $: displayIndex = 0;
   $: if (cards.length > 0) displayIndex = index + 1;
@@ -67,7 +66,7 @@
           class="rounded-md w-16 h-10 p-2"
           variant="ghost"><ArrowLeft /></Button
         >
-        <p class="w-6">{displayIndex + "/" + cards.length}</p>
+        <p class="w-6">{displayIndex + "/" + cards.length || "0"}</p>
         <Button
           on:click={nextCard}
           class="rounded-md w-16 h-10 p-2"
