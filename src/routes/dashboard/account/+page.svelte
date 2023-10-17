@@ -11,6 +11,7 @@
   import { PUBLIC_SERVER_URL } from "$env/static/public";
   import Input from "$lib/components/ui/input/input.svelte";
   import { Switch } from "$lib/components/ui/switch";
+  import toast from "svelte-french-toast";
 
   export let data: any;
   $: ({ user, session } = data);
@@ -72,14 +73,25 @@
 
   onMount(async () => {
     stripe = await loadStripe(PUBLIC_STRIPE_KEY);
+
+    if (status) {
+      if (status === "true") {
+        setTimeout(() => {
+          goto("/dashboard/account");
+        }, 500);
+        toast.success("Payment successful!");
+      } else {
+        toast.error("Payment unsuccessful. Please try again.");
+        setTimeout(() => {
+          goto("/dashboard/account");
+        }, 500);
+      }
+    }
   });
 </script>
 
-<section class="w-full flex flex-col gap-4 col-span-4 border rounded">
-  <!-- {#if error}
-    {JSON.stringify(error)}
-  {/if} -->
-  {#if status === "true"}
+<section class="w-full flex flex-col gap-4 col-span-4">
+  <!-- {#if status === "true"}
     <div
       class="flex flex-col items-center justify-center border border-green-500 rounded-lg p-5 bg-green-400/25 relative"
     >
@@ -111,145 +123,152 @@
         Your payment was unsuccessful. Please try again.
       </p>
     </div>
-  {/if}
-  <Card.Root class="border-secondary h-full">
-    <Card.Header>
-      <Card.Title>Account</Card.Title>
-    </Card.Header>
-    <Card.Content class="flex flex-col">
-      <div class="flex flex-row items-center justify-between">
-        <div class="flex flex-col gap-4 w-full">
-          {#if user.plan === "free"}
-            <div class="flex flex-col">
-              <p>
-                <span class="text-sm text-neutral-400">
-                  <!-- {#if planExpiresIn.days > 0}
-                    Expires
-                    {DateTime.fromMillis(user.planExpires).toRelative()}
-                  {:else}
-                    Your trial has ended
-                  {/if} -->
-                </span>
-              </p>
-            </div>
-            <div class="flex flex-col md:flex-row gap-5 w-full">
-              <Card.Root class="border-green-400 flex-1 max-w-[500px]">
-                <Card.Header>
-                  <Card.Title>
-                    <div
-                      class="flex flex-row w-full items-center justify-between"
-                    >
-                      {#if purchasingPlan === "monthly"}
-                        <p>Monthly</p>
-                      {:else if purchasingPlan === "yearly"}
-                        <p class="flex flex-row items-center gap-2">Yearly</p>
-                      {/if}
-                      <div class="flex flex-row gap-2 items-center">
-                        <p class="text-sm">Monthly</p>
-                        <button
-                          on:click={() => {
-                            if (purchasingPlan === "monthly") {
-                              purchasingPlan = "yearly";
-                            } else {
-                              purchasingPlan = "monthly";
-                            }
-                          }}
-                          class={`w-12 h-6 ${
-                            purchasingPlan === "yearly"
-                              ? "bg-white justify-end"
-                              : "bg-neutral-600 justify-start"
-                          } flex flex-row  rounded-full items-center`}
-                        >
-                          <div class="w-6 h-6 bg-green-400 rounded-full" />
-                        </button>
-                        <p class="text-sm">Yearly</p>
-                      </div>
-                    </div>
-                  </Card.Title>
-                </Card.Header>
-                <Card.Content>
-                  <p class="text-neutral-600 mb-6">
-                    Get everything Qwizify has to offer
-                  </p>
-                  <p>
-                    <span class="text-2xl font-bold">
-                      {#if purchasingPlan === "monthly"}
-                        $2.99
-                      {:else if purchasingPlan === "yearly"}
-                        $29.99
-                      {/if}
-                    </span>
-                    <span class="text-sm text-neutral-500">
-                      {#if purchasingPlan === "monthly"}
-                        per month
-                      {:else if purchasingPlan === "yearly"}
-                        per year
-                      {/if}
-                    </span>
-                  </p>
+  {/if} -->
+  <div class="p-5 flex flex-col gap-5">
+    <h2 class="font-bold text-lg">Account</h2>
+    <div>
+      <!-- <p class="">
+        {user.email}
+      </p> -->
+      <p class="font-medium">
+        Your Plan:
+        <span class="font-light">
+          {user.plan === "free" ? "Free" : "Premium"}
+        </span>
+      </p>
+    </div>
+    <div class="flex flex-row items-center justify-between">
+      <div class="flex flex-col gap-4 w-full">
+        {#if user.plan === "free"}
+          <div class="flex flex-col">
+            <p>
+              <span class="text-sm text-neutral-400">
+                <!-- {#if planExpiresIn.days > 0}
+                  Expires
+                  {DateTime.fromMillis(user.planExpires).toRelative()}
+                {:else}
+                  Your trial has ended
+                {/if} -->
+              </span>
+            </p>
+          </div>
+          <div class="flex flex-col md:flex-row gap-5 w-full">
+            <Card.Root class="border-secondary flex-1 max-w-[500px]">
+              <Card.Header>
+                <Card.Title>
                   <div
-                    class="text-sm text-neutral-500 divide-y mt-5 divide-neutral-500"
+                    class="flex flex-row w-full items-center justify-between"
                   >
-                    <p class="py-3 flex flex-row items-center gap-2">
-                      <CheckCircle2 class="w-5 h-5 text-green-400" />
-                      Unlimited Documents
-                    </p>
-                    <p class="py-3 flex flex-row items-center gap-2">
-                      <CheckCircle2 class="w-5 h-5 text-green-400" />
-                      Flash Cards
-                    </p>
-                    <p class="py-3 flex flex-row items-center gap-2">
-                      <CheckCircle2 class="w-5 h-5 text-green-400" />
-                      AI Powered Flash Cards
-                    </p>
-                    <p class="py-3 flex flex-row items-center gap-2">
-                      <CheckCircle2 class="w-5 h-5 text-green-400" />
-                      AI Practice Tests
-                    </p>
-                    <p class="py-3 flex flex-row items-center gap-2">
-                      <CheckCircle2 class="w-5 h-5 text-green-400" />
-                      AI Tutor
-                    </p>
+                    {#if purchasingPlan === "monthly"}
+                      <p>Monthly</p>
+                    {:else if purchasingPlan === "yearly"}
+                      <p class="flex flex-row items-center gap-2">Yearly</p>
+                    {/if}
+                    <div class="flex flex-row gap-2 items-center">
+                      <p class="text-sm">Monthly</p>
+                      <button
+                        on:click={() => {
+                          if (purchasingPlan === "monthly") {
+                            purchasingPlan = "yearly";
+                          } else {
+                            purchasingPlan = "monthly";
+                          }
+                        }}
+                        class={`w-12 h-6 ${
+                          purchasingPlan === "yearly"
+                            ? "bg-blue-300 justify-end"
+                            : "bg-neutral-600 justify-start"
+                        } flex flex-row  rounded-full items-center`}
+                      >
+                        <div class="w-6 h-6 bg-primary rounded-full" />
+                      </button>
+                      <p class="text-sm">Yearly</p>
+                    </div>
                   </div>
-                  <div>
-                    <Button
-                      variant="default"
-                      on:click={() => {
-                        createPayment();
-                      }}
-                      class="mt-4"
-                    >
-                      {#if processing}
-                        <Loader2 class="mr-2 animate-spin" />
-                      {/if}
-                      Buy
-                    </Button>
-                  </div>
-                </Card.Content>
-              </Card.Root>
-            </div>
-          {:else}
-            <div class="border p-4 rounded-md border-secondary bg-background">
-              {#if user.plan === "month"}
-                Monthly Plan
-              {:else if user.plan === "year"}
-                Yearly Plan
-              {/if}
-              <div class="flex flex-row gap-3 justify-between items-center">
-                <div class="flex flex-col mt-3">
-                  <p class="text-neutral-400 text-sm underline">Renews</p>
-                  <p class="text-neutral-400 text-sm">
-                    {DateTime.fromMillis(user.planExpires).toLocaleString()}
+                </Card.Title>
+              </Card.Header>
+              <Card.Content>
+                <p class="text-neutral-600 mb-6">
+                  Get everything Qwizify has to offer
+                </p>
+                <p>
+                  <span class="text-2xl font-bold">
+                    {#if purchasingPlan === "monthly"}
+                      $2.99
+                    {:else if purchasingPlan === "yearly"}
+                      $29.99
+                    {/if}
+                  </span>
+                  <span class="text-sm text-neutral-500">
+                    {#if purchasingPlan === "monthly"}
+                      per month
+                    {:else if purchasingPlan === "yearly"}
+                      per year
+                    {/if}
+                  </span>
+                </p>
+                <div
+                  class="text-sm text-neutral-500 divide-y mt-5 divide-neutral-500"
+                >
+                  <p class="py-3 flex flex-row items-center gap-2">
+                    <CheckCircle2 class="w-5 h-5 text-green-400" />
+                    Unlimited Documents
+                  </p>
+                  <p class="py-3 flex flex-row items-center gap-2">
+                    <CheckCircle2 class="w-5 h-5 text-green-400" />
+                    Flash Cards
+                  </p>
+                  <p class="py-3 flex flex-row items-center gap-2">
+                    <CheckCircle2 class="w-5 h-5 text-green-400" />
+                    AI Powered Flash Cards
+                  </p>
+                  <p class="py-3 flex flex-row items-center gap-2">
+                    <CheckCircle2 class="w-5 h-5 text-green-400" />
+                    AI Practice Tests
+                  </p>
+                  <p class="py-3 flex flex-row items-center gap-2">
+                    <CheckCircle2 class="w-5 h-5 text-green-400" />
+                    AI Tutor
                   </p>
                 </div>
-                <Button on:click={createPortalSession}>
-                  Manage Subscription
-                </Button>
+                <div>
+                  <Button
+                    variant="default"
+                    on:click={() => {
+                      createPayment();
+                    }}
+                    class="mt-4"
+                  >
+                    {#if processing}
+                      <Loader2 class="mr-2 animate-spin" />
+                    {/if}
+                    Buy
+                  </Button>
+                </div>
+              </Card.Content>
+            </Card.Root>
+          </div>
+        {:else}
+          <div class="border p-4 rounded-md border-secondary bg-background">
+            {#if user.plan === "month"}
+              Monthly Plan
+            {:else if user.plan === "year"}
+              Yearly Plan
+            {/if}
+            <div class="flex flex-row gap-3 justify-between items-center">
+              <div class="flex flex-col mt-3">
+                <p class="text-neutral-600 text-sm underline">Renews</p>
+                <p class="text-neutral-600 text-sm">
+                  {DateTime.fromMillis(user.planExpires).toLocaleString()}
+                </p>
               </div>
+              <Button on:click={createPortalSession}>
+                Manage Subscription
+              </Button>
             </div>
-          {/if}
-        </div>
+          </div>
+        {/if}
       </div>
-    </Card.Content>
-  </Card.Root>
+    </div>
+  </div>
 </section>

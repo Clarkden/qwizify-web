@@ -137,9 +137,10 @@
               <!-- <DropdownMenu.Label>Options</DropdownMenu.Label>
         <DropdownMenu.Separator /> -->
               <DropdownMenu.Group>
-                <!-- <DropdownMenu.Item>
-
-                </DropdownMenu.Item> -->
+                <DropdownMenu.Item class="flex flex-row items-center gap-1">
+                  <Settings class="w-4 h-4" />
+                  <a href="/dashboard/account"> Account </a>
+                </DropdownMenu.Item>
                 <DropdownMenu.Item
                   on:click={signOut}
                   class="flex flex-row items-center gap-1"
@@ -228,7 +229,6 @@
             mobileMenu = false;
           }, 50);
         }}
-        
       >
         <button
           class="absolute top-5 right-5 rounded-lg p-1 hover:bg-secondary transition"
@@ -253,12 +253,10 @@
               <!-- <DropdownMenu.Label>Options</DropdownMenu.Label>
           <DropdownMenu.Separator /> -->
               <DropdownMenu.Group>
-                <!-- <DropdownMenu.Item
-                  on:click={signOut}
-                  class="flex flex-row items-center gap-1"
-                >
-
-                </DropdownMenu.Item> -->
+                <DropdownMenu.Item class="flex flex-row items-center gap-1">
+                  <Settings class="w-4 h-4" />
+                  <a href="/dashboard/account"> Account </a>
+                </DropdownMenu.Item>
                 <DropdownMenu.Item
                   on:click={signOut}
                   class="flex flex-row items-center gap-1"
