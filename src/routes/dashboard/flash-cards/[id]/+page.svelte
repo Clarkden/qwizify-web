@@ -23,7 +23,7 @@
   // import { WebSocket } from "vite";
 
   export let data: any;
-  $: ({ flashCards, session } = data);
+  $: ({ flashCards, session, user } = data);
 
   let cards: {
     question: string;
@@ -398,6 +398,12 @@
         <Skeleton class="w-full h-20" />
       {/if}
     </section>
+  {:else if user.plan === "free"}
+    <h1 class="font-bold text-xl w-full text-center">Uh Oh</h1>
+    <p class="text-muted-primary w-full text-center">
+      You're on the free plan! Please upgrade to use this feature
+    </p>
+    <Button href="/dashboard/account" class="mt-3">Upgrade</Button>
   {:else}
     <section
       class="p-5 w-full sm:mx-auto sm:w-2/3 md:w-3/5 flex flex-col items-center justify-center"
