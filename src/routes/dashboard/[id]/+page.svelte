@@ -307,7 +307,7 @@
           </DropdownMenu.Root>
         </div>
       </div>
-      <div class="!text-black !drop-shadow-none !h-fit">
+      <div class="!text-black !drop-shadow-none !Shadow-none !h-fit">
         <EditorTheme
           override={{
             "--editor-font": "sans-serif",

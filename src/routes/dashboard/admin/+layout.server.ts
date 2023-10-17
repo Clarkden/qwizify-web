@@ -9,7 +9,9 @@ export const load = async ({ cookies, url }) => {
       },
     });
 
-    if (response.status === 200) {
+    const data = await response.json();
+
+    if (data.userId) {
       return;
     }
   } catch (error) {
