@@ -201,7 +201,7 @@
 <div class="flex-1 flex flex-row gap-3 min-h-screen h-fit">
   <div id="editor" class="max-w-[1600px] w-full mx-auto h-fit">
     <section
-      class="section p-5 mt-10 md:mt-0 md:px-10 w-full flex flex-col gap-5 flex-1"
+      class="section p-5 mt-10 md:px-10 w-full flex flex-col gap-5 flex-1"
     >
       <div class="flex flex-row gap-4 justify-between items-center">
         <!-- <FileText class="w-5 h-5 min-w-[20px] mr-2" /> -->
