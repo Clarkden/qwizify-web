@@ -229,8 +229,26 @@
               </DropdownMenu.Trigger>
               <DropdownMenu.Content class="w-56 border-secondary">
                 <DropdownMenu.Group>
-                  <DropdownMenu.Item on:click={deleteDoc}
-                    >Delete</DropdownMenu.Item
+                  <DropdownMenu.Label>Options</DropdownMenu.Label>
+                  <DropdownMenu.Separator />
+                </DropdownMenu.Group>
+                <DropdownMenu.Group>
+                  <DropdownMenu.Item
+                    on:click={() => {
+                      goto("/dashboard/flash-cards/" + doc.id);
+                    }}
+                    class="flex flex-row items-center gap-2"
+                  >
+                    <Diamond class="w-4 h-4" />
+                    Flash Cards</DropdownMenu.Item
+                  >
+                  <DropdownMenu.Separator />
+                  <DropdownMenu.Item
+                    on:click={deleteDoc}
+                    class="flex flex-row items-center gap-2"
+                  >
+                    <Trash class="w-4 h-4" />
+                    Delete</DropdownMenu.Item
                   >
                 </DropdownMenu.Group>
               </DropdownMenu.Content>

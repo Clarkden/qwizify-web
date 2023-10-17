@@ -196,6 +196,21 @@
     }
   };
 
+  const answerExists = (card: {
+    question: string;
+    answers: { answer: string; correctAnswer: boolean }[];
+  }) => {
+    try {
+      return card.answers.find((data) => {
+        return data.correctAnswer === true;
+      }).answer;
+    } catch (error) {
+      return false;
+    }
+
+    return true;
+  };
+
   onMount(async () => {
     if (!flashCards.cards) {
       await loadNewFlashCards();
@@ -335,7 +350,7 @@
           </Card.Content>
         </Card.Root>
       {/if}
-      {#if cards.length > 0}
+      {#if cards && cards.length > 0}
         {#each cards as card}
           <Card.Root
             class="border-secondary flex flex-col md:flex-row md:items-center divide-y-2 md:divide-x-2 md:divide-y-0 divide-secondary relative"
@@ -368,9 +383,11 @@
               </DropdownMenu.Root>
 
               <p class="text-muted-primary pr-5">
-                {card.answers.find((data) => {
-                  return data.correctAnswer === true;
-                }).answer}
+                {#if card && answerExists(card)}
+                  {card.answers.find((data) => {
+                    return data.correctAnswer === true;
+                  }).answer}
+                {/if}
               </p>
             </Card.Content>
           </Card.Root>
@@ -382,9 +399,9 @@
       {/if}
     </section>
   {:else}
-    <section class="p-5 w-full sm:mx-auto sm:w-2/3 md:w-3/5">
-      <h1 class="font-bold text-xl">Uh Oh</h1>
-      <p class="text-muted-primary">
+    <section class="p-5 w-full sm:mx-auto sm:w-2/3 md:w-3/5 flex flex-col items-center justify-center">
+      <h1 class="font-bold text-xl w-full text-center">Uh Oh</h1>
+      <p class="text-muted-primary w-full text-center">
         Something went wrong while generating your flash cards. Please try again
       </p>
       <Button variant="outline" on:click={loadNewFlashCards} class="mt-3">

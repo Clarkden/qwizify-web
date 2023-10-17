@@ -228,7 +228,7 @@
             mobileMenu = false;
           }, 50);
         }}
-        in:fade
+        
       >
         <button
           class="absolute top-5 right-5 rounded-lg p-1 hover:bg-secondary transition"
