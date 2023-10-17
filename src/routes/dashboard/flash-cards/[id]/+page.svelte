@@ -273,19 +273,19 @@
     </DropdownMenu.Root>
   </section>
   <section
-    class="px-2 w-full flex flex-row md:hidden items-center justify-between mt-12"
+    class="px-2 w-full flex flex-row md:hidden items-center justify-between mt-20 mb-4 ml-4"
   >
     <Button
       variant="ghost"
       on:click={() => goto("/dashboard/" + $page.params.id)}
-      class="flex flex-row gap-2 items-center"
+      class="flex flex-row gap-2 items-center !m-0 !p-0 !h-0"
       ><ArrowLeft class="w-5 h-5" /> Back</Button
     >
   </section>
   <div class="md:hidden block absolute top-5 right-5">
     <DropdownMenu.Root>
       <DropdownMenu.Trigger asChild let:builder>
-        <Button builders={[builder]} variant="ghost">
+        <Button builders={[builder]} variant="ghost" class="!m-0 !p-0 !h-0">
           <MoreHorizontal />
         </Button>
       </DropdownMenu.Trigger>
@@ -399,7 +399,9 @@
       {/if}
     </section>
   {:else}
-    <section class="p-5 w-full sm:mx-auto sm:w-2/3 md:w-3/5 flex flex-col items-center justify-center">
+    <section
+      class="p-5 w-full sm:mx-auto sm:w-2/3 md:w-3/5 flex flex-col items-center justify-center"
+    >
       <h1 class="font-bold text-xl w-full text-center">Uh Oh</h1>
       <p class="text-muted-primary w-full text-center">
         Something went wrong while generating your flash cards. Please try again

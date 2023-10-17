@@ -223,7 +223,7 @@
           {#if user.plan !== "free" || user.role === "admin"}
             <DropdownMenu.Root>
               <DropdownMenu.Trigger asChild let:builder>
-                <Button builders={[builder]} variant="ghost">
+                <Button builders={[builder]} variant="ghost"  class="!m-0 !p-0 !h-0">
                   <MoreHorizontal />
                 </Button>
               </DropdownMenu.Trigger>
