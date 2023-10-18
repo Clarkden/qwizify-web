@@ -400,7 +400,6 @@
                   >
                   <DropdownMenu.Separator />
                 {/if}
-                <DropdownMenu.Separator />
                 <DropdownMenu.Item
                   on:click={() => {
                     dialogMenuToggle = true;

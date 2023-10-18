@@ -142,7 +142,7 @@
 </div> -->
 
 <div
-  class="col-span-1 sm:col-span-3 md:col-span-4 flex flex-col pt-5 gap-4  mt-12 p-5"
+  class=" flex flex-col pt-5 gap-4  mt-12 p-5 flex-1"
 >
   <!-- <div class="bg-white"> -->
   <h2 class="text-lg font-bold">Get Started</h2>

@@ -334,7 +334,7 @@
     </div>
   {/if}
   <div
-    class={`flex-1 bg-white drop-shadow overflow-y-auto m-2 ml-2 mr-2 mb-0 rounded-t-xl relative transition-all first-letter:
+    class={`flex-1 bg-white drop-shadow md:h-[auto] md:min-h-[auto] min-h-full h-fit md:overflow-y-auto m-2 ml-2 mr-2 mb-0 rounded-t-xl relative transition-all flex flex-col
       ${sideNav ? "md:ml-[240px] md:mr-0" : ""}
     `}
   >
