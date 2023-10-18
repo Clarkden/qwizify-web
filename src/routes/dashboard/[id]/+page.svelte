@@ -64,13 +64,11 @@
     return "";
   };
 
-  const handleUpload = async (file: File) => {
-    // handle upload here
+  const handleUpload = async (file: File): Promise<string> => {
     const blob = new Blob([file]);
     const previewUrl = URL.createObjectURL(blob);
     return previewUrl;
   };
-
   const saveDoc = async () => {
     try {
       const response = await fetch(`${PUBLIC_SERVER_URL}/document/` + doc.id, {
@@ -201,6 +199,8 @@
     if (browser) {
       let prose = document.querySelector("ProseMirror");
       prose?.classList.add("!text-white bg-red-400");
+
+      ghostEdior = document.querySelector("#ghost-editor")!;
     }
   });
 
@@ -305,23 +305,23 @@
           }}
         />
         <div class="hidden md:flex flex-row items-center gap-3 w-fit">
-          {#if user.plan !== "free" || user.role === "admin"}
-            <DropdownMenu.Root>
-              <DropdownMenu.Trigger asChild let:builder>
-                <Button
-                  builders={[builder]}
-                  variant="ghost"
-                  class="!m-0 !p-0 !h-0"
-                >
-                  <MoreHorizontal />
-                </Button>
-              </DropdownMenu.Trigger>
-              <DropdownMenu.Content class="w-56 border-secondary">
-                <DropdownMenu.Group>
-                  <DropdownMenu.Label>Options</DropdownMenu.Label>
-                  <DropdownMenu.Separator />
-                </DropdownMenu.Group>
-                <DropdownMenu.Group>
+          <DropdownMenu.Root>
+            <DropdownMenu.Trigger asChild let:builder>
+              <Button
+                builders={[builder]}
+                variant="ghost"
+                class="!m-0 !p-0 !h-0"
+              >
+                <MoreHorizontal />
+              </Button>
+            </DropdownMenu.Trigger>
+            <DropdownMenu.Content class="w-56 border-secondary">
+              <DropdownMenu.Group>
+                <DropdownMenu.Label>Options</DropdownMenu.Label>
+                <DropdownMenu.Separator />
+              </DropdownMenu.Group>
+              <DropdownMenu.Group>
+                {#if user.plan !== "free" || user.role === "admin"}
                   <DropdownMenu.Item
                     on:click={() => {
                       goto("/dashboard/flash-cards/" + doc.id);
@@ -332,31 +332,32 @@
                     Flash Cards</DropdownMenu.Item
                   >
                   <DropdownMenu.Separator />
-                  <DropdownMenu.Item
-                    on:click={() => {
-                      dialogMenuToggle = true;
+                {/if}
 
-                      // shareButton.click();
-                    }}
-                    class="flex flex-row items-center gap-2"
-                  >
-                    <Share class="w-4 h-4" />
-                    Share</DropdownMenu.Item
-                  >
+                <DropdownMenu.Item
+                  on:click={() => {
+                    dialogMenuToggle = true;
 
-                  <DropdownMenu.Separator />
+                    // shareButton.click();
+                  }}
+                  class="flex flex-row items-center gap-2"
+                >
+                  <Share class="w-4 h-4" />
+                  Share</DropdownMenu.Item
+                >
 
-                  <DropdownMenu.Item
-                    on:click={deleteDoc}
-                    class="flex flex-row items-center gap-2"
-                  >
-                    <Trash class="w-4 h-4" />
-                    Delete</DropdownMenu.Item
-                  >
-                </DropdownMenu.Group>
-              </DropdownMenu.Content>
-            </DropdownMenu.Root>
-          {/if}
+                <DropdownMenu.Separator />
+
+                <DropdownMenu.Item
+                  on:click={deleteDoc}
+                  class="flex flex-row items-center gap-2"
+                >
+                  <Trash class="w-4 h-4" />
+                  Delete</DropdownMenu.Item
+                >
+              </DropdownMenu.Group>
+            </DropdownMenu.Content>
+          </DropdownMenu.Root>
           <!-- <Button
             variant="ghost"
             class="hidden md:block"
@@ -388,15 +389,18 @@
                 <DropdownMenu.Separator />
               </DropdownMenu.Group>
               <DropdownMenu.Group>
-                <DropdownMenu.Item
-                  on:click={() => {
-                    goto("/dashboard/flash-cards/" + doc.id);
-                  }}
-                  class="flex flex-row items-center gap-2"
-                >
-                  <Diamond class="w-4 h-4" />
-                  Flash Cards</DropdownMenu.Item
-                >
+                {#if user.plan !== "free" || user.role === "admin"}
+                  <DropdownMenu.Item
+                    on:click={() => {
+                      goto("/dashboard/flash-cards/" + doc.id);
+                    }}
+                    class="flex flex-row items-center gap-2"
+                  >
+                    <Diamond class="w-4 h-4" />
+                    Flash Cards</DropdownMenu.Item
+                  >
+                  <DropdownMenu.Separator />
+                {/if}
                 <DropdownMenu.Separator />
                 <DropdownMenu.Item
                   on:click={() => {
@@ -488,7 +492,7 @@
                   //   accessKey: "UNPLASH_API_KEY",
                   // },
                 },
-                // gpt: { query: submitPromt },
+                gpt: { query: submitPromt },
               }}
             />
           {/if}
