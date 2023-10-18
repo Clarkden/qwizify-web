@@ -399,6 +399,18 @@
                 >
                 <DropdownMenu.Separator />
                 <DropdownMenu.Item
+                  on:click={() => {
+                    dialogMenuToggle = true;
+
+                    // shareButton.click();
+                  }}
+                  class="flex flex-row items-center gap-2"
+                >
+                  <Share class="w-4 h-4" />
+                  Share</DropdownMenu.Item
+                >
+                <DropdownMenu.Separator />
+                <DropdownMenu.Item
                   on:click={deleteDoc}
                   class="flex flex-row items-center gap-2"
                 >
