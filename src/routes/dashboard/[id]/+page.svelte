@@ -200,7 +200,6 @@
       let prose = document.querySelector("ProseMirror");
       prose?.classList.add("!text-white bg-red-400");
 
-      ghostEdior = document.querySelector("#ghost-editor")!;
     }
   });
 
