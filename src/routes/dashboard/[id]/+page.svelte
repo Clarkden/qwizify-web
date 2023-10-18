@@ -287,7 +287,7 @@
 >
   <div
     id="editor"
-    class={`max-w-[1600px] w-full mx-auto h-fit ${
+    class={`max-w-[800px] w-full mx-auto h-fit ${
       flashCardSidebar ? "md:w-[calc(100%-340px)]" : "md:w-full"
     }`}
   >
