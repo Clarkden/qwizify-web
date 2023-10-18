@@ -90,6 +90,10 @@
   });
 </script>
 
+<svelte:head>
+  <title>Account</title>
+</svelte:head>
+
 <section class="w-full flex flex-col gap-4 col-span-4">
   <!-- {#if status === "true"}
     <div

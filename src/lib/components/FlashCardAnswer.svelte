@@ -5,6 +5,11 @@
 
   export let data: any;
   $: ({ question, answers } = data);
+  $: correctAnswer = answers.find(
+    (answer: { correctAnswer: boolean; answer: string }) => {
+      return answer.correctAnswer === true;
+    }
+  ).answer;
 </script>
 
 <div class="border border-secondary rounded-md p-5 bg-background">
@@ -12,9 +17,7 @@
   {#if $answerState}
     <div transition:slide class="pt-4">
       <p class="text-muted-primary">
-        {answers.find((answer) => {
-          return answer.correctAnswer === true;
-        }).answer}
+        {correctAnswer}
       </p>
     </div>
   {/if}

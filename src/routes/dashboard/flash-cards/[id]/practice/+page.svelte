@@ -13,6 +13,10 @@
   // $: console.log(flashCards)
 </script>
 
+<svelte:head>
+  <title>Practice Test</title>
+</svelte:head>
+
 <div
   class="col-span-1 sm:col-span-2 md:col-span-4 lg:col-span-6 overflow-y-auto overflow-x-hidden"
 >

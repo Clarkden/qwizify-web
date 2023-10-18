@@ -73,19 +73,52 @@
   }
 }
 
-/* @layer base {
-  :root {
-    --text: #231c06;
-    --background: #fffaeb;
-    --primary: #2148c0;
-    --secondary: #f5eac6;
-    --accent: #234dcd;
-  }
-  .dark {
-    --text: #f9f2dc;
-    --background: #140f00;
-    --primary: #3f67de;
-    --secondary: #382e0a;
-    --accent: #325ddc;
-  }
-} */
+.sharedEditor {
+  color: black;
+}
+
+.sharedEditor p {
+  /* color: #f2f2f2; */
+  font-size: 1rem;
+}
+
+.sharedEditor h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: black;
+}
+
+.sharedEditor h1 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-top: 20px;
+}
+
+.sharedEditor h2 {
+  font-size: 1.3rem;
+  font-weight: 600;
+  margin-top: 18px;
+}
+
+.sharedEditor h3 {
+  font-size: 1.2rem;
+  font-weight: 500;
+  margin-top: 16px;
+}
+
+.sharedEditor h4 {
+  font-size: 1rem;
+  font-weight: 400;
+  margin-top: 14px;
+}
+
+.sharedEditor blockquote {
+  border-left: 4px solid #f2f2f2;
+  padding-left: 10px;
+  margin-left: 0;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}

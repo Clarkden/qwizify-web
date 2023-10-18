@@ -102,6 +102,10 @@
   }
 </script>
 
+<svelte:head>
+  <title>Dashboard</title>
+</svelte:head>
+
 <div class="h-screen flex flex-row bg-white relative">
   {#if sideNav}
     <aside

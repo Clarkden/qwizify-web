@@ -15,7 +15,7 @@
     <div>
       <ul class="flex flex-row items-center gap-3">
         <!-- <li><Button variant="link" href="/sign-up">Sign Up</Button></li> -->
-        <!-- <li><Button href="/auth">Sign In</Button></li> -->
+        <li><Button href="/auth">Start Studying</Button></li>
       </ul>
     </div>
   </div>
