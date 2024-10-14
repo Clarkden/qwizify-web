@@ -1,4 +1,4 @@
-#Qwizify
+# Qwizify
 
 Qwizify is an AI tool meant to help students study.
 
